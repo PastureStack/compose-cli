@@ -37,9 +37,7 @@ func Preprocess(item interface{}, replaceTypes bool) interface{} {
 		return newMap
 
 	case []interface{}:
-		// newArray := make([]interface{}, 0) will cause golint to complain
-		var newArray []interface{}
-		newArray = make([]interface{}, 0)
+		newArray := make([]interface{}, 0, len(typedDatas))
 
 		for _, value := range typedDatas {
 			newArray = append(newArray, Preprocess(value, replaceTypes))
@@ -85,9 +83,7 @@ func tryConvertStringsToInts(item interface{}, replaceTypes bool) interface{} {
 		return newMap
 
 	case []interface{}:
-		// newArray := make([]interface{}, 0) will cause golint to complain
-		var newArray []interface{}
-		newArray = make([]interface{}, 0)
+		newArray := make([]interface{}, 0, len(typedDatas))
 
 		for _, value := range typedDatas {
 			newArray = append(newArray, tryConvertStringsToInts(value, replaceTypes))
@@ -107,10 +103,10 @@ func tryConvertStringsToInts(item interface{}, replaceTypes bool) interface{} {
 	}
 }
 
-func getRancherConfigObjects() map[string]bool {
-	rancherConfig := structs.New(RancherConfig{})
+func getPlatformConfigObjects() map[string]bool {
+	platformConfig := structs.New(PlatformConfig{})
 	fields := map[string]bool{}
-	for _, field := range rancherConfig.Fields() {
+	for _, field := range platformConfig.Fields() {
 		kind := field.Kind().String()
 		if kind == "struct" || kind == "ptr" || kind == "slice" {
 			split := strings.Split(field.Tag("yaml"), ",")

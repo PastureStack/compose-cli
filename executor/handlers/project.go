@@ -3,11 +3,11 @@ package handlers
 import (
 	"fmt"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/PastureStack/compose-cli/lookup"
+	"github.com/PastureStack/compose-cli/platformapi"
+	"github.com/PastureStack/compose-cli/project"
 	"github.com/rancher/go-rancher/v2"
-	"github.com/rancher/rancher-compose-executor/lookup"
-	"github.com/rancher/rancher-compose-executor/project"
-	"github.com/rancher/rancher-compose-executor/rancher"
+	"github.com/sirupsen/logrus"
 )
 
 func constructProjectUpgrade(logger *logrus.Entry, stack *client.Stack, upgradeOpts client.StackUpgrade, url, accessKey, secretKey string) (*project.Project, map[string]interface{}, error) {
@@ -30,7 +30,7 @@ func constructProjectUpgrade(logger *logrus.Entry, stack *client.Stack, upgradeO
 		return nil, nil, err
 	}
 
-	context := rancher.Context{
+	context := platformapi.Context{
 		Context: project.Context{
 			ProjectName: stack.Name,
 			ComposeBytes: [][]byte{
@@ -50,7 +50,7 @@ func constructProjectUpgrade(logger *logrus.Entry, stack *client.Stack, upgradeO
 		Upgrade:   true,
 	}
 
-	p, err := rancher.NewProject(&context)
+	p, err := platformapi.NewProject(&context)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -59,7 +59,7 @@ func constructProjectUpgrade(logger *logrus.Entry, stack *client.Stack, upgradeO
 	return p, variables, nil
 }
 
-func constructProject(logger *logrus.Entry, stack *client.Stack, url, accessKey, secretKey string) (*rancher.Context, *project.Project, error) {
+func constructProject(logger *logrus.Entry, stack *client.Stack, url, accessKey, secretKey string) (*platformapi.Context, *project.Project, error) {
 	variables, err := createVariableMap(stack, stack.RancherCompose)
 	if err != nil {
 		return nil, nil, err
@@ -70,7 +70,7 @@ func constructProject(logger *logrus.Entry, stack *client.Stack, url, accessKey,
 		return nil, nil, err
 	}
 
-	context := rancher.Context{
+	context := platformapi.Context{
 		Context: project.Context{
 			ProjectName: stack.Name,
 			ComposeBytes: [][]byte{
@@ -88,7 +88,7 @@ func constructProject(logger *logrus.Entry, stack *client.Stack, url, accessKey,
 		SecretKey: secretKey,
 	}
 
-	p, err := rancher.NewProject(&context)
+	p, err := platformapi.NewProject(&context)
 	if err != nil {
 		return nil, nil, err
 	}

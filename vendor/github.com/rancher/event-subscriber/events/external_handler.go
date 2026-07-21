@@ -4,13 +4,30 @@ import (
 	"fmt"
 	"strings"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/rancher/go-rancher/v2"
 )
 
 type ProcessConfig struct {
 	Name    string `json:"name"`
 	OnError string `json:"onError"`
+}
+
+// RemoveExternalHandlers removes active handler registrations that belonged to
+// an earlier router name. Call this before Start when a maintained executor has
+// renamed its router; Start separately replaces the router's current name.
+func (router *EventRouter) RemoveExternalHandlers(names ...string) error {
+	seen := map[string]bool{}
+	for _, name := range names {
+		if name == "" || name == router.name || seen[name] {
+			continue
+		}
+		if err := removeOldHandler(name, router.apiClient); err != nil {
+			return err
+		}
+		seen[name] = true
+	}
+	return nil
 }
 
 func (router *EventRouter) createExternalHandler() error {

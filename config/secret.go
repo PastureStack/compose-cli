@@ -1,8 +1,8 @@
 package config
 
 import (
+	"github.com/PastureStack/compose-cli/yaml"
 	"github.com/docker/libcompose/utils"
-	"github.com/rancher/rancher-compose-executor/yaml"
 )
 
 type SecretReferences []SecretReference

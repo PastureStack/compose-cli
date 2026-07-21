@@ -9,9 +9,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/PastureStack/compose-cli/config"
 	"github.com/docker/libcompose/logger"
-	"github.com/rancher/rancher-compose-executor/config"
+	"github.com/sirupsen/logrus"
 )
 
 var projectRegexp = regexp.MustCompile("[^a-zA-Z0-9_.-]")

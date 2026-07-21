@@ -7,15 +7,15 @@ import (
 
 	"golang.org/x/net/context"
 
-	log "github.com/Sirupsen/logrus"
+	"github.com/PastureStack/compose-cli/config"
+	"github.com/PastureStack/compose-cli/lookup"
+	"github.com/PastureStack/compose-cli/project/events"
+	"github.com/PastureStack/compose-cli/project/options"
+	"github.com/PastureStack/compose-cli/template"
+	rUtils "github.com/PastureStack/compose-cli/utils"
 	"github.com/docker/libcompose/logger"
 	"github.com/docker/libcompose/utils"
-	"github.com/rancher/rancher-compose-executor/config"
-	"github.com/rancher/rancher-compose-executor/lookup"
-	"github.com/rancher/rancher-compose-executor/project/events"
-	"github.com/rancher/rancher-compose-executor/project/options"
-	"github.com/rancher/rancher-compose-executor/template"
-	rUtils "github.com/rancher/rancher-compose-executor/utils"
+	log "github.com/sirupsen/logrus"
 )
 
 type wrapperAction func(*serviceWrapper, map[string]*serviceWrapper)

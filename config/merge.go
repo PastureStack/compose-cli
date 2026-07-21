@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/PastureStack/compose-cli/template"
+	composeYaml "github.com/PastureStack/compose-cli/yaml"
 	"github.com/docker/docker/pkg/urlutil"
 	"github.com/docker/libcompose/utils"
 	"github.com/fatih/structs"
 	"github.com/rancher/go-rancher/v2"
-	"github.com/rancher/rancher-compose-executor/template"
-	composeYaml "github.com/rancher/rancher-compose-executor/yaml"
 	"gopkg.in/yaml.v2"
 )
 
@@ -93,13 +93,13 @@ func CreateRawConfig(contents []byte) (*RawConfig, error) {
 	}
 	for name, baseRawExternalService := range rawConfig.ExternalServices {
 		rawConfig.Services[name] = baseRawExternalService
-		rawConfig.Services[name]["image"] = "rancher/external-service"
+		rawConfig.Services[name]["image"] = ExternalServiceImage
 	}
 	// TODO: container aliases
 	for name, baseRawAlias := range rawConfig.Aliases {
 		if serviceAliases, ok := baseRawAlias["services"]; ok {
 			rawConfig.Services[name] = baseRawAlias
-			rawConfig.Services[name]["image"] = "rancher/dns-service"
+			rawConfig.Services[name]["image"] = InternalDNSServiceImage
 			rawConfig.Services[name]["links"] = serviceAliases
 			delete(rawConfig.Services[name], "services")
 		}
@@ -156,11 +156,11 @@ func Merge(existingServices *ServiceConfigs, environmentLookup EnvironmentLookup
 		return nil, err
 	}
 
-	baseRawServices, err = TryConvertStringsToInts(baseRawServices, getRancherConfigObjects())
+	baseRawServices, err = TryConvertStringsToInts(baseRawServices, getPlatformConfigObjects())
 	if err != nil {
 		return nil, err
 	}
-	baseRawContainers, err = TryConvertStringsToInts(baseRawContainers, getRancherConfigObjects())
+	baseRawContainers, err = TryConvertStringsToInts(baseRawContainers, getPlatformConfigObjects())
 	if err != nil {
 		return nil, err
 	}

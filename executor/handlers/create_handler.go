@@ -5,10 +5,10 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/PastureStack/compose-cli/project/options"
 	"github.com/rancher/event-subscriber/events"
 	"github.com/rancher/go-rancher/v2"
-	"github.com/rancher/rancher-compose-executor/project/options"
+	"github.com/sirupsen/logrus"
 )
 
 func CreateStack(event *events.Event, apiClient *client.RancherClient) error {

@@ -1,0 +1,5 @@
+web:
+  image: ubuntu:26.04
+
+db:
+  image: ubuntu:26.04

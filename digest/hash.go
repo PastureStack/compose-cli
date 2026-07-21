@@ -8,9 +8,9 @@ import (
 	"reflect"
 	"sort"
 
+	rUtils "github.com/PastureStack/compose-cli/utils"
 	"github.com/docker/libcompose/utils"
 	"github.com/rancher/go-rancher/v2"
-	rUtils "github.com/rancher/rancher-compose-executor/utils"
 )
 
 const (
@@ -68,14 +68,14 @@ func LookupHash(service *client.Service) (ServiceHash, bool) {
 	return ret, ret.Service != ""
 }
 
-func CreateServiceHash(rancherService interface{}, launchConfig *client.LaunchConfig, secondaryLaunchConfigs []client.SecondaryLaunchConfig) (ServiceHash, error) {
+func CreateServiceHash(platformService interface{}, launchConfig *client.LaunchConfig, secondaryLaunchConfigs []client.SecondaryLaunchConfig) (ServiceHash, error) {
 	var err error
 	result := ServiceHash{}
 	if err != nil {
 		return result, err
 	}
 
-	result.Service, err = hashObj(rancherService)
+	result.Service, err = hashObj(platformService)
 	if err != nil {
 		return result, err
 	}

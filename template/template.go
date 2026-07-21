@@ -6,7 +6,7 @@ import (
 	"text/template"
 
 	"github.com/Masterminds/sprig"
-	"github.com/rancher/rancher-compose-executor/template/funcs"
+	"github.com/PastureStack/compose-cli/template/funcs"
 )
 
 type StackInfo struct {

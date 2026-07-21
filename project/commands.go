@@ -5,9 +5,9 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/rancher/rancher-compose-executor/project/events"
-	"github.com/rancher/rancher-compose-executor/project/options"
-	"github.com/rancher/rancher-compose-executor/template"
+	"github.com/PastureStack/compose-cli/project/events"
+	"github.com/PastureStack/compose-cli/project/options"
+	"github.com/PastureStack/compose-cli/template"
 )
 
 func (p *Project) Build(ctx context.Context, buildOptions options.Build, services ...string) error {

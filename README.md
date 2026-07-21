@@ -1,88 +1,35 @@
-# Rancher Compose
+# PastureStack Compose CLI
 
-Docker compose compatible client that deploys to [Rancher](https://github.com/rancher/rancher).
+Compose CLI deploys Docker Compose workloads through the established stack and service API and also provides the compatible event executor used for stack create, upgrade, finish-upgrade, and rollback operations.
 
-## Binaries
+PastureStack is an independent community effort to preserve, audit, and modernize the Rancher 1.6 ecosystem. It is not affiliated with or endorsed by Rancher Labs or SUSE.
 
-Binaries are available for Linux, OS X, and Windows. Refer to the latest [release](https://github.com/rancher/rancher-compose/releases).
+**Upstream:** [`rancher/rancher-compose-executor`](https://github.com/rancher/rancher-compose-executor). This GitHub fork preserves upstream history, authorship, dates, tags, licenses, and bundled dependency notices; PastureStack maintenance is consolidated into one commit after the preserved upstream boundary.
 
-## Building
-Run `make build` to create `./bin/rancher-compose`
+## Project status
 
-## Usage:
+The maintained release retains the Ubuntu 26.04, Go 1.26.5, Docker 29.4.2, dependency, compatibility-server, and test hardening work completed during migration. The maintained binaries are `pasturestack-compose` and `compose-executor`; `platform-compose.yml` is the preferred companion file. Releases are built and verified from the preserved source history; this repository does not enable automated deployment.
 
-```
-Usage: rancher-compose [OPTIONS] COMMAND [arg...]
+## Configuration
 
-Docker-compose to Rancher
+Use `PLATFORM_URL`, `PLATFORM_ACCESS_KEY`, and `PLATFORM_SECRET_KEY`. Historical `RANCHER_*` and `CATTLE_*` settings remain compatibility fallbacks. Operator messages support `PASTURESTACK_LOCALE=en-US` and `zh-TW`.
 
-Version: v0.8.4
+The `--platform-file` flag selects the companion file. Existing `--rancher-file` and `rancher-compose.yml` inputs are accepted only as migration aliases.
 
-Author:
-Rancher Labs, Inc.
+## Build and test
 
-Options:
---verbose, --debug				
---file, -f [--file option --file option]	Specify one or more alternate compose files (default: docker-compose.yml) [$COMPOSE_FILE]
---project-name, -p 				Specify an alternate project name (default: directory name)
---url 					Specify the Rancher API endpoint URL [$RANCHER_URL]
---access-key 					Specify Rancher API access key [$RANCHER_ACCESS_KEY]
---secret-key 					Specify Rancher API secret key [$RANCHER_SECRET_KEY]
---rancher-file, -r 				Specify an alternate Rancher compose file (default: rancher-compose.yml)
---env-file, -e 				Specify a file from which to read environment variables
---help, -h					show help
---version, -v					print the version
+From a Docker-capable Linux host:
 
-Commands:
-create	Create all services but do not start
-up		Bring all services up
-start		Start services
-logs		Get service logs
-restart	Restart services
-stop, down	Stop services
-scale		Scale services
-rm		Delete services
-pull		Pulls images for services
-upgrade	Perform rolling upgrade between services
-help, h	Shows a list of commands or help for one command
+```sh
+make build
+make test
+make package
 ```
 
-# Compose compatibility
+Set `VERSION_OVERRIDE=v0.14.31` for the reviewed Server event-executor release. Packaging produces the deterministic, versioned `compose-executor-0.14.31-linux-amd64.gz` asset for the matching `PastureStack/server` GitHub Release. The Python integration suite remains a release gate and must run against an isolated compatible Server; it must never target an operator's live control plane.
 
-`rancher-compose` strives to be completely compatible with Docker Compose.  Since `rancher-compose` is largely focused
-on running production workloads some behaviors between Docker Compose and Rancher Compose are different.
+The optional compatibility-server test requires an explicitly reviewed artifact URL through `PLATFORM_COMPAT_JAR_URL`; no artifact is downloaded by default. See [COMPATIBILITY.md](COMPATIBILITY.md), [SECURITY.md](SECURITY.md), and [ORIGIN.md](ORIGIN.md).
 
-## Deleting Services/Container
+## License and attribution
 
-`rancher-compose` will not delete things by default.  This means that if you do two `up` commands in a row, the second `up` will
-do nothing.  This is because the first up will create everything and leave it running.  Even if you do not pass `-d` to `up`,
-`rancher-compose` will not delete your services.  To delete a service you must use `rm`.
-
-## Builds
-
-Docker builds are supported in two ways.  First is to set `build:` to a git or HTTP URL that is compatible with the remote parameter in https://docs.docker.com/reference/api/docker_remote_api_v1.18/#build-image-from-a-dockerfile.  The second approach is to set `build:` to a local directory and the build context will be uploaded to S3 and then built on demand on each node.
-
-For S3 based builds to work you must [setup AWS credentials](https://github.com/aws/aws-sdk-go/#configuring-credentials).
-
-
-## Contact
-For bugs, questions, comments, corrections, suggestions, etc., open an issue in
- [rancher/rancher](//github.com/rancher/rancher/issues) with a title starting with `[rancher-compose] `.
-
-Or just [click here](//github.com/rancher/rancher/issues/new?title=%5Brancher-compose%5D%20) to create a new issue.
-
-# License
-Copyright (c) 2014-2015 [Rancher Labs, Inc.](http://rancher.com)
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
+The inherited project remains licensed under [Apache License 2.0](LICENSE). Copyright and attribution for inherited work and vendored dependencies remain with their respective authors and contributors. PastureStack contributors claim authorship only for their own changes.

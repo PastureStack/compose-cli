@@ -3,8 +3,8 @@ package project
 import (
 	"sync"
 
-	log "github.com/Sirupsen/logrus"
-	"github.com/rancher/rancher-compose-executor/project/events"
+	"github.com/PastureStack/compose-cli/project/events"
+	log "github.com/sirupsen/logrus"
 )
 
 type serviceWrapper struct {

@@ -3,8 +3,8 @@ package project
 import (
 	"bytes"
 
-	"github.com/Sirupsen/logrus"
-	"github.com/rancher/rancher-compose-executor/project/events"
+	"github.com/PastureStack/compose-cli/project/events"
+	"github.com/sirupsen/logrus"
 )
 
 var (

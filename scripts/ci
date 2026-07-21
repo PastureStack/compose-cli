@@ -7,7 +7,7 @@ export PATH=$GOPATH/bin:$PATH
 
 ./scripts/clean
 CROSS=true ./scripts/build
-./scripts/run-cattle
+./scripts/run-platform-compat
 ./scripts/test
 ./scripts/validate
 ./scripts/package

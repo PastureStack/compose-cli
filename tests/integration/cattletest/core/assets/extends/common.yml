@@ -1,5 +1,0 @@
-web:
-  image: ubuntu:14.04
-
-db:
-  image: ubuntu:14.04

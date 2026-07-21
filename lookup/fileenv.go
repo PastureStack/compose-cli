@@ -11,8 +11,8 @@ import (
 
 	yaml "gopkg.in/yaml.v2"
 
-	"github.com/rancher/rancher-compose-executor/config"
-	"github.com/rancher/rancher-compose-executor/utils"
+	"github.com/PastureStack/compose-cli/config"
+	"github.com/PastureStack/compose-cli/utils"
 )
 
 type FileEnvLookup struct {

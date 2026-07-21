@@ -1,8 +1,8 @@
 package service
 
 import (
+	"github.com/PastureStack/compose-cli/project"
 	"github.com/docker/docker/api/types/container"
-	"github.com/rancher/rancher-compose-executor/project"
 )
 
 // DefaultDependentServices return the dependent services (as an array of ServiceRelationship)

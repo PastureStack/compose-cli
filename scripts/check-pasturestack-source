@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+fail()
+{
+    printf 'PASTURESTACK_COMPOSE_SOURCE_GATE_FAIL reason=%s\n' "$1" >&2
+    exit 1
+}
+
+require_line()
+{
+    local file=$1
+    local line=$2
+    grep -Fx -- "$line" "$file" >/dev/null || fail "required_line_missing:${file}:${line}"
+}
+
+git diff --check
+git diff --quiet || fail tracked_worktree_changes
+git diff --cached --quiet || fail staged_changes
+test -x scripts/run-platform-compat || fail run_platform_compat_not_executable
+bash -n scripts/run-platform-compat
+bash -n scripts/version
+
+require_line config/system_images.go '	LoadBalancerServiceImage = "ghcr.io/pasturestack/load-balancer-service"'
+require_line config/system_images.go '	InternalDNSServiceImage  = "ghcr.io/pasturestack/internal-dns"'
+require_line config/system_images.go '	ExternalServiceImage     = "ghcr.io/pasturestack/external-service"'
+require_line config/merge.go '		rawConfig.Services[name]["image"] = ExternalServiceImage'
+require_line config/merge.go '			rawConfig.Services[name]["image"] = InternalDNSServiceImage'
+require_line platformapi/configs.go '	if config.IsLoadBalancerServiceImage(serviceConfig.Image) {'
+require_line platformapi/convert/convert.go '	if config.IsLoadBalancerServiceImage(serviceConfig.Image) {'
+require_line scripts/run-platform-compat '    -Dcattle.http.port=0 \'
+require_line scripts/run-platform-compat '    -Ddb.cattle.database=h2 \'
+require_line scripts/run-platform-compat '    -Ddb.config.alias=cattle \'
+require_line scripts/run-platform-compat '    -Ddb.liquibase.alias=cattle \'
+require_line scripts/version 'DIRTY='
+require_line scripts/build 'OS_ARCH_ARG[linux]="amd64"'
+require_line scripts/build 'OS_ARCH_ARG[windows]="amd64"'
+require_line scripts/build 'OS_ARCH_ARG[darwin]="amd64"'
+require_line Dockerfile.dapper 'FROM ubuntu:26.04'
+require_line Dockerfile.dapper 'ARG GO_VERSION=1.26.5'
+require_line Dockerfile.dapper 'ARG GO_SHA256_amd64=5c2c3b16caefa1d968a94c1daca04a7ca301a496d9b086e17ad77bb81393f053'
+require_line Dockerfile.dapper 'ARG GO_SHA256_arm64=fe4789e92b1f33358680864bbe8704289e7bb5fc207d80623c308935bd696d49'
+
+if grep -RIn --include='*.go' --exclude='system_images.go' --exclude='*_test.go' \
+    -E '"rancher/(load-balancer-service|dns-service|external-service)"' \
+    config platformapi; then
+    fail legacy_system_image_used_outside_compatibility_boundary
+fi
+
+require_line README.md 'PastureStack is an independent community effort to preserve, audit, and modernize the Rancher 1.6 ecosystem. It is not affiliated with or endorsed by Rancher Labs or SUSE.'
+require_line ORIGIN.md '- Migration model: unchanged upstream history followed by one PastureStack maintenance commit'
+
+printf 'PASTURESTACK_COMPOSE_SOURCE_GATE_OK system_images=ghcr legacy_names=read_only_compatibility ubuntu=26.04 go=1.26.5\n'

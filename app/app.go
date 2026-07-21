@@ -9,20 +9,20 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/PastureStack/compose-cli/lookup"
+	"github.com/PastureStack/compose-cli/platformapi"
+	"github.com/PastureStack/compose-cli/project"
+	"github.com/PastureStack/compose-cli/project/options"
 	"github.com/docker/libcompose/cli/logger"
-	"github.com/rancher/rancher-compose-executor/lookup"
-	"github.com/rancher/rancher-compose-executor/project"
-	"github.com/rancher/rancher-compose-executor/project/options"
-	"github.com/rancher/rancher-compose-executor/rancher"
+	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 )
 
-type RancherProjectFactory struct {
+type PlatformProjectFactory struct {
 }
 
-func (p *RancherProjectFactory) Create(c *cli.Context) (*project.Project, error) {
-	context := &rancher.Context{
+func (p *PlatformProjectFactory) Create(c *cli.Context) (*project.Project, error) {
+	context := &platformapi.Context{
 		Context: project.Context{
 			ResourceLookup: &lookup.FileResourceLookup{},
 			LoggerFactory:  logger.NewColorLoggerFactory(),
@@ -31,19 +31,19 @@ func (p *RancherProjectFactory) Create(c *cli.Context) (*project.Project, error)
 		AccessKey:  c.GlobalString("access-key"),
 		SecretKey:  c.GlobalString("secret-key"),
 		PullCached: c.Bool("cached"),
-		Uploader:   &rancher.S3Uploader{},
+		Uploader:   &platformapi.S3Uploader{},
 		Args:       c.Args(),
 	}
 
 	Populate(&context.Context, c)
 
-	rancherComposeFile, err := resolveRancherCompose(context.ComposeFiles[0],
-		c.GlobalString("rancher-file"))
+	platformComposeFile, err := resolvePlatformCompose(context.ComposeFiles[0],
+		c.GlobalString("platform-file"))
 	if err != nil {
 		return nil, err
 	}
 
-	qLookup, err := lookup.NewQuestionLookup(rancherComposeFile, &lookup.OsEnvLookup{})
+	qLookup, err := lookup.NewQuestionLookup(platformComposeFile, &lookup.OsEnvLookup{})
 	if err != nil {
 		return nil, err
 	}
@@ -54,7 +54,7 @@ func (p *RancherProjectFactory) Create(c *cli.Context) (*project.Project, error)
 	}
 
 	context.EnvironmentLookup = envLookup
-	context.ComposeFiles = append(context.ComposeFiles, rancherComposeFile)
+	context.ComposeFiles = append(context.ComposeFiles, platformComposeFile)
 
 	context.Upgrade = c.Bool("upgrade") || c.Bool("force-upgrade")
 	context.ForceUpgrade = c.Bool("force-upgrade")
@@ -66,18 +66,26 @@ func (p *RancherProjectFactory) Create(c *cli.Context) (*project.Project, error)
 	context.Prune = c.Bool("prune")
 	context.Description = c.String("description")
 
-	return rancher.NewProject(context)
+	return platformapi.NewProject(context)
 }
 
-func resolveRancherCompose(composeFile, rancherComposeFile string) (string, error) {
-	if rancherComposeFile == "" && composeFile != "" {
+func resolvePlatformCompose(composeFile, platformComposeFile string) (string, error) {
+	if platformComposeFile == "" && composeFile != "" {
 		f, err := filepath.Abs(composeFile)
 		if err != nil {
 			return "", err
 		}
-		return path.Join(path.Dir(f), "rancher-compose.yml"), nil
+		preferred := path.Join(path.Dir(f), "platform-compose.yml")
+		if _, err := os.Stat(preferred); err == nil {
+			return preferred, nil
+		}
+		legacy := path.Join(path.Dir(f), "rancher-compose.yml")
+		if _, err := os.Stat(legacy); err == nil {
+			return legacy, nil
+		}
+		return preferred, nil
 	}
-	return rancherComposeFile, nil
+	return platformComposeFile, nil
 }
 
 func Populate(context *project.Context, c *cli.Context) {

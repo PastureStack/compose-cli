@@ -1,0 +1,82 @@
+#!/bin/bash
+set -euo pipefail
+
+URL=${PLATFORM_COMPAT_JAR_URL:-${CATTLE_JAR_URL:-}}
+
+cd "$(dirname "$0")/.."
+mkdir -p build
+cd build
+
+if [ ! -s cattle.jar ]; then
+    if [ -z "${URL}" ]; then
+        echo "PLATFORM_COMPAT_JAR_URL must point to an explicitly reviewed compatibility server artifact" >&2
+        exit 1
+    fi
+    curl -fsSL "$URL" -o cattle.jar
+fi
+
+test -x ../bin/compose-executor
+
+for marker in success error; do
+    rm -f "run-${marker}"
+    cat >"run-${marker}.sh" << EOF
+#!/bin/bash
+touch "$(pwd)/run-${marker}"
+EOF
+    chmod +x "run-${marker}.sh"
+done
+
+run_home="$(pwd)/compat-home"
+mkdir -p "${run_home}/database"
+DB_URL="jdbc:h2:${run_home}/database/db-cattle;MODE=MySQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;NON_KEYWORDS=KEY,VALUE"
+
+server_pid=
+cleanup()
+{
+    if [ -n "${server_pid}" ] && kill -0 "${server_pid}" 2>/dev/null; then
+        kill "${server_pid}" 2>/dev/null || true
+        wait "${server_pid}" 2>/dev/null || true
+    fi
+}
+trap cleanup EXIT
+
+java \
+    -Dcattle.home="${run_home}" \
+    -Dcattle.http.port=0 \
+    -Dcattle.http.proxied.port=0 \
+    -Dcattle.https.port=0 \
+    -Dcompose.executor.execute=true \
+    -Dcompose.executor.service.executable="$(pwd)/../bin/compose-executor" \
+    -Ddb.cattle.database=h2 \
+    -Ddb.cattle.h2.url="${DB_URL}" \
+    -Ddb.cattle.h2.render.name.style=upper \
+    -Ddb.config.alias=cattle \
+    -Ddb.liquibase.alias=cattle \
+    -jar cattle.jar \
+    --notify "$(pwd)/run-success.sh" \
+    --notify-error "$(pwd)/run-error.sh" \
+    >platform-compat.log 2>&1 &
+server_pid=$!
+
+for _ in $(seq 1 240); do
+    if [ -f run-success ]; then
+        printf 'PASTURESTACK_COMPOSE_PLATFORM_COMPAT_OK server=%s executor=%s\n' \
+            "$(sha256sum cattle.jar | awk '{print $1}')" \
+            "$(sha256sum ../bin/compose-executor | awk '{print $1}')"
+        exit 0
+    fi
+    if [ -f run-error ]; then
+        tail -100 platform-compat.log >&2
+        exit 1
+    fi
+    if ! kill -0 "${server_pid}" 2>/dev/null; then
+        wait "${server_pid}" || true
+        tail -100 platform-compat.log >&2
+        exit 1
+    fi
+    sleep .5
+done
+
+tail -100 platform-compat.log >&2
+echo "Timed out waiting for the compatibility server and Compose executor" >&2
+exit 1

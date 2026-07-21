@@ -10,7 +10,6 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/builder"
 	"github.com/docker/docker/builder/dockerignore"
@@ -22,6 +21,7 @@ import (
 	"github.com/docker/docker/pkg/streamformatter"
 	"github.com/docker/docker/pkg/term"
 	"github.com/docker/libcompose/logger"
+	"github.com/sirupsen/logrus"
 )
 
 // DefaultDockerfileName is the default name of a Dockerfile

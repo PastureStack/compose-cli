@@ -28,16 +28,17 @@ cd $(dirname $0)/..
 PACKAGES=". $(find -name '*.go' | xargs -I{} dirname {} |  cut -f2 -d/ | sort -u | grep -Ev '(^\.$|.git|.trash-cache|vendor|bin)' | sed -e 's!^!./!' -e 's!$!/...!')"
 
 go test -race -cover -tags=test ${PACKAGES}
+go test -race -cover -tags=test ./vendor/github.com/rancher/event-subscriber/events
 
 setup_root
 
 cd tests/integration
 export CATTLE_URL=${CATTLE_URL:-http://localhost:8080/v2-beta/schemas}
 
-if [ -e .tox ] && [ ! -e .tox/py27/include/python2.7 ]; then
-    rm -rf .tox
+if [ "${SKIP_INTEGRATION:-false}" = "true" ]; then
+    echo "Skipping Python integration tests because SKIP_INTEGRATION=true"
+else
+    tox "$@"
 fi
-
-tox "$@"
 
 echo OK

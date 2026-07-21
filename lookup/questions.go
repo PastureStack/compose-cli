@@ -7,10 +7,10 @@ import (
 	"os"
 	"strings"
 
+	"github.com/PastureStack/compose-cli/config"
+	rUtils "github.com/PastureStack/compose-cli/utils"
 	"github.com/docker/libcompose/utils"
 	"github.com/rancher/rancher-catalog-service/model"
-	"github.com/rancher/rancher-compose-executor/config"
-	rUtils "github.com/rancher/rancher-compose-executor/utils"
 	"gopkg.in/yaml.v2"
 )
 

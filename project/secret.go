@@ -1,7 +1,7 @@
 package project
 
 import (
-	"github.com/rancher/rancher-compose-executor/config"
+	"github.com/PastureStack/compose-cli/config"
 	"golang.org/x/net/context"
 )
 
