@@ -1,6 +1,7 @@
 package config
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -108,9 +109,7 @@ func convertKeysToStrings(item interface{}) interface{} {
 		return newMap
 
 	case []interface{}:
-		// newArray := make([]interface{}, 0) will cause golint to complain
-		var newArray []interface{}
-		newArray = make([]interface{}, 0)
+		newArray := make([]interface{}, 0, len(typedDatas))
 
 		for _, value := range typedDatas {
 			newArray = append(newArray, convertKeysToStrings(value))
@@ -278,7 +277,7 @@ func generateErrorMessages(serviceMap RawServiceMap, schema map[string]interface
 			}
 		}
 
-		return fmt.Errorf(strings.Join(validationErrors, "\n"))
+		return errors.New(strings.Join(validationErrors, "\n"))
 	}
 
 	return nil
@@ -317,7 +316,7 @@ func validateServiceConstraints(service RawService, serviceName string) error {
 			}
 		}
 
-		return fmt.Errorf(strings.Join(validationErrors, "\n"))
+		return errors.New(strings.Join(validationErrors, "\n"))
 	}
 
 	return nil

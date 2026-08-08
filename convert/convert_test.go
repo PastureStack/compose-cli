@@ -5,13 +5,13 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/PastureStack/compose-cli/config"
+	"github.com/PastureStack/compose-cli/lookup"
+	"github.com/PastureStack/compose-cli/project"
+	"github.com/PastureStack/compose-cli/yaml"
 	"github.com/docker/docker/api/types/blkiodev"
 	"github.com/docker/docker/api/types/container"
 	shlex "github.com/flynn/go-shlex"
-	"github.com/rancher/rancher-compose-executor/config"
-	"github.com/rancher/rancher-compose-executor/lookup"
-	"github.com/rancher/rancher-compose-executor/project"
-	"github.com/rancher/rancher-compose-executor/yaml"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -33,10 +33,10 @@ type ContainerEvent struct {
 	Type       string            `json:"type"`
 }
 
-// EventType defines a type of libcompose event.
+// EventType defines a Compose operation event.
 type EventType int
 
-// Definitions of libcompose events
+// Definitions of Compose operation events.
 const (
 	NoEvent = EventType(iota)
 

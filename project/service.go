@@ -5,11 +5,11 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/rancher/rancher-compose-executor/config"
-	"github.com/rancher/rancher-compose-executor/project/options"
+	"github.com/PastureStack/compose-cli/config"
+	"github.com/PastureStack/compose-cli/project/options"
 )
 
-// Service defines what a libcompose service provides.
+// Service defines the operations provided by a Compose service.
 type Service interface {
 	Build(ctx context.Context, buildOptions options.Build) error
 	Create(ctx context.Context, options options.Create) error

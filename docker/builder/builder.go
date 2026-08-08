@@ -10,7 +10,7 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/PastureStack/compose-cli/logging"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/builder"
 	"github.com/docker/docker/builder/dockerignore"
@@ -21,14 +21,13 @@ import (
 	"github.com/docker/docker/pkg/progress"
 	"github.com/docker/docker/pkg/streamformatter"
 	"github.com/docker/docker/pkg/term"
-	"github.com/docker/libcompose/logger"
+	"github.com/sirupsen/logrus"
 )
 
 // DefaultDockerfileName is the default name of a Dockerfile
 const DefaultDockerfileName = "Dockerfile"
 
-// Builder defines methods to provide a docker builder. This makes libcompose
-// not tied up to the docker daemon builder.
+// Builder defines methods for Docker image builds.
 type Builder interface {
 	Build(imageName string) error
 }
@@ -43,7 +42,7 @@ type DaemonBuilder struct {
 	ForceRemove      bool
 	Pull             bool
 	BuildArgs        map[string]string
-	LoggerFactory    logger.Factory
+	LoggerFactory    logging.Factory
 }
 
 // Build implements Builder. It consumes the docker build API endpoint and sends
@@ -55,22 +54,22 @@ func (d *DaemonBuilder) Build(ctx context.Context, imageName string) error {
 	}
 	defer buildCtx.Close()
 	if d.LoggerFactory == nil {
-		d.LoggerFactory = &logger.NullLogger{}
+		d.LoggerFactory = &logging.NullLogger{}
 	}
 
 	l := d.LoggerFactory.CreateBuildLogger(imageName)
 
-	progBuff := &logger.Wrapper{
+	progBuff := &logging.Wrapper{
 		Err:    false,
 		Logger: l,
 	}
 
-	buildBuff := &logger.Wrapper{
+	buildBuff := &logging.Wrapper{
 		Err:    false,
 		Logger: l,
 	}
 
-	errBuff := &logger.Wrapper{
+	errBuff := &logging.Wrapper{
 		Err:    true,
 		Logger: l,
 	}

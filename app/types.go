@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/rancher/rancher-compose-executor/project"
+	"github.com/PastureStack/compose-cli/project"
 	"github.com/urfave/cli"
 )
 

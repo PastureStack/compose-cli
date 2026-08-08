@@ -1,0 +1,13 @@
+service1:
+  image: ubuntu:26.04
+  volumes_from:
+    - data
+data:
+  image: ubuntu:26.04
+service2:
+  image: ubuntu:26.04
+  links: 
+    - service1
+    - data
+  labels:  
+    io.rancher.sidekicks: service1, data

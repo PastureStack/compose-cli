@@ -1,9 +1,63 @@
 package utils
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
+
+	"github.com/sirupsen/logrus"
+	"gopkg.in/yaml.v2"
 )
+
+// ConvertByJSON copies compatible data between structures through JSON.
+func ConvertByJSON(src, target interface{}) error {
+	data, err := json.Marshal(src)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(data, target)
+	if err != nil {
+		logrus.Errorf("Failed to unmarshal JSON: %v\n%s", err, string(data))
+	}
+	return err
+}
+
+// Convert copies compatible data between structures through YAML.
+func Convert(src, target interface{}) error {
+	data, err := yaml.Marshal(src)
+	if err != nil {
+		return err
+	}
+
+	err = yaml.Unmarshal(data, target)
+	if err != nil {
+		logrus.Errorf("Failed to unmarshal YAML: %v\n%s", err, string(data))
+	}
+	return err
+}
+
+// CopySlice returns an independent copy of a string slice.
+func CopySlice(source []string) []string {
+	if source == nil {
+		return nil
+	}
+	result := make([]string, len(source))
+	copy(result, source)
+	return result
+}
+
+// CopyMap returns an independent copy of a string map.
+func CopyMap(source map[string]string) map[string]string {
+	if source == nil {
+		return nil
+	}
+	result := make(map[string]string, len(source))
+	for key, value := range source {
+		result[key] = value
+	}
+	return result
+}
 
 func NestedMapsToMapInterface(data map[string]interface{}) map[string]interface{} {
 	newMapInterface := map[string]interface{}{}

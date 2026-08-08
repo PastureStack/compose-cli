@@ -8,9 +8,8 @@ import (
 	"reflect"
 	"sort"
 
-	"github.com/docker/libcompose/utils"
+	rUtils "github.com/PastureStack/compose-cli/utils"
 	"github.com/rancher/go-rancher/v2"
-	rUtils "github.com/rancher/rancher-compose-executor/utils"
 )
 
 const (
@@ -59,7 +58,7 @@ func LookupHash(service *client.Service) (ServiceHash, bool) {
 
 	for _, rawSecondaryLaunchConfig := range service.SecondaryLaunchConfigs {
 		var secondaryLaunchConfig client.SecondaryLaunchConfig
-		if err := utils.Convert(rawSecondaryLaunchConfig, &secondaryLaunchConfig); err != nil {
+		if err := rUtils.Convert(rawSecondaryLaunchConfig, &secondaryLaunchConfig); err != nil {
 			return ret, false
 		}
 		ret.SecondaryLaunchConfigs[secondaryLaunchConfig.Name] = toString(secondaryLaunchConfig.Labels[ServiceHashKey])
@@ -68,14 +67,14 @@ func LookupHash(service *client.Service) (ServiceHash, bool) {
 	return ret, ret.Service != ""
 }
 
-func CreateServiceHash(rancherService interface{}, launchConfig *client.LaunchConfig, secondaryLaunchConfigs []client.SecondaryLaunchConfig) (ServiceHash, error) {
+func CreateServiceHash(platformService interface{}, launchConfig *client.LaunchConfig, secondaryLaunchConfigs []client.SecondaryLaunchConfig) (ServiceHash, error) {
 	var err error
 	result := ServiceHash{}
 	if err != nil {
 		return result, err
 	}
 
-	result.Service, err = hashObj(rancherService)
+	result.Service, err = hashObj(platformService)
 	if err != nil {
 		return result, err
 	}
@@ -133,7 +132,7 @@ func hashObj(obj interface{}) (string, error) {
 	hash := sha1.New()
 
 	mapObj := map[interface{}]interface{}{}
-	if err := utils.Convert(obj, &mapObj); err != nil {
+	if err := rUtils.Convert(obj, &mapObj); err != nil {
 		return "", err
 	}
 

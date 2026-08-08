@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"sort"
 
-	"github.com/rancher/rancher-compose-executor/yaml"
+	"github.com/PastureStack/compose-cli/yaml"
 )
 
 // GetServiceHash computes and returns a hash that will identify a service.

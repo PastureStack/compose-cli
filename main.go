@@ -5,39 +5,59 @@ import (
 	"os"
 	"path"
 
-	"github.com/Sirupsen/logrus"
-	rancherApp "github.com/rancher/rancher-compose-executor/app"
-	"github.com/rancher/rancher-compose-executor/executor"
-	"github.com/rancher/rancher-compose-executor/version"
+	composeApp "github.com/PastureStack/compose-cli/app"
+	"github.com/PastureStack/compose-cli/executor"
+	"github.com/PastureStack/compose-cli/version"
+	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 )
 
 func beforeApp(c *cli.Context) error {
+	locale := c.GlobalString("locale")
+	if locale != "en-US" && locale != "zh-TW" {
+		return fmt.Errorf("unsupported locale %q; use en-US or zh-TW", locale)
+	}
 	if c.GlobalBool("verbose") {
 		logrus.SetLevel(logrus.DebugLevel)
 	}
+	logrus.Info(operatorMessage(locale, "ready"))
 	return nil
 }
 
 func main() {
-	if path.Base(os.Args[0]) == "rancher-compose-executor" {
+	base := path.Base(os.Args[0])
+	if base == "compose-executor" || base == "rancher-compose-executor" {
+		if requestsVersion(os.Args) {
+			fmt.Printf("compose-executor version %s\n", version.VERSION)
+			return
+		}
 		executor.Main()
 	} else {
 		cliMain()
 	}
 }
 
+func requestsVersion(args []string) bool {
+	return len(args) == 2 && (args[1] == "--version" || args[1] == "-v")
+}
+
 func cliMain() {
-	factory := &rancherApp.RancherProjectFactory{}
+	factory := &composeApp.PlatformProjectFactory{}
 
 	app := cli.NewApp()
-	app.Name = "rancher-compose"
-	app.Usage = "Docker-compose to Rancher"
+	app.Name = "pasturestack-compose"
+	app.Usage = "Deploy Docker Compose workloads through a compatible control-platform API"
 	app.Version = version.VERSION
-	app.Author = "Rancher Labs, Inc."
+	app.Author = "PastureStack community"
 	app.Email = ""
 	app.Before = beforeApp
 	app.Flags = []cli.Flag{
+		cli.StringFlag{
+			Name:   "locale",
+			Value:  "en-US",
+			Usage:  "Operator message locale: en-US or zh-TW",
+			EnvVar: "PASTURESTACK_LOCALE",
+		},
 		cli.BoolFlag{
 			Name: "verbose,debug",
 		},
@@ -55,27 +75,27 @@ func cliMain() {
 		cli.StringFlag{
 			Name: "url",
 			Usage: fmt.Sprintf(
-				"Specify the Rancher API endpoint URL",
+				"Specify the control-platform API endpoint URL",
 			),
-			EnvVar: "RANCHER_URL",
+			EnvVar: "PLATFORM_URL,RANCHER_URL",
 		},
 		cli.StringFlag{
 			Name: "access-key",
 			Usage: fmt.Sprintf(
-				"Specify Rancher API access key",
+				"Specify the control-platform API access key",
 			),
-			EnvVar: "RANCHER_ACCESS_KEY",
+			EnvVar: "PLATFORM_ACCESS_KEY,RANCHER_ACCESS_KEY",
 		},
 		cli.StringFlag{
 			Name: "secret-key",
 			Usage: fmt.Sprintf(
-				"Specify Rancher API secret key",
+				"Specify the control-platform API secret key",
 			),
-			EnvVar: "RANCHER_SECRET_KEY",
+			EnvVar: "PLATFORM_SECRET_KEY,RANCHER_SECRET_KEY",
 		},
 		cli.StringFlag{
-			Name:  "rancher-file,r",
-			Usage: "Specify an alternate Rancher compose file (default: rancher-compose.yml)",
+			Name:  "platform-file,rancher-file,r",
+			Usage: "Specify an alternate platform compatibility file (default: platform-compose.yml)",
 		},
 		cli.StringFlag{
 			Name:  "env-file,e",
@@ -87,11 +107,19 @@ func cliMain() {
 		},
 	}
 	app.Commands = []cli.Command{
-		rancherApp.CreateCommand(factory),
-		rancherApp.UpCommand(factory),
+		composeApp.CreateCommand(factory),
+		composeApp.UpCommand(factory),
 	}
 
 	if err := app.Run(os.Args); err != nil {
 		logrus.Fatal(err)
 	}
+}
+
+func operatorMessage(locale, key string) string {
+	messages := map[string]map[string]string{
+		"en-US": {"ready": "PastureStack Compose CLI is ready"},
+		"zh-TW": {"ready": "PastureStack Compose 命令列工具已就緒"},
+	}
+	return messages[locale][key]
 }

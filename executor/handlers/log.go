@@ -3,9 +3,9 @@ package handlers
 import (
 	"bytes"
 
-	"github.com/Sirupsen/logrus"
-	"github.com/rancher/rancher-compose-executor/project"
-	"github.com/rancher/rancher-compose-executor/project/events"
+	"github.com/PastureStack/compose-cli/project"
+	"github.com/PastureStack/compose-cli/project/events"
+	"github.com/sirupsen/logrus"
 )
 
 func NewListenLogger(logger *logrus.Entry, p *project.Project) chan<- events.Event {

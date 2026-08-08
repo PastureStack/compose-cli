@@ -7,10 +7,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/docker/libcompose/utils"
+	"github.com/PastureStack/compose-cli/config"
+	rUtils "github.com/PastureStack/compose-cli/utils"
 	"github.com/rancher/rancher-catalog-service/model"
-	"github.com/rancher/rancher-compose-executor/config"
-	rUtils "github.com/rancher/rancher-compose-executor/utils"
 	"gopkg.in/yaml.v2"
 )
 
@@ -92,7 +91,7 @@ func ParseCatalogConfig(contents []byte) (*model.RancherCompose, error) {
 
 	if rawCatalogConfig != nil {
 		var catalogConfig model.RancherCompose
-		if err := utils.Convert(rawCatalogConfig, &catalogConfig); err != nil {
+		if err := rUtils.Convert(rawCatalogConfig, &catalogConfig); err != nil {
 			return nil, err
 		}
 

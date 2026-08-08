@@ -3,9 +3,9 @@ package config
 import (
 	"sync"
 
+	"github.com/PastureStack/compose-cli/yaml"
 	legacyClient "github.com/rancher/go-rancher/client"
 	"github.com/rancher/go-rancher/v2"
-	"github.com/rancher/rancher-compose-executor/yaml"
 )
 
 // EnvironmentLookup defines methods to provides environment variable loading.
@@ -20,7 +20,7 @@ type ResourceLookup interface {
 	ResolvePath(path, inFile string) string
 }
 
-// ServiceConfigV1 holds version 1 of libcompose service configuration
+// ServiceConfigV1 holds version 1 Compose service configuration.
 type ServiceConfigV1 struct {
 	BlkioWeight         yaml.StringorInt         `yaml:"blkio_weight,omitempty"`
 	BlkioWeightDevice   []string                 `yaml:"blkio_weight_device,omitempty"`
@@ -106,7 +106,7 @@ type ServiceConfigV1 struct {
 	Scale       yaml.StringorInt `yaml:"scale,omitempty"`
 	RetainIp    bool             `yaml:"retain_ip,omitempty"`
 	ExternalIps []string         `yaml:"external_ips,omitempty"`
-	// TODO: hostname is in docker-compose.yml and rancher-compose.yml
+	// TODO: hostname is in docker-compose.yml and platform-compose.yml
 	//Hostname    string                      `yaml:"hostname,omitempty"`
 	HealthCheck *client.InstanceHealthCheck `yaml:"health_check,omitempty"`
 
@@ -124,7 +124,7 @@ type Log struct {
 	Options map[string]string `yaml:"options,omitempty"`
 }
 
-// ServiceConfig holds version 2 of libcompose service configuration
+// ServiceConfig holds version 2 Compose service configuration.
 type ServiceConfig struct {
 	BlkioWeight         yaml.StringorInt         `yaml:"blkio_weight,omitempty"`
 	BlkioWeightDevice   []string                 `yaml:"blkio_weight_device,omitempty"`
@@ -197,10 +197,10 @@ type ServiceConfig struct {
 	WorkingDir          string                   `yaml:"working_dir,omitempty"`
 	Ulimits             yaml.Ulimits             `yaml:"ulimits,omitempty"`
 
-	RancherConfig `yaml:",inline"`
+	PlatformConfig `yaml:",inline"`
 }
 
-type RancherConfig struct {
+type PlatformConfig struct {
 	LbConfig                 *LBConfig                        `yaml:"lb_config"`
 	LegacyLoadBalancerConfig *legacyClient.LoadBalancerConfig `yaml:"load_balancer_config,omitempty"`
 	DefaultCert              string                           `yaml:"default_cert,omitempty"`

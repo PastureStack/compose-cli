@@ -9,14 +9,14 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Sirupsen/logrus"
-	"github.com/docker/libcompose/logger"
-	"github.com/rancher/rancher-compose-executor/config"
+	"github.com/PastureStack/compose-cli/config"
+	"github.com/PastureStack/compose-cli/logging"
+	"github.com/sirupsen/logrus"
 )
 
 var projectRegexp = regexp.MustCompile("[^a-zA-Z0-9_.-]")
 
-// Context holds context meta information about a libcompose project, like
+// Context holds metadata for a Compose project, including
 // the project name, the compose file, etc.
 type Context struct {
 	ComposeFiles        []string
@@ -34,7 +34,7 @@ type Context struct {
 	HostsFactory        HostsFactory
 	EnvironmentLookup   config.EnvironmentLookup
 	ResourceLookup      config.ResourceLookup
-	LoggerFactory       logger.Factory
+	LoggerFactory       logging.Factory
 	Project             *Project
 }
 

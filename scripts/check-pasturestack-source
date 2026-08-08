@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+fail()
+{
+    printf 'PASTURESTACK_COMPOSE_SOURCE_GATE_FAIL reason=%s\n' "$1" >&2
+    exit 1
+}
+
+require_line()
+{
+    local file=$1
+    local line=$2
+    grep -Fx -- "$line" "$file" >/dev/null || fail "required_line_missing:${file}:${line}"
+}
+
+git diff --check
+git diff --quiet || fail tracked_worktree_changes
+git diff --cached --quiet || fail staged_changes
+test -x scripts/run-platform-compat || fail run_platform_compat_not_executable
+bash -n scripts/run-platform-compat
+bash -n scripts/version
+
+require_line config/system_images.go '	LoadBalancerServiceImage = "ghcr.io/pasturestack/load-balancer-service"'
+require_line config/system_images.go '	InternalDNSServiceImage  = "ghcr.io/pasturestack/internal-dns"'
+require_line config/system_images.go '	ExternalServiceImage     = "ghcr.io/pasturestack/external-service"'
+require_line config/merge.go '		rawConfig.Services[name]["image"] = ExternalServiceImage'
+require_line config/merge.go '			rawConfig.Services[name]["image"] = InternalDNSServiceImage'
+require_line platformapi/configs.go '	if config.IsLoadBalancerServiceImage(serviceConfig.Image) {'
+require_line platformapi/convert/convert.go '	if config.IsLoadBalancerServiceImage(serviceConfig.Image) {'
+require_line scripts/run-platform-compat '    -Dcattle.http.port=0 \'
+require_line scripts/run-platform-compat 'EXPECTED_SHA256=${PLATFORM_COMPAT_JAR_SHA256:-}'
+require_line scripts/run-platform-compat "    printf '%s  %s\\n' \"\${EXPECTED_SHA256}\" cattle.jar | sha256sum --check"
+require_line scripts/run-platform-compat '    -Ddb.cattle.database=h2 \'
+require_line scripts/run-platform-compat '    -Ddb.config.alias=cattle \'
+require_line scripts/run-platform-compat '    -Ddb.liquibase.alias=cattle \'
+require_line scripts/version 'DIRTY='
+require_line scripts/build 'OS_ARCH_ARG[linux]="amd64"'
+require_line scripts/build 'OS_ARCH_ARG[windows]="amd64"'
+require_line scripts/build 'OS_ARCH_ARG[darwin]="amd64"'
+require_line Dockerfile.dapper 'FROM ubuntu:26.04@sha256:678c6550cc43645e08669028bc177f50be4e7c5b8cca677067b1914d4afc7a03'
+require_line Dockerfile.dapper 'ARG GO_VERSION=1.26.6'
+require_line Dockerfile.dapper 'ARG GO_SHA256_amd64=708effb774be8237570d0add163225abbdfaf4fca28b2611df167beba4feef89'
+require_line Dockerfile.dapper 'ARG GO_SHA256_arm64=d0507e9e9d7fe012aae570108cbd76c15de879e17130ab8cb90d4d7445cb1f2e'
+require_line ubuntu-apt.lock "UBUNTU_APT_SNAPSHOT='20260808T000000Z'"
+require_line ubuntu-apt.lock "UBUNTU_APT_GCC_VERSION='4:15.2.0-5ubuntu1'"
+require_line .python-version '3.14.6'
+require_line tests/integration/requirements.txt 'pytest==9.1.1'
+require_line tests/integration/requirements.txt 'setuptools==84.0.0'
+require_line .github/workflows/security-release-gate.yml '      PLATFORM_COMPAT_JAR_URL: https://github.com/PastureStack/orchestration-engine/releases/download/v0.183.281/orchestration-engine-0.183.281.jar'
+require_line .github/workflows/security-release-gate.yml '      PLATFORM_COMPAT_JAR_SHA256: da2a8a51562ed16e296f7e29e99482bb44042ff0834cca679bbe01d951ba1682'
+require_line lookup/file.go $'\t\troot, err := os.OpenRoot(allowedRoot)'
+require_line lookup/file_test.go 'func TestConfiguredFileLookupRejectsEscapes(t *testing.T) {'
+require_line config/resource_boundary_test.go 'func TestInMemoryComposeCannotReadExecutorHostEnvFile(t *testing.T) {'
+require_line platformapi/secret.go $'\trelativeTo := secretResourceBase(s.context.ComposeFiles)'
+require_line platformapi/secret_test.go 'func TestSecretUsesFirstComposeFileAsResourceBase(t *testing.T) {'
+
+if grep -Eq 'DOCKER_VERSION|download\.docker\.com|DAPPER_DOCKER_SOCKET|/var/run/docker\.sock' \
+    Dockerfile.dapper Makefile; then
+    fail unused_docker_cli_or_socket_present
+fi
+if grep -F -- '--volume /var/run/docker.sock' .github/workflows/security-release-gate.yml; then
+    fail dapper_run_socket_present
+fi
+
+if grep -F 'ioutil.ReadFile(file)' lookup/file.go; then
+    fail unsafe_resource_read_present
+fi
+
+if grep -RIn --exclude-dir='.git' --exclude='check-pasturestack-source' \
+    'github.com/docker/libcompose' .; then
+    fail archived_compose_dependency_present
+fi
+test ! -d vendor/github.com/docker/libcompose || fail archived_compose_vendor_tree_present
+
+if grep -RIn --include='*.go' --exclude='system_images.go' --exclude='*_test.go' \
+    -E '"rancher/(load-balancer-service|dns-service|external-service)"' \
+    config platformapi; then
+    fail legacy_system_image_used_outside_compatibility_boundary
+fi
+
+require_line README.md 'PastureStack is an independent community effort to preserve, audit, and modernize the Rancher 1.6 ecosystem. It is not affiliated with or endorsed by Rancher Labs or SUSE.'
+require_line ORIGIN.md '- Migration model: unchanged upstream history followed by one PastureStack maintenance commit'
+
+printf 'PASTURESTACK_COMPOSE_SOURCE_GATE_OK system_images=ghcr archived_compose_dependency=absent local_resource_boundary=root_scoped unused_docker_cli=absent ubuntu=26.04 apt_snapshot=20260808 go=1.26.6 python=3.14.6\n'

@@ -5,6 +5,10 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/PastureStack/compose-cli/config"
+	"github.com/PastureStack/compose-cli/project"
+	"github.com/PastureStack/compose-cli/utils"
+	"github.com/PastureStack/compose-cli/yaml"
 	"github.com/docker/docker/api/types/blkiodev"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/network"
@@ -12,10 +16,6 @@ import (
 	"github.com/docker/docker/runconfig/opts"
 	"github.com/docker/go-connections/nat"
 	"github.com/docker/go-units"
-	"github.com/docker/libcompose/utils"
-	"github.com/rancher/rancher-compose-executor/config"
-	"github.com/rancher/rancher-compose-executor/project"
-	"github.com/rancher/rancher-compose-executor/yaml"
 )
 
 // ConfigWrapper wraps Config, HostConfig and NetworkingConfig for a container.

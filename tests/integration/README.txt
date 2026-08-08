@@ -1,1 +1,1 @@
-Integration tests for rancher cli
+Integration tests for the PastureStack Compose CLI compatibility layer

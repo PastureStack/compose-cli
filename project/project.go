@@ -7,21 +7,20 @@ import (
 
 	"golang.org/x/net/context"
 
-	log "github.com/Sirupsen/logrus"
-	"github.com/docker/libcompose/logger"
-	"github.com/docker/libcompose/utils"
-	"github.com/rancher/rancher-compose-executor/config"
-	"github.com/rancher/rancher-compose-executor/lookup"
-	"github.com/rancher/rancher-compose-executor/project/events"
-	"github.com/rancher/rancher-compose-executor/project/options"
-	"github.com/rancher/rancher-compose-executor/template"
-	rUtils "github.com/rancher/rancher-compose-executor/utils"
+	"github.com/PastureStack/compose-cli/config"
+	"github.com/PastureStack/compose-cli/logging"
+	"github.com/PastureStack/compose-cli/lookup"
+	"github.com/PastureStack/compose-cli/project/events"
+	"github.com/PastureStack/compose-cli/project/options"
+	"github.com/PastureStack/compose-cli/template"
+	rUtils "github.com/PastureStack/compose-cli/utils"
+	log "github.com/sirupsen/logrus"
 )
 
 type wrapperAction func(*serviceWrapper, map[string]*serviceWrapper)
 type serviceAction func(service Service) error
 
-// Project holds libcompose project information.
+// Project holds Compose project information.
 type Project struct {
 	Name              string
 	ServiceConfigs    *config.ServiceConfigs
@@ -58,11 +57,11 @@ func NewProject(context *Context) *Project {
 	}
 
 	if context.LoggerFactory == nil {
-		context.LoggerFactory = &logger.NullLogger{}
+		context.LoggerFactory = &logging.NullLogger{}
 	}
 
 	if context.ResourceLookup == nil {
-		context.ResourceLookup = &lookup.FileResourceLookup{}
+		context.ResourceLookup = lookup.NewFileResourceLookup(context.ComposeFiles...)
 	}
 
 	context.Project = p
@@ -304,7 +303,7 @@ func (p *Project) startService(wrappers map[string]*serviceWrapper, history []st
 			return fmt.Errorf("Service '%s' has a link to service '%s' which is undefined", wrapper.name, dep.Target)
 		}
 
-		if utils.Contains(history, dep.Target) {
+		if rUtils.Contains(history, dep.Target) {
 			cycle := strings.Join(append(history, dep.Target), "->")
 			if dep.Optional {
 				log.Debugf("Ignoring cycle for %s", cycle)

@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/docker/docker/api/types/strslice"
 	"github.com/docker/go-units"
+	"github.com/sirupsen/logrus"
 )
 
 // StringorInt represents a string or an integer.

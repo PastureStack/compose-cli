@@ -3,7 +3,7 @@ package project
 import (
 	"golang.org/x/net/context"
 
-	"github.com/rancher/rancher-compose-executor/config"
+	"github.com/PastureStack/compose-cli/config"
 )
 
 type Volumes interface {
