@@ -44,7 +44,8 @@ require_line Dockerfile.dapper 'ARG GO_SHA256_amd64=675c26c449cbb18fc24b74650de1
 require_line Dockerfile.dapper 'ARG GO_SHA256_arm64=51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda'
 require_line Dockerfile.dapper '    GO111MODULE=on \'
 require_line Dockerfile.dapper '    GOFLAGS=-mod=vendor \'
-require_line go.mod 'go 1.27'
+require_line go.mod 'go 1.26.0'
+require_line go.mod 'toolchain go1.27.0'
 require_line go.mod $'\tgithub.com/aws/aws-sdk-go-v2 v1.43.7'
 require_line go.mod $'\tgithub.com/aws/aws-sdk-go-v2/service/s3 v1.107.3'
 require_line go.mod $'\tgithub.com/moby/moby/api v1.55.0'
@@ -108,4 +109,4 @@ fi
 require_line README.md 'PastureStack is an independent community effort to preserve, audit, and modernize the Rancher 1.6 ecosystem. It is not affiliated with or endorsed by Rancher Labs or SUSE.'
 require_line ORIGIN.md '- Migration model: unchanged upstream history followed by one PastureStack maintenance commit'
 
-printf 'PASTURESTACK_COMPOSE_SOURCE_GATE_OK modules=vendor aws_sdk=v2 moby_api=1.55.0 archived_go_dependencies=absent system_images=ghcr local_resource_boundary=root_scoped unused_docker_cli=absent ubuntu=26.04 apt_snapshot=20260808 go=1.27.0 python=3.14.7\n'
+printf 'PASTURESTACK_COMPOSE_SOURCE_GATE_OK modules=vendor aws_sdk=v2 moby_api=1.55.0 archived_go_dependencies=absent system_images=ghcr local_resource_boundary=root_scoped unused_docker_cli=absent ubuntu=26.04 apt_snapshot=20260808 language_floor=1.26.0 toolchain=1.27.0 python=3.14.7\n'
