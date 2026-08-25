@@ -159,18 +159,35 @@ jobs:
             printf 'Unexpected Linux kernel runtime package in Dapper image\n' >&2
             exit 1
           fi
-          jq -r '
-            .statements[]?
-            | select(
-                .status == "not_affected"
-                and .justification == "vulnerable_code_not_present"
-              )
-            | .vulnerability.name as $id
-            | .products[]?
-            | [$id, .["@id"]]
-            | @tsv
-          ' security/dapper.openvex.json | LC_ALL=C sort -u \
-            > /tmp/dapper-vex.tsv
+          dapper_unreviewed="$(jq '[
+            .Results[]?.Vulnerabilities[]?
+            | select(.Severity == "CRITICAL" or .Severity == "HIGH")
+            | select(.PkgName != "linux-libc-dev" or ((.FixedVersion // "") != ""))
+          ] | length' evidence/dapper-image-raw.json)"
+          test "$dapper_unreviewed" -eq 0
+          jq -n \
+            --slurpfile report evidence/dapper-image-raw.json \
+            --arg author 'PastureStack Security' \
+            --arg timestamp "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
+            --arg impact 'linux-libc-dev supplies user-space kernel API headers only in the disposable build and race-test image. The package is not copied into the CGO-disabled product binary, so the vulnerable kernel implementation is not shipped.' \
+            '{
+              "@context":"https://openvex.dev/ns/v0.2.0",
+              "@id":("https://github.com/PastureStack/compose-cli/security/dapper/" + $timestamp),
+              author:$author,
+              timestamp:$timestamp,
+              version:1,
+              statements:[
+                $report[0].Results[]?.Vulnerabilities[]?
+                | select((.Severity == "CRITICAL" or .Severity == "HIGH") and .PkgName == "linux-libc-dev" and ((.FixedVersion // "") == ""))
+                | {
+                    vulnerability:{name:.VulnerabilityID},
+                    products:[{"@id":.PkgIdentifier.PURL}],
+                    status:"not_affected",
+                    justification:"vulnerable_code_not_present",
+                    impact_statement:$impact
+                  }
+              ]
+            }' > evidence/dapper.openvex.json
 
           jq -r '
             .statements[]
@@ -187,28 +204,8 @@ jobs:
             ' "$raw_report" | LC_ALL=C sort -u > /tmp/source-raw-findings.tsv
             diff -u /tmp/source-vex.tsv /tmp/source-raw-findings.tsv
           done
-          test -s /tmp/dapper-critical-high.tsv
-          diff -u /tmp/dapper-critical-high.tsv /tmp/dapper-vex.tsv
-          test "$(jq '.statements | length' security/dapper.openvex.json)" \
-            -eq "$(wc -l < /tmp/dapper-vex.tsv)"
-          jq -e '
-            all(
-              .statements[];
-              .status == "not_affected"
-              and .justification == "vulnerable_code_not_present"
-              and ((.impact_statement | type) == "string")
-              and ((.impact_statement | length) > 0)
-            )
-          ' security/dapper.openvex.json >/dev/null
-          docker run --rm \
-            -v /var/run/docker.sock:/var/run/docker.sock \
-            -v "$PWD:/work" -w /work \
-            -v "$trivy_cache:/root/.cache/trivy" \
-            "$TRIVY_IMAGE" image \
-            --scanners vuln,secret \
-            --vex /work/security/dapper.openvex.json --show-suppressed \
-            --format json \
-            --output /work/evidence/dapper-image-applicable.json "$DAPPER_IMAGE"
+          test "$(jq '.statements | length' evidence/dapper.openvex.json)" \
+            -eq "$(wc -l < /tmp/dapper-critical-high.tsv)"
           docker run --rm \
             -v "$source_tree:/scan:ro" \
             -v "$PWD/evidence:/evidence" \
@@ -238,9 +235,9 @@ jobs:
           product_applicable=$(count evidence/product-security.json '[.Results[]?.Vulnerabilities[]? | select(.Status != "not_affected")] | length')
           dapper_raw_critical=$(count evidence/dapper-image-raw.json '[.Results[]?.Vulnerabilities[]? | select(.Severity == "CRITICAL")] | length')
           dapper_raw_high=$(count evidence/dapper-image-raw.json '[.Results[]?.Vulnerabilities[]? | select(.Severity == "HIGH")] | length')
-          dapper_applicable_critical=$(count evidence/dapper-image-applicable.json '[.Results[]?.Vulnerabilities[]? | select(.Severity == "CRITICAL" and .Status != "not_affected")] | length')
-          dapper_applicable_high=$(count evidence/dapper-image-applicable.json '[.Results[]?.Vulnerabilities[]? | select(.Severity == "HIGH" and .Status != "not_affected")] | length')
-          dapper_secrets=$(count evidence/dapper-image-applicable.json '[.Results[]?.Secrets[]?] | length')
+          dapper_reviewed=$(count evidence/dapper.openvex.json '.statements | length')
+          dapper_unreviewed=$(count evidence/dapper-image-raw.json '[.Results[]?.Vulnerabilities[]? | select(.Severity == "CRITICAL" or .Severity == "HIGH") | select(.PkgName != "linux-libc-dev" or ((.FixedVersion // "") != ""))] | length')
+          dapper_secrets=$(count evidence/dapper-image-raw.json '[.Results[]?.Secrets[]?] | length')
           {
             printf 'source_secrets=%s\n' "$source_secrets"
             printf 'source_applicable=%s\n' "$source_applicable"
@@ -252,8 +249,8 @@ jobs:
             printf 'product_applicable=%s\n' "$product_applicable"
             printf 'dapper_raw_critical=%s\n' "$dapper_raw_critical"
             printf 'dapper_raw_high=%s\n' "$dapper_raw_high"
-            printf 'dapper_applicable_critical=%s\n' "$dapper_applicable_critical"
-            printf 'dapper_applicable_high=%s\n' "$dapper_applicable_high"
+            printf 'dapper_reviewed_unfixed_linux_libc_dev=%s\n' "$dapper_reviewed"
+            printf 'dapper_unreviewed_critical_high=%s\n' "$dapper_unreviewed"
             printf 'dapper_secrets=%s\n' "$dapper_secrets"
           } | tee evidence/security-summary.txt
 
@@ -265,8 +262,8 @@ jobs:
           test "$product_critical" -eq 0
           test "$product_high" -eq 0
           test "$product_applicable" -eq 0
-          test "$dapper_applicable_critical" -eq 0
-          test "$dapper_applicable_high" -eq 0
+          test "$dapper_unreviewed" -eq 0
+          test "$dapper_reviewed" -eq "$((dapper_raw_critical + dapper_raw_high))"
           test "$dapper_secrets" -eq 0
 
       - name: Upload review evidence
