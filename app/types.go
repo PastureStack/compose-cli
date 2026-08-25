@@ -1,8 +1,8 @@
 package app
 
 import (
+	cli "github.com/PastureStack/compose-cli/internal/legacycli"
 	"github.com/PastureStack/compose-cli/project"
-	"github.com/urfave/cli"
 )
 
 type ProjectFactory interface {

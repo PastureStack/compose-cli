@@ -1,7 +1,7 @@
 package project
 
 import (
-	"golang.org/x/net/context"
+	"context"
 
 	"github.com/PastureStack/compose-cli/config"
 )

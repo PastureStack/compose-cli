@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/docker/docker/api/types/strslice"
 	"github.com/docker/go-units"
+	"github.com/moby/moby/api/types/strslice"
 	"github.com/sirupsen/logrus"
 )
 

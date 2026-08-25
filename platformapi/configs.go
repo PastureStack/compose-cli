@@ -8,10 +8,10 @@ import (
 
 	"github.com/PastureStack/compose-cli/config"
 	"github.com/PastureStack/compose-cli/convert"
+	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
 	"github.com/PastureStack/compose-cli/utils"
 	"github.com/PastureStack/compose-cli/yaml"
-	"github.com/docker/docker/api/types/container"
-	"github.com/rancher/go-rancher/v2"
+	"github.com/moby/moby/api/types/container"
 	"github.com/sirupsen/logrus"
 )
 

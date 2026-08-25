@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/PastureStack/compose-cli/project"
-	"github.com/docker/docker/api/types/container"
+	"github.com/moby/moby/api/types/container"
 )
 
 // DefaultDependentServices return the dependent services (as an array of ServiceRelationship)

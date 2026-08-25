@@ -3,7 +3,7 @@ package platformapi
 import (
 	"time"
 
-	"github.com/rancher/go-rancher/v2"
+	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
 )
 
 func (r *PlatformService) WaitFor(resource *client.Resource, output interface{}, transitioning func() string) error {

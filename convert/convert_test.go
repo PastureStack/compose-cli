@@ -1,6 +1,7 @@
 package convert
 
 import (
+	"encoding/json"
 	"path/filepath"
 	"reflect"
 	"testing"
@@ -9,9 +10,10 @@ import (
 	"github.com/PastureStack/compose-cli/lookup"
 	"github.com/PastureStack/compose-cli/project"
 	"github.com/PastureStack/compose-cli/yaml"
-	"github.com/docker/docker/api/types/blkiodev"
-	"github.com/docker/docker/api/types/container"
-	shlex "github.com/flynn/go-shlex"
+	"github.com/google/shlex"
+	"github.com/moby/moby/api/types/blkiodev"
+	"github.com/moby/moby/api/types/container"
+	"github.com/moby/moby/api/types/network"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -122,7 +124,7 @@ func TestBlkioWeightDevices(t *testing.T) {
 	assert.Nil(t, err)
 
 	assert.True(t, reflect.DeepEqual([]*blkiodev.WeightDevice{
-		&blkiodev.WeightDevice{
+		{
 			Path:   "/dev/sda",
 			Weight: 10,
 		},
@@ -155,6 +157,36 @@ func TestDNSOpt(t *testing.T) {
 		"use-vc",
 		"no-tld-query",
 	}, hostCfg.DNSOptions))
+}
+
+func TestDNSAddressesUseModernMobyTypes(t *testing.T) {
+	_, hostCfg, err := Convert(&config.ServiceConfig{
+		DNS: []string{"1.1.1.1", "2001:4860:4860::8888"},
+	}, project.Context{})
+	assert.NoError(t, err)
+	assert.Equal(t, "1.1.1.1", hostCfg.DNS[0].String())
+	assert.Equal(t, "2001:4860:4860::8888", hostCfg.DNS[1].String())
+
+	_, _, err = Convert(&config.ServiceConfig{DNS: []string{"not-an-ip"}}, project.Context{})
+	assert.ErrorContains(t, err, "invalid DNS address")
+}
+
+func TestPortsAndLegacyMACRemainInTransformContract(t *testing.T) {
+	cfg, hostCfg, err := Convert(&config.ServiceConfig{
+		Ports:      []string{"127.0.0.1:18080:8080/tcp"},
+		MacAddress: "02:42:ac:11:00:02",
+	}, project.Context{})
+	assert.NoError(t, err)
+
+	port, err := network.ParsePort("8080/tcp")
+	assert.NoError(t, err)
+	assert.Contains(t, cfg.ExposedPorts, port)
+	assert.Equal(t, "127.0.0.1", hostCfg.PortBindings[port][0].HostIP.String())
+	assert.Equal(t, "18080", hostCfg.PortBindings[port][0].HostPort)
+
+	encoded, err := json.Marshal(cfg)
+	assert.NoError(t, err)
+	assert.Contains(t, string(encoded), `"MacAddress":"02:42:ac:11:00:02"`)
 }
 
 func TestInit(t *testing.T) {
@@ -294,7 +326,7 @@ func TestBlkioDeviceReadBps(t *testing.T) {
 	assert.Nil(t, err)
 
 	assert.True(t, reflect.DeepEqual([]*blkiodev.ThrottleDevice{
-		&blkiodev.ThrottleDevice{
+		{
 			Path: "/dev/sda",
 			Rate: 100000,
 		},
@@ -312,7 +344,7 @@ func TestBlkioDeviceReadIOps(t *testing.T) {
 	assert.Nil(t, err)
 
 	assert.True(t, reflect.DeepEqual([]*blkiodev.ThrottleDevice{
-		&blkiodev.ThrottleDevice{
+		{
 			Path: "/dev/sda",
 			Rate: 100000,
 		},
@@ -330,7 +362,7 @@ func TestBlkioDeviceWriteBps(t *testing.T) {
 	assert.Nil(t, err)
 
 	assert.True(t, reflect.DeepEqual([]*blkiodev.ThrottleDevice{
-		&blkiodev.ThrottleDevice{
+		{
 			Path: "/dev/sda",
 			Rate: 100000,
 		},
@@ -348,7 +380,7 @@ func TestBlkioDeviceWriteIOps(t *testing.T) {
 	assert.Nil(t, err)
 
 	assert.True(t, reflect.DeepEqual([]*blkiodev.ThrottleDevice{
-		&blkiodev.ThrottleDevice{
+		{
 			Path: "/dev/sda",
 			Rate: 100000,
 		},

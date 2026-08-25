@@ -1,7 +1,7 @@
 package platformapi
 
 import (
-	"golang.org/x/net/context"
+	"context"
 
 	"github.com/PastureStack/compose-cli/config"
 	"github.com/PastureStack/compose-cli/project"

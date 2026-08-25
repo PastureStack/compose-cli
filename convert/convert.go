@@ -2,6 +2,7 @@ package convert
 
 import (
 	"fmt"
+	"net/netip"
 	"strconv"
 	"strings"
 
@@ -9,20 +10,28 @@ import (
 	"github.com/PastureStack/compose-cli/project"
 	"github.com/PastureStack/compose-cli/utils"
 	"github.com/PastureStack/compose-cli/yaml"
-	"github.com/docker/docker/api/types/blkiodev"
-	"github.com/docker/docker/api/types/container"
-	"github.com/docker/docker/api/types/network"
-	"github.com/docker/docker/api/types/strslice"
-	"github.com/docker/docker/runconfig/opts"
 	"github.com/docker/go-connections/nat"
 	"github.com/docker/go-units"
+	"github.com/moby/moby/api/types/blkiodev"
+	"github.com/moby/moby/api/types/container"
+	"github.com/moby/moby/api/types/network"
+	"github.com/moby/moby/api/types/strslice"
 )
 
 // ConfigWrapper wraps Config, HostConfig and NetworkingConfig for a container.
 type ConfigWrapper struct {
-	Config           *container.Config
+	Config           *DockerConfig
 	HostConfig       *container.HostConfig
 	NetworkingConfig *network.NetworkingConfig
+}
+
+// DockerConfig preserves the legacy MacAddress JSON field expected by the
+// Rancher transform endpoint while using the maintained Moby API structures.
+// Modern Docker moved this value to endpoint settings, but the transform
+// contract still consumes the historical container-config shape.
+type DockerConfig struct {
+	container.Config
+	MacAddress string `json:"MacAddress,omitempty"`
 }
 
 // Filter filters the specified string slice with the specified function.
@@ -85,15 +94,27 @@ func volumes(c *config.ServiceConfig, ctx project.Context) []string {
 }
 
 func restartPolicy(c *config.ServiceConfig) (*container.RestartPolicy, error) {
-	restart, err := opts.ParseRestartPolicy(c.Restart)
-	if err != nil {
-		return nil, err
+	policy := &container.RestartPolicy{}
+	if c.Restart == "" {
+		return policy, nil
 	}
-	return &container.RestartPolicy{Name: restart.Name, MaximumRetryCount: restart.MaximumRetryCount}, nil
+	parts := strings.Split(c.Restart, ":")
+	if len(parts) > 2 {
+		return nil, fmt.Errorf("invalid restart policy format")
+	}
+	policy.Name = container.RestartPolicyMode(parts[0])
+	if len(parts) == 2 {
+		count, err := strconv.Atoi(parts[1])
+		if err != nil {
+			return nil, fmt.Errorf("maximum retry count must be an integer")
+		}
+		policy.MaximumRetryCount = count
+	}
+	return policy, nil
 }
 
-func ports(c *config.ServiceConfig) (map[nat.Port]struct{}, nat.PortMap, error) {
-	ports, binding, err := nat.ParsePortSpecs(c.Ports)
+func ports(c *config.ServiceConfig) (network.PortSet, network.PortMap, error) {
+	parsedPorts, binding, err := nat.ParsePortSpecs(c.Ports)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -103,34 +124,60 @@ func ports(c *config.ServiceConfig) (map[nat.Port]struct{}, nat.PortMap, error) 
 		return nil, nil, err
 	}
 
-	for k, v := range exPorts {
-		ports[k] = v
+	for port, value := range exPorts {
+		parsedPorts[port] = value
 	}
 
-	exposedPorts := map[nat.Port]struct{}{}
-	for k, v := range ports {
-		exposedPorts[nat.Port(k)] = v
-	}
-
-	portBindings := nat.PortMap{}
-	for k, bv := range binding {
-		dcbs := make([]nat.PortBinding, len(bv))
-		for k, v := range bv {
-			dcbs[k] = nat.PortBinding{HostIP: v.HostIP, HostPort: v.HostPort}
+	exposedPorts := network.PortSet{}
+	portBindings := network.PortMap{}
+	for port, value := range parsedPorts {
+		apiPort, err := network.ParsePort(string(port))
+		if err != nil {
+			return nil, nil, err
 		}
-		portBindings[nat.Port(k)] = dcbs
+		exposedPorts[apiPort] = value
+		for _, binding := range binding[port] {
+			var hostIP netip.Addr
+			if binding.HostIP != "" {
+				hostIP, err = netip.ParseAddr(binding.HostIP)
+				if err != nil {
+					return nil, nil, fmt.Errorf("invalid host IP %q: %w", binding.HostIP, err)
+				}
+			}
+			portBindings[apiPort] = append(portBindings[apiPort], network.PortBinding{
+				HostIP:   hostIP,
+				HostPort: binding.HostPort,
+			})
+		}
 	}
 	return exposedPorts, portBindings, nil
 }
 
+func parseDNS(values []string) ([]netip.Addr, error) {
+	addresses := make([]netip.Addr, 0, len(values))
+	for _, value := range values {
+		address, err := netip.ParseAddr(value)
+		if err != nil {
+			return nil, fmt.Errorf("invalid DNS address %q: %w", value, err)
+		}
+		addresses = append(addresses, address)
+	}
+	return addresses, nil
+}
+
 // Convert converts a service configuration to an docker API structures (Config and HostConfig)
-func Convert(c *config.ServiceConfig, ctx project.Context) (*container.Config, *container.HostConfig, error) {
+func Convert(c *config.ServiceConfig, ctx project.Context) (*DockerConfig, *container.HostConfig, error) {
 	restartPolicy, err := restartPolicy(c)
 	if err != nil {
 		return nil, nil, err
 	}
 
 	exposedPorts, portBindings, err := ports(c)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	dns, err := parseDNS(c.DNS)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -150,23 +197,25 @@ func Convert(c *config.ServiceConfig, ctx project.Context) (*container.Config, *
 
 	vols := volumes(c, ctx)
 
-	config := &container.Config{
-		Entrypoint:   strslice.StrSlice(utils.CopySlice(c.Entrypoint)),
-		Hostname:     c.Hostname,
-		Domainname:   c.DomainName,
-		User:         c.User,
-		Env:          utils.CopySlice(c.Environment),
-		Cmd:          strslice.StrSlice(utils.CopySlice(c.Command)),
-		Image:        c.Image,
-		Labels:       utils.CopyMap(c.Labels),
-		ExposedPorts: exposedPorts,
-		Tty:          c.Tty,
-		OpenStdin:    c.StdinOpen,
-		WorkingDir:   c.WorkingDir,
-		Volumes:      toMap(Filter(vols, isVolume)),
-		MacAddress:   c.MacAddress,
-		StopSignal:   c.StopSignal,
-		StopTimeout:  &[]int{int(c.StopGracePeriod)}[0],
+	config := &DockerConfig{
+		Config: container.Config{
+			Entrypoint:   strslice.StrSlice(utils.CopySlice(c.Entrypoint)),
+			Hostname:     c.Hostname,
+			Domainname:   c.DomainName,
+			User:         c.User,
+			Env:          utils.CopySlice(c.Environment),
+			Cmd:          strslice.StrSlice(utils.CopySlice(c.Command)),
+			Image:        c.Image,
+			Labels:       utils.CopyMap(c.Labels),
+			ExposedPorts: exposedPorts,
+			Tty:          c.Tty,
+			OpenStdin:    c.StdinOpen,
+			WorkingDir:   c.WorkingDir,
+			Volumes:      toMap(Filter(vols, isVolume)),
+			StopSignal:   c.StopSignal,
+			StopTimeout:  &[]int{int(c.StopGracePeriod)}[0],
+		},
+		MacAddress: c.MacAddress,
 	}
 
 	ulimits := []*units.Ulimit{}
@@ -256,7 +305,7 @@ func Convert(c *config.ServiceConfig, ctx project.Context) (*container.Config, *
 		ExtraHosts:  utils.CopySlice(c.ExtraHosts),
 		Privileged:  c.Privileged,
 		Binds:       Filter(vols, isBind),
-		DNS:         utils.CopySlice(c.DNS),
+		DNS:         dns,
 		DNSOptions:  utils.CopySlice(c.DNSOpt),
 		DNSSearch:   utils.CopySlice(c.DNSSearch),
 		Init:        &c.Init,
@@ -328,16 +377,50 @@ func parseDevices(devices []string) ([]container.DeviceMapping, error) {
 	// parse device mappings
 	deviceMappings := []container.DeviceMapping{}
 	for _, device := range devices {
-		v, err := opts.ParseDevice(device)
+		v, err := parseDevice(device)
 		if err != nil {
 			return nil, err
 		}
-		deviceMappings = append(deviceMappings, container.DeviceMapping{
-			PathOnHost:        v.PathOnHost,
-			PathInContainer:   v.PathInContainer,
-			CgroupPermissions: v.CgroupPermissions,
-		})
+		deviceMappings = append(deviceMappings, v)
 	}
 
 	return deviceMappings, nil
+}
+
+func parseDevice(device string) (container.DeviceMapping, error) {
+	parts := strings.Split(device, ":")
+	if len(parts) == 0 || len(parts) > 3 || parts[0] == "" {
+		return container.DeviceMapping{}, fmt.Errorf("invalid device specification: %s", device)
+	}
+	source := parts[0]
+	destination := source
+	permissions := "rwm"
+	if len(parts) >= 2 {
+		if validDeviceMode(parts[1]) {
+			permissions = parts[1]
+		} else if parts[1] != "" {
+			destination = parts[1]
+		}
+	}
+	if len(parts) == 3 {
+		permissions = parts[2]
+	}
+	if !validDeviceMode(permissions) {
+		return container.DeviceMapping{}, fmt.Errorf("invalid device mode: %s", permissions)
+	}
+	return container.DeviceMapping{PathOnHost: source, PathInContainer: destination, CgroupPermissions: permissions}, nil
+}
+
+func validDeviceMode(mode string) bool {
+	if mode == "" {
+		return false
+	}
+	seen := map[rune]bool{}
+	for _, value := range mode {
+		if (value != 'r' && value != 'w' && value != 'm') || seen[value] {
+			return false
+		}
+		seen[value] = true
+	}
+	return true
 }

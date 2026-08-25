@@ -7,18 +7,17 @@ import (
 	"strings"
 
 	"github.com/PastureStack/compose-cli/config"
-	legacyClient "github.com/rancher/go-rancher/client"
-	"github.com/rancher/go-rancher/v2"
+	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
 )
 
 func populateLbFields(r *PlatformService, launchConfig *client.LaunchConfig, service *CompositeService) error {
 	serviceType := FindServiceType(r)
 
-	config := r.serviceConfig
-	if serviceType == PlatformType && config.LbConfig != nil {
+	serviceConfig := r.serviceConfig
+	if serviceType == PlatformType && serviceConfig.LbConfig != nil {
 		service.LbConfig = &client.LbTargetConfig{}
 		service.LbConfig.PortRules = []client.TargetPortRule{}
-		for _, portRule := range config.LbConfig.PortRules {
+		for _, portRule := range serviceConfig.LbConfig.PortRules {
 			service.LbConfig.PortRules = append(service.LbConfig.PortRules, client.TargetPortRule{
 				BackendName: portRule.BackendName,
 				Hostname:    portRule.Hostname,
@@ -34,17 +33,17 @@ func populateLbFields(r *PlatformService, launchConfig *client.LaunchConfig, ser
 
 	if serviceType == LegacyLbServiceType {
 		existingHAProxyConfig := ""
-		var legacyStickinessPolicy *legacyClient.LoadBalancerCookieStickinessPolicy
-		if config.LegacyLoadBalancerConfig != nil {
-			legacyStickinessPolicy = config.LegacyLoadBalancerConfig.LbCookieStickinessPolicy
-			if config.LegacyLoadBalancerConfig.HaproxyConfig != nil {
-				existingHAProxyConfig = generateHAProxyConf(config.LegacyLoadBalancerConfig.HaproxyConfig.Global, config.LegacyLoadBalancerConfig.HaproxyConfig.Defaults)
+		var legacyStickinessPolicy *config.LegacyLoadBalancerCookieStickinessPolicy
+		if serviceConfig.LegacyLoadBalancerConfig != nil {
+			legacyStickinessPolicy = serviceConfig.LegacyLoadBalancerConfig.LbCookieStickinessPolicy
+			if serviceConfig.LegacyLoadBalancerConfig.HaproxyConfig != nil {
+				existingHAProxyConfig = generateHAProxyConf(serviceConfig.LegacyLoadBalancerConfig.HaproxyConfig.Global, serviceConfig.LegacyLoadBalancerConfig.HaproxyConfig.Defaults)
 			}
 		}
 		service.RealLbConfig = &client.LbConfig{
-			CertificateIds:       config.Certs,
+			CertificateIds:       serviceConfig.Certs,
 			Config:               string(existingHAProxyConfig),
-			DefaultCertificateId: config.DefaultCert,
+			DefaultCertificateId: serviceConfig.DefaultCert,
 		}
 		if legacyStickinessPolicy != nil {
 			service.RealLbConfig.StickinessPolicy = &client.LoadBalancerCookieStickinessPolicy{
@@ -151,12 +150,12 @@ frontend %s
 		// Remove expose from config
 		launchConfig.Expose = nil
 
-		return populateCerts(r.context.Client, service, config.DefaultCert, config.Certs)
+		return populateCerts(r.context.Client, service, serviceConfig.DefaultCert, serviceConfig.Certs)
 	} else if serviceType == LbServiceType {
 		service.RealLbConfig = &client.LbConfig{
-			Config: config.LbConfig.Config,
+			Config: serviceConfig.LbConfig.Config,
 		}
-		stickinessPolicy := config.LbConfig.StickinessPolicy
+		stickinessPolicy := serviceConfig.LbConfig.StickinessPolicy
 		if stickinessPolicy != nil {
 			service.RealLbConfig.StickinessPolicy = &client.LoadBalancerCookieStickinessPolicy{
 				Name:     stickinessPolicy.Name,
@@ -168,7 +167,7 @@ frontend %s
 				Mode:     stickinessPolicy.Mode,
 			}
 		}
-		for _, portRule := range config.LbConfig.PortRules {
+		for _, portRule := range serviceConfig.LbConfig.PortRules {
 			finalPortRule := client.PortRule{
 				SourcePort:  int64(portRule.SourcePort),
 				Protocol:    portRule.Protocol,
@@ -200,7 +199,7 @@ frontend %s
 		launchConfig.Ports = r.serviceConfig.Ports
 		launchConfig.Expose = r.serviceConfig.Expose
 
-		return populateCerts(r.context.Client, service, config.LbConfig.DefaultCert, config.LbConfig.Certs)
+		return populateCerts(r.context.Client, service, serviceConfig.LbConfig.DefaultCert, serviceConfig.LbConfig.Certs)
 	}
 
 	return nil

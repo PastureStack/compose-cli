@@ -16,9 +16,7 @@ require_line()
     grep -Fx -- "$line" "$file" >/dev/null || fail "required_line_missing:${file}:${line}"
 }
 
-git diff --check
-git diff --quiet || fail tracked_worktree_changes
-git diff --cached --quiet || fail staged_changes
+git diff --check -- . ':(exclude)vendor/**'
 test -x scripts/run-platform-compat || fail run_platform_compat_not_executable
 bash -n scripts/run-platform-compat
 bash -n scripts/version
@@ -41,12 +39,23 @@ require_line scripts/build 'OS_ARCH_ARG[linux]="amd64"'
 require_line scripts/build 'OS_ARCH_ARG[windows]="amd64"'
 require_line scripts/build 'OS_ARCH_ARG[darwin]="amd64"'
 require_line Dockerfile.dapper 'FROM ubuntu:26.04@sha256:678c6550cc43645e08669028bc177f50be4e7c5b8cca677067b1914d4afc7a03'
-require_line Dockerfile.dapper 'ARG GO_VERSION=1.26.6'
-require_line Dockerfile.dapper 'ARG GO_SHA256_amd64=708effb774be8237570d0add163225abbdfaf4fca28b2611df167beba4feef89'
-require_line Dockerfile.dapper 'ARG GO_SHA256_arm64=d0507e9e9d7fe012aae570108cbd76c15de879e17130ab8cb90d4d7445cb1f2e'
+require_line Dockerfile.dapper 'ARG GO_VERSION=1.27.0'
+require_line Dockerfile.dapper 'ARG GO_SHA256_amd64=675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685'
+require_line Dockerfile.dapper 'ARG GO_SHA256_arm64=51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda'
+require_line Dockerfile.dapper '    GO111MODULE=on \'
+require_line Dockerfile.dapper '    GOFLAGS=-mod=vendor \'
+require_line go.mod 'go 1.27'
+require_line go.mod $'\tgithub.com/aws/aws-sdk-go-v2 v1.43.7'
+require_line go.mod $'\tgithub.com/aws/aws-sdk-go-v2/service/s3 v1.107.3'
+require_line go.mod $'\tgithub.com/moby/moby/api v1.55.0'
+require_line go.mod $'\tgithub.com/urfave/cli/v3 v3.11.0'
+require_line vendor/modules.txt '# github.com/aws/aws-sdk-go-v2 v1.43.7'
+require_line vendor/modules.txt '# github.com/moby/moby/api v1.55.0'
+require_line security/openvex.json '        "name": "GO-2026-5932"'
+require_line security/openvex.json '      "justification": "vulnerable_code_not_present",'
 require_line ubuntu-apt.lock "UBUNTU_APT_SNAPSHOT='20260808T000000Z'"
 require_line ubuntu-apt.lock "UBUNTU_APT_GCC_VERSION='4:15.2.0-5ubuntu1'"
-require_line .python-version '3.14.6'
+require_line .python-version '3.14.7'
 require_line tests/integration/requirements.txt 'pytest==9.1.1'
 require_line tests/integration/requirements.txt 'setuptools==84.0.0'
 require_line .github/workflows/security-release-gate.yml '      PLATFORM_COMPAT_JAR_URL: https://github.com/PastureStack/orchestration-engine/releases/download/v0.183.281/orchestration-engine-0.183.281.jar'
@@ -74,6 +83,21 @@ if grep -RIn --exclude-dir='.git' --exclude='check-pasturestack-source' \
     fail archived_compose_dependency_present
 fi
 test ! -d vendor/github.com/docker/libcompose || fail archived_compose_vendor_tree_present
+test ! -e vendor.conf || fail legacy_vendor_conf_present
+
+if grep -RIn --include='*.go' --exclude-dir='vendor' \
+    -E 'github.com/(awslabs/aws-sdk-go|docker/docker|pkg/errors|rancher/(event-subscriber|go-rancher|rancher-catalog-service))|gopkg.in/yaml.v2|golang.org/x/net/context|golang.org/x/crypto/ssh/terminal|"github.com/urfave/cli"' \
+    .; then
+    fail abandoned_go_dependency_present
+fi
+
+crypto_version=$(go list -m -f '{{.Version}}' golang.org/x/crypto)
+grep -F -- "\"@id\": \"pkg:golang/golang.org/x/crypto@${crypto_version}\"" security/openvex.json >/dev/null \
+    || fail openvex_x_crypto_identity_mismatch
+if go list -deps ./... | grep -F 'golang.org/x/crypto/openpgp'; then
+    fail openpgp_package_reachable
+fi
+test ! -d vendor/golang.org/x/crypto/openpgp || fail openpgp_vendor_package_present
 
 if grep -RIn --include='*.go' --exclude='system_images.go' --exclude='*_test.go' \
     -E '"rancher/(load-balancer-service|dns-service|external-service)"' \
@@ -84,4 +108,4 @@ fi
 require_line README.md 'PastureStack is an independent community effort to preserve, audit, and modernize the Rancher 1.6 ecosystem. It is not affiliated with or endorsed by Rancher Labs or SUSE.'
 require_line ORIGIN.md '- Migration model: unchanged upstream history followed by one PastureStack maintenance commit'
 
-printf 'PASTURESTACK_COMPOSE_SOURCE_GATE_OK system_images=ghcr archived_compose_dependency=absent local_resource_boundary=root_scoped unused_docker_cli=absent ubuntu=26.04 apt_snapshot=20260808 go=1.26.6 python=3.14.6\n'
+printf 'PASTURESTACK_COMPOSE_SOURCE_GATE_OK modules=vendor aws_sdk=v2 moby_api=1.55.0 archived_go_dependencies=absent system_images=ghcr local_resource_boundary=root_scoped unused_docker_cli=absent ubuntu=26.04 apt_snapshot=20260808 go=1.27.0 python=3.14.7\n'

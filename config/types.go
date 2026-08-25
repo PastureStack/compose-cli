@@ -3,9 +3,8 @@ package config
 import (
 	"sync"
 
+	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
 	"github.com/PastureStack/compose-cli/yaml"
-	legacyClient "github.com/rancher/go-rancher/client"
-	"github.com/rancher/go-rancher/v2"
 )
 
 // EnvironmentLookup defines methods to provides environment variable loading.
@@ -92,10 +91,10 @@ type ServiceConfigV1 struct {
 	ExtraHosts          []string                 `yaml:"extra_hosts,omitempty"`
 	Ulimits             yaml.Ulimits             `yaml:"ulimits,omitempty"`
 
-	LbConfig                 *LBConfig                        `yaml:"lb_config"`
-	LegacyLoadBalancerConfig *legacyClient.LoadBalancerConfig `yaml:"load_balancer_config,omitempty"`
-	DefaultCert              string                           `yaml:"default_cert,omitempty"`
-	Certs                    []string                         `yaml:"certs,omitempty"`
+	LbConfig                 *LBConfig                 `yaml:"lb_config"`
+	LegacyLoadBalancerConfig *LegacyLoadBalancerConfig `yaml:"load_balancer_config,omitempty"`
+	DefaultCert              string                    `yaml:"default_cert,omitempty"`
+	Certs                    []string                  `yaml:"certs,omitempty"`
 
 	Vcpu     yaml.StringorInt            `yaml:"vcpu,omitempty"`
 	Userdata string                      `yaml:"userdata,omitempty"`
@@ -201,10 +200,10 @@ type ServiceConfig struct {
 }
 
 type PlatformConfig struct {
-	LbConfig                 *LBConfig                        `yaml:"lb_config"`
-	LegacyLoadBalancerConfig *legacyClient.LoadBalancerConfig `yaml:"load_balancer_config,omitempty"`
-	DefaultCert              string                           `yaml:"default_cert,omitempty"`
-	Certs                    []string                         `yaml:"certs,omitempty"`
+	LbConfig                 *LBConfig                 `yaml:"lb_config"`
+	LegacyLoadBalancerConfig *LegacyLoadBalancerConfig `yaml:"load_balancer_config,omitempty"`
+	DefaultCert              string                    `yaml:"default_cert,omitempty"`
+	Certs                    []string                  `yaml:"certs,omitempty"`
 
 	Vcpu     yaml.StringorInt            `yaml:"vcpu,omitempty"`
 	Userdata string                      `yaml:"userdata,omitempty"`

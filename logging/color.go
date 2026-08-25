@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"sync"
 
-	"golang.org/x/crypto/ssh/terminal"
+	terminal "golang.org/x/term"
 )
 
 var colorOrder = []string{

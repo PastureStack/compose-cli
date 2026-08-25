@@ -8,8 +8,8 @@ import (
 	"reflect"
 	"sort"
 
+	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
 	rUtils "github.com/PastureStack/compose-cli/utils"
-	"github.com/rancher/go-rancher/v2"
 )
 
 const (

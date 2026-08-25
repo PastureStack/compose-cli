@@ -6,17 +6,15 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
-	"path"
 	"path/filepath"
 	"strings"
 
 	"github.com/PastureStack/compose-cli/project"
-	"github.com/docker/docker/builder"
-	"github.com/docker/docker/builder/dockerignore"
-	"github.com/docker/docker/pkg/archive"
-	"github.com/docker/docker/pkg/fileutils"
+	archive "github.com/moby/go-archive"
+	"github.com/moby/go-archive/compression"
+	"github.com/moby/patternmatcher"
+	"github.com/moby/patternmatcher/ignorefile"
 	"github.com/sirupsen/logrus"
 )
 
@@ -55,7 +53,7 @@ func createBuildArchive(p *project.Project, name string) (io.ReadSeeker, string,
 	}
 	defer tar.Close()
 
-	tempFile, err := ioutil.TempFile("", "")
+	tempFile, err := os.CreateTemp("", "pasturestack-compose-build-*.tar")
 	if err != nil {
 		return nil, "", err
 	}
@@ -74,7 +72,7 @@ func createBuildArchive(p *project.Project, name string) (io.ReadSeeker, string,
 		return nil, "", err
 	}
 
-	hexString := hex.EncodeToString(digest.Sum([]byte{}))
+	hexString := hex.EncodeToString(digest.Sum(nil))
 	_, err = tempFile.Seek(0, 0)
 	if err != nil {
 		tempFile.Close()
@@ -103,7 +101,7 @@ func createTar(contextDirectory, dockerfile string) (io.ReadCloser, error) {
 		// Just to be nice ;-) look for 'dockerfile' too but only
 		// use it if we found it, otherwise ignore this check
 		if _, err = os.Lstat(filename); os.IsNotExist(err) {
-			tmpFN := path.Join(absContextDirectory, strings.ToLower(dockerfileName))
+			tmpFN := filepath.Join(absContextDirectory, strings.ToLower(dockerfileName))
 			if _, err = os.Lstat(tmpFN); err == nil {
 				dockerfileName = strings.ToLower(dockerfileName)
 				filename = tmpFN
@@ -123,18 +121,18 @@ func createTar(contextDirectory, dockerfile string) (io.ReadCloser, error) {
 	}
 
 	// And canonicalize dockerfile name to a platform-independent one
-	dockerfileName, err = archive.CanonicalTarNameForPath(dockerfileName)
-	if err != nil {
-		return nil, fmt.Errorf("Cannot canonicalize dockerfile path %s: %v", dockerfileName, err)
+	dockerfileName = filepath.ToSlash(filepath.Clean(dockerfileName))
+	if dockerfileName == ".." || strings.HasPrefix(dockerfileName, "../") || filepath.IsAbs(dockerfileName) {
+		return nil, fmt.Errorf("dockerfile path %q escapes build context", dockerfileName)
 	}
 
 	if _, err = os.Lstat(filename); os.IsNotExist(err) {
-		return nil, fmt.Errorf("Cannot locate Dockerfile: %s", origDockerfile)
+		return nil, fmt.Errorf("cannot locate Dockerfile: %s", origDockerfile)
 	}
 	var includes = []string{"."}
 	var excludes []string
 
-	dockerIgnorePath := path.Join(contextDirectory, ".dockerignore")
+	dockerIgnorePath := filepath.Join(contextDirectory, ".dockerignore")
 	dockerIgnore, err := os.Open(dockerIgnorePath)
 	if err != nil {
 		if !os.IsNotExist(err) {
@@ -143,7 +141,8 @@ func createTar(contextDirectory, dockerfile string) (io.ReadCloser, error) {
 		logrus.Warnf("Error while reading .dockerignore (%s) : %s", dockerIgnorePath, err.Error())
 		excludes = make([]string, 0)
 	} else {
-		excludes, err = dockerignore.ReadAll(dockerIgnore)
+		defer dockerIgnore.Close()
+		excludes, err = ignorefile.ReadAll(dockerIgnore)
 		if err != nil {
 			return nil, err
 		}
@@ -155,18 +154,14 @@ func createTar(contextDirectory, dockerfile string) (io.ReadCloser, error) {
 	// .dockerignore is needed to know if either one needs to be
 	// removed.  The deamon will remove them for us, if needed, after it
 	// parses the Dockerfile.
-	keepThem1, _ := fileutils.Matches(".dockerignore", excludes)
-	keepThem2, _ := fileutils.Matches(dockerfileName, excludes)
+	keepThem1, _ := patternmatcher.MatchesOrParentMatches(".dockerignore", excludes)
+	keepThem2, _ := patternmatcher.MatchesOrParentMatches(dockerfileName, excludes)
 	if keepThem1 || keepThem2 {
 		includes = append(includes, ".dockerignore", dockerfileName)
 	}
 
-	if err := builder.ValidateContextDirectory(contextDirectory, excludes); err != nil {
-		return nil, fmt.Errorf("Error checking context is accessible: '%s'. Please check permissions and try again.", err)
-	}
-
 	options := &archive.TarOptions{
-		Compression:     archive.Uncompressed,
+		Compression:     compression.None,
 		ExcludePatterns: excludes,
 		IncludeFiles:    includes,
 	}

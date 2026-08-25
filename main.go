@@ -7,9 +7,9 @@ import (
 
 	composeApp "github.com/PastureStack/compose-cli/app"
 	"github.com/PastureStack/compose-cli/executor"
+	cli "github.com/PastureStack/compose-cli/internal/legacycli"
 	"github.com/PastureStack/compose-cli/version"
 	"github.com/sirupsen/logrus"
-	"github.com/urfave/cli"
 )
 
 func beforeApp(c *cli.Context) error {

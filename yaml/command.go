@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/docker/docker/api/types/strslice"
-	"github.com/flynn/go-shlex"
+	"github.com/google/shlex"
+	"github.com/moby/moby/api/types/strslice"
 )
 
 // Command represents a docker command, can be a string or an array of strings.

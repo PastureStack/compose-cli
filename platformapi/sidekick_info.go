@@ -1,10 +1,10 @@
 package platformapi
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/PastureStack/compose-cli/project"
-	"github.com/pkg/errors"
 )
 
 type SidekickInfo struct {
@@ -45,7 +45,7 @@ func NewSidekickInfo(project *project.Project) (*SidekickInfo, error) {
 		}
 		for sidekick, primaries := range result.sidekickToPrimaries {
 			if len(primaries) > 1 {
-				return nil, errors.Errorf("can't have more than one primary service %v referencing the same sidekick [%v]", primaries, sidekick)
+				return nil, fmt.Errorf("can't have more than one primary service %v referencing the same sidekick [%v]", primaries, sidekick)
 			}
 		}
 

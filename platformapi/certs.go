@@ -3,7 +3,7 @@ package platformapi
 import (
 	"fmt"
 
-	"github.com/rancher/go-rancher/v2"
+	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
 )
 
 func populateCerts(apiClient *client.RancherClient, lbService *CompositeService, defaultCert string, certs []string) error {

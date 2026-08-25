@@ -1,8 +1,8 @@
 package project
 
 import (
+	"context"
 	"github.com/PastureStack/compose-cli/config"
-	"golang.org/x/net/context"
 )
 
 type Secrets interface {

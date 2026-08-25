@@ -2,7 +2,7 @@ package project
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"path"
 	"path/filepath"
@@ -50,12 +50,12 @@ func (c *Context) readComposeFiles() error {
 		var err error
 
 		if composeFile == "-" {
-			composeBytes, err = ioutil.ReadAll(os.Stdin)
+			composeBytes, err = io.ReadAll(os.Stdin)
 			if err != nil {
 				return err
 			}
 		} else {
-			composeBytes, err = ioutil.ReadFile(composeFile)
+			composeBytes, err = os.ReadFile(composeFile)
 			if err != nil && !os.IsNotExist(err) {
 				return err
 			}

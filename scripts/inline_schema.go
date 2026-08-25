@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io/ioutil"
 	"os"
 	"text/template"
 )
@@ -12,11 +11,11 @@ func main() {
 		panic(err)
 	}
 
-	schemaV1, err := ioutil.ReadFile("./scripts/config_schema_v1.json")
+	schemaV1, err := os.ReadFile("./scripts/config_schema_v1.json")
 	if err != nil {
 		panic(err)
 	}
-	schemaV2, err := ioutil.ReadFile("./scripts/config_schema_v2.0.json")
+	schemaV2, err := os.ReadFile("./scripts/config_schema_v2.0.json")
 	if err != nil {
 		panic(err)
 	}

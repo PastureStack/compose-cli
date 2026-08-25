@@ -3,11 +3,11 @@ package handlers
 import (
 	"errors"
 
-	"golang.org/x/net/context"
+	"context"
 
+	"github.com/PastureStack/compose-cli/internal/events"
+	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
 	"github.com/PastureStack/compose-cli/project/options"
-	"github.com/rancher/event-subscriber/events"
-	"github.com/rancher/go-rancher/v2"
 	"github.com/sirupsen/logrus"
 )
 

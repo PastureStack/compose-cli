@@ -7,17 +7,18 @@ import (
 	"sync"
 	"time"
 
-	"golang.org/x/net/context"
+	"context"
 
 	"github.com/PastureStack/compose-cli/config"
+	composeconvert "github.com/PastureStack/compose-cli/convert"
 	"github.com/PastureStack/compose-cli/docker/service"
+	"github.com/PastureStack/compose-cli/internal/rancherclient/hostaccess"
+	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
 	"github.com/PastureStack/compose-cli/project"
 	"github.com/PastureStack/compose-cli/project/options"
 	rUtils "github.com/PastureStack/compose-cli/utils"
-	"github.com/docker/docker/api/types/container"
 	"github.com/gorilla/websocket"
-	"github.com/rancher/go-rancher/hostaccess"
-	"github.com/rancher/go-rancher/v2"
+	"github.com/moby/moby/api/types/container"
 	"github.com/sirupsen/logrus"
 )
 
@@ -31,7 +32,7 @@ type IsDone func(*client.Resource) (bool, error)
 
 type ContainerInspect struct {
 	Name       string
-	Config     *container.Config
+	Config     *composeconvert.DockerConfig
 	HostConfig *container.HostConfig
 }
 

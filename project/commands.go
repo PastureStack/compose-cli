@@ -3,7 +3,7 @@ package project
 import (
 	"fmt"
 
-	"golang.org/x/net/context"
+	"context"
 
 	"github.com/PastureStack/compose-cli/project/events"
 	"github.com/PastureStack/compose-cli/project/options"

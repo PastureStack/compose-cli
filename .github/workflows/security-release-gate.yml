@@ -20,14 +20,14 @@ jobs:
     timeout-minutes: 75
     env:
       DAPPER_IMAGE: pasturestack/compose-cli-dapper:${{ github.sha }}
-      TRIVY_IMAGE: aquasec/trivy:0.73.0@sha256:7cced7cae583819fc7806d4cbc0dbbc7cad18b99f7d3e235192e6da8c091045c
+      TRIVY_IMAGE: aquasec/trivy:0.74.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969
       VERSION_OVERRIDE: 0.14.33
       PLATFORM_COMPAT_JAR_URL: https://github.com/PastureStack/orchestration-engine/releases/download/v0.183.281/orchestration-engine-0.183.281.jar
       PLATFORM_COMPAT_JAR_SHA256: da2a8a51562ed16e296f7e29e99482bb44042ff0834cca679bbe01d951ba1682
 
     steps:
       - name: Check out candidate
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -40,7 +40,7 @@ jobs:
           test "$(git rev-list --count 5cefb3867ed8f6a98b2e0055ac12d6dfffff51a1..HEAD)" -eq 1
           mkdir -p evidence
           git rev-parse HEAD > evidence/source-revision.txt
-          sha256sum Dockerfile.dapper ubuntu-apt.lock vendor.conf .python-version tests/integration/requirements.txt > evidence/source-locks.sha256
+          sha256sum Dockerfile.dapper ubuntu-apt.lock go.mod go.sum vendor/modules.txt .python-version tests/integration/requirements.txt > evidence/source-locks.sha256
 
       - name: Build, test, validate, and package twice
         shell: bash
@@ -97,7 +97,7 @@ jobs:
           docker run --rm --entrypoint sh "$DAPPER_IMAGE" -lc \
             "! command -v docker >/dev/null 2>&1; printf 'package\\tversion\\n'; dpkg-query -W -f='\${binary:Package}\\t\${Version}\\n' | LC_ALL=C sort" \
             > evidence/dapper-dpkg.tsv
-          cp vendor.conf evidence/vendor.conf
+          cp go.mod go.sum vendor/modules.txt evidence/
 
       - name: Scan source, product, and build image
         shell: bash
@@ -116,12 +116,28 @@ jobs:
             -v "$trivy_cache:/root/.cache/trivy" \
             "$TRIVY_IMAGE" fs \
             --scanners vuln,secret --format json \
+            --output /evidence/source-security-raw.json /scan
+          docker run --rm \
+            -v "$source_tree:/scan:ro" \
+            -v "$PWD/evidence:/evidence" \
+            -v "$trivy_cache:/root/.cache/trivy" \
+            "$TRIVY_IMAGE" fs \
+            --scanners vuln,secret \
+            --vex /scan/security/openvex.json --show-suppressed --format json \
             --output /evidence/source-security.json /scan
           docker run --rm \
+            -v "$PWD:/work:ro" \
             -v "$PWD/evidence:/evidence" \
             -v "$trivy_cache:/root/.cache/trivy" \
             "$TRIVY_IMAGE" rootfs \
             --scanners vuln,secret --format json \
+            --output /evidence/product-security-raw.json /evidence/product
+          docker run --rm \
+            -v "$PWD:/work:ro" \
+            -v "$PWD/evidence:/evidence" \
+            -v "$trivy_cache:/root/.cache/trivy" \
+            "$TRIVY_IMAGE" rootfs \
+            --scanners vuln,secret --vex /work/security/openvex.json --format json \
             --output /evidence/product-security.json /evidence/product
           docker run --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
@@ -155,6 +171,22 @@ jobs:
             | @tsv
           ' security/dapper.openvex.json | LC_ALL=C sort -u \
             > /tmp/dapper-vex.tsv
+
+          jq -r '
+            .statements[]
+            | .vulnerability.name as $id
+            | .products[]
+            | [$id, .["@id"]]
+            | @tsv
+          ' security/openvex.json | LC_ALL=C sort -u > /tmp/source-vex.tsv
+          for raw_report in evidence/source-security-raw.json evidence/product-security-raw.json; do
+            jq -r '
+              .Results[]?.Vulnerabilities[]?
+              | [.VulnerabilityID, .PkgIdentifier.PURL]
+              | @tsv
+            ' "$raw_report" | LC_ALL=C sort -u > /tmp/source-raw-findings.tsv
+            diff -u /tmp/source-vex.tsv /tmp/source-raw-findings.tsv
+          done
           test -s /tmp/dapper-critical-high.tsv
           diff -u /tmp/dapper-critical-high.tsv /tmp/dapper-vex.tsv
           test "$(jq '.statements | length' security/dapper.openvex.json)" \
@@ -197,11 +229,13 @@ jobs:
             jq "$2" "$1"
           }
           source_secrets=$(count evidence/source-security.json '[.Results[]?.Secrets[]?] | length')
+          source_applicable=$(count evidence/source-security.json '[.Results[]?.Vulnerabilities[]? | select(.Status != "not_affected")] | length')
           source_critical=$(count evidence/source-security.json '[.Results[]?.Vulnerabilities[]? | select(.Severity == "CRITICAL")] | length')
           source_high=$(count evidence/source-security.json '[.Results[]?.Vulnerabilities[]? | select(.Severity == "HIGH")] | length')
           product_secrets=$(count evidence/product-security.json '[.Results[]?.Secrets[]?] | length')
           product_critical=$(count evidence/product-security.json '[.Results[]?.Vulnerabilities[]? | select(.Severity == "CRITICAL")] | length')
           product_high=$(count evidence/product-security.json '[.Results[]?.Vulnerabilities[]? | select(.Severity == "HIGH")] | length')
+          product_applicable=$(count evidence/product-security.json '[.Results[]?.Vulnerabilities[]? | select(.Status != "not_affected")] | length')
           dapper_raw_critical=$(count evidence/dapper-image-raw.json '[.Results[]?.Vulnerabilities[]? | select(.Severity == "CRITICAL")] | length')
           dapper_raw_high=$(count evidence/dapper-image-raw.json '[.Results[]?.Vulnerabilities[]? | select(.Severity == "HIGH")] | length')
           dapper_applicable_critical=$(count evidence/dapper-image-applicable.json '[.Results[]?.Vulnerabilities[]? | select(.Severity == "CRITICAL" and .Status != "not_affected")] | length')
@@ -209,11 +243,13 @@ jobs:
           dapper_secrets=$(count evidence/dapper-image-applicable.json '[.Results[]?.Secrets[]?] | length')
           {
             printf 'source_secrets=%s\n' "$source_secrets"
+            printf 'source_applicable=%s\n' "$source_applicable"
             printf 'source_critical=%s\n' "$source_critical"
             printf 'source_high=%s\n' "$source_high"
             printf 'product_secrets=%s\n' "$product_secrets"
             printf 'product_critical=%s\n' "$product_critical"
             printf 'product_high=%s\n' "$product_high"
+            printf 'product_applicable=%s\n' "$product_applicable"
             printf 'dapper_raw_critical=%s\n' "$dapper_raw_critical"
             printf 'dapper_raw_high=%s\n' "$dapper_raw_high"
             printf 'dapper_applicable_critical=%s\n' "$dapper_applicable_critical"
@@ -222,18 +258,20 @@ jobs:
           } | tee evidence/security-summary.txt
 
           test "$source_secrets" -eq 0
+          test "$source_applicable" -eq 0
           test "$source_critical" -eq 0
           test "$source_high" -eq 0
           test "$product_secrets" -eq 0
           test "$product_critical" -eq 0
           test "$product_high" -eq 0
+          test "$product_applicable" -eq 0
           test "$dapper_applicable_critical" -eq 0
           test "$dapper_applicable_high" -eq 0
           test "$dapper_secrets" -eq 0
 
       - name: Upload review evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: compose-cli-security-${{ github.sha }}
           path: evidence/

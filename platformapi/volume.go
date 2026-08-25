@@ -3,11 +3,11 @@ package platformapi
 import (
 	"fmt"
 
-	"golang.org/x/net/context"
+	"context"
 
 	"github.com/PastureStack/compose-cli/config"
+	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
 	"github.com/PastureStack/compose-cli/project"
-	"github.com/rancher/go-rancher/v2"
 	"github.com/sirupsen/logrus"
 )
 

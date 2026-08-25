@@ -3,23 +3,21 @@ package lookup
 import (
 	"bufio"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strings"
 
 	"github.com/PastureStack/compose-cli/config"
 	rUtils "github.com/PastureStack/compose-cli/utils"
-	"github.com/rancher/rancher-catalog-service/model"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 type questionWrapper struct {
-	Questions []model.Question `yaml:"questions,omitempty"`
+	Questions []Question `yaml:"questions,omitempty"`
 }
 
 type QuestionLookup struct {
 	parent    config.EnvironmentLookup
-	questions map[string]model.Question
+	questions map[string]Question
 	variables map[string]string
 }
 
@@ -27,7 +25,7 @@ func NewQuestionLookup(file string, parent config.EnvironmentLookup) (*QuestionL
 	ret := &QuestionLookup{
 		parent:    parent,
 		variables: map[string]string{},
-		questions: map[string]model.Question{},
+		questions: map[string]Question{},
 	}
 
 	if err := ret.parse(file); err != nil {
@@ -38,7 +36,7 @@ func NewQuestionLookup(file string, parent config.EnvironmentLookup) (*QuestionL
 }
 
 func (q *QuestionLookup) parse(file string) error {
-	contents, err := ioutil.ReadFile(file)
+	contents, err := os.ReadFile(file)
 	if os.IsNotExist(err) {
 		return nil
 	} else if err != nil {
@@ -53,13 +51,13 @@ func (q *QuestionLookup) parse(file string) error {
 	return nil
 }
 
-func ParseQuestions(contents []byte) (map[string]model.Question, error) {
+func ParseQuestions(contents []byte) (map[string]Question, error) {
 	catalogConfig, err := ParseCatalogConfig(contents)
 	if err != nil {
 		return nil, err
 	}
 
-	questions := map[string]model.Question{}
+	questions := map[string]Question{}
 	for _, question := range catalogConfig.Questions {
 		questions[question.Variable] = question
 	}
@@ -67,7 +65,7 @@ func ParseQuestions(contents []byte) (map[string]model.Question, error) {
 	return questions, nil
 }
 
-func ParseCatalogConfig(contents []byte) (*model.RancherCompose, error) {
+func ParseCatalogConfig(contents []byte) (*CatalogConfig, error) {
 	rawConfig, err := config.CreateRawConfig(contents)
 	if err != nil {
 		return nil, err
@@ -90,7 +88,7 @@ func ParseCatalogConfig(contents []byte) (*model.RancherCompose, error) {
 	}
 
 	if rawCatalogConfig != nil {
-		var catalogConfig model.RancherCompose
+		var catalogConfig CatalogConfig
 		if err := rUtils.Convert(rawCatalogConfig, &catalogConfig); err != nil {
 			return nil, err
 		}
@@ -98,7 +96,7 @@ func ParseCatalogConfig(contents []byte) (*model.RancherCompose, error) {
 		return &catalogConfig, nil
 	}
 
-	return &model.RancherCompose{}, nil
+	return &CatalogConfig{}, nil
 }
 
 func (f *QuestionLookup) Lookup(key string, config *config.ServiceConfig) []string {
@@ -113,7 +111,7 @@ func (f *QuestionLookup) Lookup(key string, config *config.ServiceConfig) []stri
 	return f.parent.Lookup(key, config)
 }
 
-func ask(question model.Question) string {
+func ask(question Question) string {
 	if len(question.Description) > 0 {
 		fmt.Println(question.Description)
 	}

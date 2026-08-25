@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"strings"
 
-	"golang.org/x/net/context"
+	"context"
 
 	"github.com/PastureStack/compose-cli/config"
+	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
 	"github.com/PastureStack/compose-cli/project"
-	"github.com/rancher/go-rancher/v2"
 	log "github.com/sirupsen/logrus"
 )
 

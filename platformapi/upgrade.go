@@ -2,7 +2,7 @@ package platformapi
 
 import (
 	"github.com/PastureStack/compose-cli/digest"
-	"github.com/rancher/go-rancher/v2"
+	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
 	"github.com/sirupsen/logrus"
 )
 

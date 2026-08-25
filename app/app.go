@@ -7,15 +7,15 @@ import (
 	"path/filepath"
 	"strings"
 
-	"golang.org/x/net/context"
+	"context"
 
+	cli "github.com/PastureStack/compose-cli/internal/legacycli"
 	"github.com/PastureStack/compose-cli/logging"
 	"github.com/PastureStack/compose-cli/lookup"
 	"github.com/PastureStack/compose-cli/platformapi"
 	"github.com/PastureStack/compose-cli/project"
 	"github.com/PastureStack/compose-cli/project/options"
 	"github.com/sirupsen/logrus"
-	"github.com/urfave/cli"
 )
 
 type PlatformProjectFactory struct {

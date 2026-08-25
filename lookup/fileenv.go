@@ -4,12 +4,11 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
 
-	yaml "gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v3"
 
 	"github.com/PastureStack/compose-cli/config"
 	"github.com/PastureStack/compose-cli/utils"
@@ -23,7 +22,7 @@ type FileEnvLookup struct {
 func parseMultiLineEnv(file string) (map[string]interface{}, error) {
 	variables := map[string]interface{}{}
 
-	contents, err := ioutil.ReadFile(file)
+	contents, err := os.ReadFile(file)
 	if err != nil {
 		return nil, err
 	}

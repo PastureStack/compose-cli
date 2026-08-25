@@ -25,10 +25,7 @@ destroy_root()
 
 cd $(dirname $0)/..
 
-PACKAGES=". $(find -name '*.go' | xargs -I{} dirname {} |  cut -f2 -d/ | sort -u | grep -Ev '(^\.$|.git|.trash-cache|vendor|bin)' | sed -e 's!^!./!' -e 's!$!/...!')"
-
-go test -race -cover -tags=test ${PACKAGES}
-go test -race -cover -tags=test ./vendor/github.com/rancher/event-subscriber/events
+go test -race -cover -tags=test ./...
 
 setup_root
 

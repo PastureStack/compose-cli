@@ -3,10 +3,10 @@ package handlers
 import (
 	"fmt"
 
+	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
 	"github.com/PastureStack/compose-cli/lookup"
 	"github.com/PastureStack/compose-cli/platformapi"
 	"github.com/PastureStack/compose-cli/project"
-	"github.com/rancher/go-rancher/v2"
 	"github.com/sirupsen/logrus"
 )
 

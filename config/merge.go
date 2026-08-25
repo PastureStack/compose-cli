@@ -4,15 +4,14 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
+	"reflect"
 	"strings"
 
+	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
 	"github.com/PastureStack/compose-cli/template"
 	"github.com/PastureStack/compose-cli/utils"
 	composeYaml "github.com/PastureStack/compose-cli/yaml"
-	"github.com/docker/docker/pkg/urlutil"
-	"github.com/fatih/structs"
-	"github.com/rancher/go-rancher/v2"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 var (
@@ -23,9 +22,12 @@ var (
 )
 
 func transferFields(from, to RawService, prefixField string, instance interface{}) {
-	s := structs.New(instance)
-	for _, f := range s.Fields() {
-		field := strings.SplitN(f.Tag("yaml"), ",", 2)[0]
+	typeOf := reflect.TypeOf(instance)
+	if typeOf.Kind() == reflect.Pointer {
+		typeOf = typeOf.Elem()
+	}
+	for index := 0; index < typeOf.NumField(); index++ {
+		field := strings.SplitN(typeOf.Field(index).Tag.Get("yaml"), ",", 2)[0]
 		if fieldValue, ok := from[field]; ok {
 			if _, ok = to[prefixField]; !ok {
 				to[prefixField] = map[interface{}]interface{}{}
@@ -364,5 +366,10 @@ func mergeConfig(baseService, serviceData RawService) RawService {
 
 // IsValidRemote checks if the specified string is a valid remote (for builds)
 func IsValidRemote(remote string) bool {
-	return urlutil.IsGitURL(remote) || urlutil.IsURL(remote)
+	for _, prefix := range []string{"http://", "https://", "git://", "github.com/", "git@"} {
+		if strings.HasPrefix(remote, prefix) {
+			return true
+		}
+	}
+	return false
 }

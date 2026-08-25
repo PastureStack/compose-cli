@@ -3,12 +3,12 @@ package platformapi
 import (
 	"fmt"
 
-	"golang.org/x/net/context"
+	"context"
 
 	"github.com/PastureStack/compose-cli/config"
+	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
 	"github.com/PastureStack/compose-cli/project"
 	"github.com/PastureStack/compose-cli/project/options"
-	"github.com/rancher/go-rancher/v2"
 )
 
 type PlatformContainer struct {

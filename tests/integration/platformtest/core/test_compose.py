@@ -1543,13 +1543,15 @@ child1:
 
 
 def test_service_hash_with_rancher(client, compose):
-    project_name = create_project(compose,
-                                  file='assets/hash-without-platform-metadata/test.yml')
+    project_name = create_project(
+        compose,
+        file='assets/hash-without-platform-metadata/test.yml')
     project = find_one(client.list_stack, name=project_name)
     s = find_one(project.services)
 
-    project_name = create_project(compose,
-                                  file='assets/hash-with-platform-metadata/test.yml')
+    project_name = create_project(
+        compose,
+        file='assets/hash-with-platform-metadata/test.yml')
     project = find_one(client.list_stack, name=project_name)
     s2 = find_one(project.services)
 

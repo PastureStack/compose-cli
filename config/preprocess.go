@@ -2,10 +2,9 @@ package config
 
 import (
 	"fmt"
+	"reflect"
 	"strconv"
 	"strings"
-
-	"github.com/fatih/structs"
 )
 
 func PreprocessServiceMap(serviceMap RawServiceMap) (RawServiceMap, error) {
@@ -104,12 +103,13 @@ func tryConvertStringsToInts(item interface{}, replaceTypes bool) interface{} {
 }
 
 func getPlatformConfigObjects() map[string]bool {
-	platformConfig := structs.New(PlatformConfig{})
+	platformConfig := reflect.TypeOf(PlatformConfig{})
 	fields := map[string]bool{}
-	for _, field := range platformConfig.Fields() {
-		kind := field.Kind().String()
-		if kind == "struct" || kind == "ptr" || kind == "slice" {
-			split := strings.Split(field.Tag("yaml"), ",")
+	for index := 0; index < platformConfig.NumField(); index++ {
+		field := platformConfig.Field(index)
+		kind := field.Type.Kind()
+		if kind == reflect.Struct || kind == reflect.Pointer || kind == reflect.Slice {
+			split := strings.Split(field.Tag.Get("yaml"), ",")
 			fields[split[0]] = true
 		}
 	}

@@ -3,11 +3,9 @@ package lookup
 import (
 	"reflect"
 	"testing"
-
-	"github.com/rancher/rancher-catalog-service/model"
 )
 
-func testParseCatalog(t *testing.T, contents string, expectedCatalogConfig *model.RancherCompose) {
+func testParseCatalog(t *testing.T, contents string, expectedCatalogConfig *CatalogConfig) {
 	catalogConfig, err := ParseCatalogConfig([]byte(contents))
 	if err != nil {
 		t.Fatal(err)
@@ -21,21 +19,21 @@ func testParseCatalog(t *testing.T, contents string, expectedCatalogConfig *mode
 func TestParseCatalog(t *testing.T) {
 	testParseCatalog(t, `
 .catalog:
-  name: test`, &model.RancherCompose{
+  name: test`, &CatalogConfig{
 		Name: "test",
 	})
 
 	testParseCatalog(t, `
 version: '2'
 catalog:
-  name: test`, &model.RancherCompose{
+  name: test`, &CatalogConfig{
 		Name: "test",
 	})
 
 	testParseCatalog(t, `
 version: '2'
 .catalog:
-  name: test`, &model.RancherCompose{
+  name: test`, &CatalogConfig{
 		Name: "test",
 	})
 
@@ -43,7 +41,7 @@ version: '2'
 version: '2'
 services:
   .catalog:
-    name: test`, &model.RancherCompose{
+    name: test`, &CatalogConfig{
 		Name: "test",
 	})
 }
