@@ -37,7 +37,7 @@ jobs:
         run: |
           set -euo pipefail
           test -z "$(git status --porcelain)"
-          test "$(git rev-list --count 5cefb3867ed8f6a98b2e0055ac12d6dfffff51a1..HEAD)" -eq 1
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           mkdir -p evidence
           git rev-parse HEAD > evidence/source-revision.txt
           sha256sum Dockerfile.dapper ubuntu-apt.lock go.mod go.sum vendor/modules.txt .python-version tests/integration/requirements.txt > evidence/source-locks.sha256
