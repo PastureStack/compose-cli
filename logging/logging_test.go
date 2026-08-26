@@ -44,3 +44,10 @@ func TestColorFactoryConcurrentCreation(t *testing.T) {
 	}
 	wait.Wait()
 }
+
+func TestSafeLogValueProducesSingleRecord(t *testing.T) {
+	got := SafeLogValue("first\r\nforged\nthird")
+	if got != "first forged third" {
+		t.Fatalf("unexpected safe log value: %q", got)
+	}
+}

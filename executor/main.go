@@ -6,6 +6,7 @@ import (
 	"github.com/PastureStack/compose-cli/executor/handlers"
 	"github.com/PastureStack/compose-cli/internal/events"
 	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
+	"github.com/PastureStack/compose-cli/logging"
 	"github.com/PastureStack/compose-cli/version"
 	"github.com/sirupsen/logrus"
 )
@@ -40,15 +41,15 @@ func Main() {
 		environmentValue("PLATFORM_SECRET_KEY", "CATTLE_SECRET_KEY"),
 		nil, eventHandlers, "stack", 250, events.DefaultPingConfig)
 	if err != nil {
-		logrus.WithField("error", err).Fatal("Unable to create event router")
+		logrus.WithField("error", logging.SafeLogValue(err)).Fatal("Unable to create event router")
 	}
 
 	if err := router.RemoveExternalHandlers("rancher-compose-executor"); err != nil {
-		logrus.WithField("error", err).Fatal("Unable to remove previous event handler")
+		logrus.WithField("error", logging.SafeLogValue(err)).Fatal("Unable to remove previous event handler")
 	}
 
 	if err := router.Start(nil); err != nil {
-		logrus.WithField("error", err).Fatal("Unable to start event router")
+		logrus.WithField("error", logging.SafeLogValue(err)).Fatal("Unable to start event router")
 	}
 
 	logger.Info(executorMessage(locale, "exit"))

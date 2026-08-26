@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/PastureStack/compose-cli/internal/locks"
 	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
+	"github.com/PastureStack/compose-cli/logging"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -47,7 +48,12 @@ func (wp *skippingWorkerPool) HandleWork(event *Event, eventHandlers map[string]
 			doWork(event, eventHandlers, apiClient, wp.eventLocker(event))
 		}()
 	default:
-		log.Warnf("No workers available, dropping event. workerCount: %v, event: %v", cap(wp.workers), *event)
+		log.WithFields(log.Fields{
+			"workerCount": cap(wp.workers),
+			"eventName":   logging.SafeLogValue(event.Name),
+			"eventId":     logging.SafeLogValue(event.ID),
+			"resourceId":  logging.SafeLogValue(event.ResourceID),
+		}).Warn("No workers available; dropping event")
 	}
 }
 
@@ -77,14 +83,16 @@ func doWork(event *Event, eventHandlers map[string]EventHandler, apiClient *clie
 
 	if event.Name != "ping" {
 		log.WithFields(log.Fields{
-			"event": *event,
+			"eventName":  logging.SafeLogValue(event.Name),
+			"eventId":    logging.SafeLogValue(event.ID),
+			"resourceId": logging.SafeLogValue(event.ResourceID),
 		}).Debug("Processing event.")
 	}
 
 	unlocker := locker.Lock()
 	if unlocker == nil {
 		log.WithFields(log.Fields{
-			"resourceId": event.ResourceID,
+			"resourceId": logging.SafeLogValue(event.ResourceID),
 		}).Debug("Resource locked. Dropping event")
 		return
 	}
@@ -93,10 +101,10 @@ func doWork(event *Event, eventHandlers map[string]EventHandler, apiClient *clie
 	if fn, ok := eventHandlers[event.Name]; ok {
 		if err := fn(event, apiClient); err != nil {
 			log.WithFields(log.Fields{
-				"eventName":  event.Name,
-				"eventId":    event.ID,
-				"resourceId": event.ResourceID,
-				"err":        err,
+				"eventName":  logging.SafeLogValue(event.Name),
+				"eventId":    logging.SafeLogValue(event.ID),
+				"resourceId": logging.SafeLogValue(event.ResourceID),
+				"err":        logging.SafeLogValue(err),
 			}).Error("Error processing event")
 
 			reply := &client.Publish{
@@ -108,13 +116,13 @@ func doWork(event *Event, eventHandlers map[string]EventHandler, apiClient *clie
 			_, err := apiClient.Publish.Create(reply)
 			if err != nil {
 				log.WithFields(log.Fields{
-					"err": err,
+					"err": logging.SafeLogValue(err),
 				}).Error("Error sending error-reply")
 			}
 		}
 	} else {
 		log.WithFields(log.Fields{
-			"eventName": event.Name,
+			"eventName": logging.SafeLogValue(event.Name),
 		}).Warn("No event handler registered for event")
 	}
 }

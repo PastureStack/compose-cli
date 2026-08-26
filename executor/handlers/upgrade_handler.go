@@ -9,6 +9,7 @@ import (
 
 	"github.com/PastureStack/compose-cli/internal/events"
 	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
+	"github.com/PastureStack/compose-cli/logging"
 	"github.com/PastureStack/compose-cli/project/options"
 	"github.com/PastureStack/compose-cli/utils"
 	"github.com/sirupsen/logrus"
@@ -16,14 +17,14 @@ import (
 
 func UpgradeStack(event *events.Event, apiClient *client.RancherClient) error {
 	logger := logrus.WithFields(logrus.Fields{
-		"resourceId": event.ResourceID,
-		"eventId":    event.ID,
+		"resourceId": logging.SafeLogValue(event.ResourceID),
+		"eventId":    logging.SafeLogValue(event.ID),
 	})
 
 	logger.Info("Upgrade Stack Event Received")
 
 	if err := upgradeEnvironment(logger, event, apiClient); err != nil {
-		logger.Errorf("Stack Upgrade Event Failed: %v", err)
+		logger.Errorf("Stack Upgrade Event Failed: %s", logging.SafeLogValue(err))
 		publishTransitioningReply(err.Error(), event, apiClient, false)
 		return err
 	}
@@ -34,8 +35,8 @@ func UpgradeStack(event *events.Event, apiClient *client.RancherClient) error {
 
 func FinishUpgradeStack(event *events.Event, apiClient *client.RancherClient) error {
 	logger := logrus.WithFields(logrus.Fields{
-		"resourceId": event.ResourceID,
-		"eventId":    event.ID,
+		"resourceId": logging.SafeLogValue(event.ResourceID),
+		"eventId":    logging.SafeLogValue(event.ID),
 	})
 
 	logger.Info("Finish Upgrade Stack Event Received")
@@ -78,8 +79,8 @@ func FinishUpgradeStack(event *events.Event, apiClient *client.RancherClient) er
 
 func RollbackStack(event *events.Event, apiClient *client.RancherClient) error {
 	logger := logrus.WithFields(logrus.Fields{
-		"resourceId": event.ResourceID,
-		"eventId":    event.ID,
+		"resourceId": logging.SafeLogValue(event.ResourceID),
+		"eventId":    logging.SafeLogValue(event.ID),
 	})
 
 	logger.Info("Rollback Stack Event Received")
@@ -144,7 +145,7 @@ func wait(apiClient *client.RancherClient, service *client.Service) error {
 
 	switch service.Transitioning {
 	case "yes":
-		logrus.Infof("Timeout waiting for %s to finish", service.Name)
+		logrus.Infof("Timeout waiting for %s to finish", logging.SafeLogValue(service.Name))
 		return ErrTimeout
 	case "no":
 		return nil

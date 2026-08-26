@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/PastureStack/compose-cli/logging"
 	"github.com/sirupsen/logrus"
 )
 
@@ -33,7 +34,7 @@ func relativePath(file, relativeTo string) string {
 
 	abs, err := filepath.Abs(filepath.Join(filepath.Dir(relativeTo), file))
 	if err != nil {
-		logrus.Errorf("Failed to get absolute directory: %s", err)
+		logrus.Errorf("Failed to get absolute directory: %s", logging.SafeLogValue(err))
 		return file
 	}
 	return abs
@@ -157,7 +158,7 @@ func (f *FileResourceLookup) Lookup(file, relativeTo string) ([]byte, string, er
 			return nil, target, fmt.Errorf("open local resource %q: %w", file, openErr)
 		}
 
-		logrus.Debugf("Reading local resource %s", target)
+		logrus.Debugf("Reading local resource %s", logging.SafeLogValue(target))
 		contents, readErr := io.ReadAll(resource)
 		closeErr := resource.Close()
 		rootCloseErr := root.Close()

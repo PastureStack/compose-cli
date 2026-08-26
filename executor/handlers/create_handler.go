@@ -7,20 +7,21 @@ import (
 
 	"github.com/PastureStack/compose-cli/internal/events"
 	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
+	"github.com/PastureStack/compose-cli/logging"
 	"github.com/PastureStack/compose-cli/project/options"
 	"github.com/sirupsen/logrus"
 )
 
 func CreateStack(event *events.Event, apiClient *client.RancherClient) error {
 	logger := logrus.WithFields(logrus.Fields{
-		"resourceId": event.ResourceID,
-		"eventId":    event.ID,
+		"resourceId": logging.SafeLogValue(event.ResourceID),
+		"eventId":    logging.SafeLogValue(event.ID),
 	})
 
 	logger.Info("Stack Create Event Received")
 
 	if err := createStack(logger, event, apiClient); err != nil {
-		logger.Errorf("Stack Create Event Failed: %v", err)
+		logger.Errorf("Stack Create Event Failed: %s", logging.SafeLogValue(err))
 		publishTransitioningReply(err.Error(), event, apiClient, true)
 		return err
 	}

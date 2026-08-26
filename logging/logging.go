@@ -5,7 +5,17 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 )
+
+// SafeLogValue converts an external value to a single log record. Terminal
+// output adapters intentionally do not use this function because preserving
+// their line structure is part of their public behavior.
+func SafeLogValue(value interface{}) string {
+	text := fmt.Sprint(value)
+	text = strings.ReplaceAll(text, "\r", "")
+	return strings.ReplaceAll(text, "\n", " ")
+}
 
 // Factory creates loggers for containers, builds, and image pulls.
 type Factory interface {

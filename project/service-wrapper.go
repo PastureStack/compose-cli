@@ -3,6 +3,7 @@ package project
 import (
 	"sync"
 
+	"github.com/PastureStack/compose-cli/logging"
 	"github.com/PastureStack/compose-cli/project/events"
 	log "github.com/sirupsen/logrus"
 )
@@ -37,7 +38,7 @@ func (s *serviceWrapper) Reset() error {
 	if s.state != StateExecuted {
 		service, err := s.project.CreateService(s.name)
 		if err != nil {
-			log.Errorf("Failed to create service for %s : %v", s.name, err)
+			log.Errorf("Failed to create service for %s : %s", logging.SafeLogValue(s.name), logging.SafeLogValue(err))
 			return err
 		}
 
@@ -76,7 +77,7 @@ func (s *serviceWrapper) waitForDeps(wrappers map[string]*serviceWrapper) bool {
 				return false
 			}
 		} else {
-			log.Errorf("Failed to find %s", dep.Target)
+			log.Errorf("Failed to find %s", logging.SafeLogValue(dep.Target))
 		}
 	}
 
@@ -103,7 +104,7 @@ func (s *serviceWrapper) Do(wrappers map[string]*serviceWrapper, start, done eve
 		s.project.Notify(done, s.service.Name(), nil)
 		s.project.Notify(events.ProjectReloadTrigger, s.service.Name(), nil)
 	} else if s.err != nil {
-		log.Errorf("Failed %s %s : %v", start, s.name, s.err)
+		log.Errorf("Failed %s %s : %s", logging.SafeLogValue(start), logging.SafeLogValue(s.name), logging.SafeLogValue(s.err))
 	} else {
 		s.project.Notify(done, s.service.Name(), nil)
 	}

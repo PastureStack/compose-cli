@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/PastureStack/compose-cli/logging"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v3"
 )
@@ -18,7 +19,10 @@ func ConvertByJSON(src, target interface{}) error {
 
 	err = json.Unmarshal(data, target)
 	if err != nil {
-		logrus.Errorf("Failed to unmarshal JSON: %v\n%s", err, string(data))
+		logrus.WithFields(logrus.Fields{
+			"error": logging.SafeLogValue(err),
+			"bytes": len(data),
+		}).Error("Failed to unmarshal JSON")
 	}
 	return err
 }
@@ -32,7 +36,10 @@ func Convert(src, target interface{}) error {
 
 	err = yaml.Unmarshal(data, target)
 	if err != nil {
-		logrus.Errorf("Failed to unmarshal YAML: %v\n%s", err, string(data))
+		logrus.WithFields(logrus.Fields{
+			"error": logging.SafeLogValue(err),
+			"bytes": len(data),
+		}).Error("Failed to unmarshal YAML")
 	}
 	return err
 }
