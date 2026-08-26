@@ -80,7 +80,7 @@ func TestWebsocketForwardsHeadersAndBasicAuth(t *testing.T) {
 	}))
 	defer server.Close()
 
-	client := &RancherBaseClientImpl{Opts: &ClientOpts{AccessKey: "access", SecretKey: "secret"}}
+	client := &RancherBaseClientImpl{Opts: &ClientOpts{Url: server.URL, AccessKey: "access", SecretKey: "secret"}}
 	connection, _, err := client.Websocket("ws"+strings.TrimPrefix(server.URL, "http"), map[string][]string{"X-Trace-ID": {"trace-1"}})
 	if err != nil {
 		t.Fatal(err)
@@ -106,13 +106,20 @@ func TestHTTPClientBlocksCrossOriginRedirect(t *testing.T) {
 	}))
 	defer source.Close()
 
-	client := &RancherBaseClientImpl{Opts: &ClientOpts{AccessKey: "access", SecretKey: "secret", Timeout: time.Second}}
+	client := &RancherBaseClientImpl{Opts: &ClientOpts{Url: source.URL, AccessKey: "access", SecretKey: "secret", Timeout: time.Second}}
 	err := client.doGet(source.URL, nil, &map[string]interface{}{})
 	if err == nil || !strings.Contains(err.Error(), "cross-origin redirect blocked") {
 		t.Fatalf("unexpected redirect result: %v", err)
 	}
 	if targetReached.Load() {
 		t.Fatal("cross-origin redirect reached the target")
+	}
+}
+
+func TestRancherRequestRejectsCrossOriginAPIAddress(t *testing.T) {
+	_, err := newRancherRequest("https://api.example.test/v2-beta", http.MethodGet, "https://metadata.example.test/latest", nil)
+	if err == nil || !strings.Contains(err.Error(), "crosses the configured origin") {
+		t.Fatalf("unexpected cross-origin result: %v", err)
 	}
 }
 
