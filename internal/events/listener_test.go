@@ -27,3 +27,13 @@ func TestNewEventRouterRejectsUnsupportedScheme(t *testing.T) {
 		t.Fatal("expected unsupported event API URL scheme to fail")
 	}
 }
+
+func TestEventSubscriptionRejectsCrossOriginAddress(t *testing.T) {
+	_, err := validateEventSubscriptionURL(
+		"https://api.example.test/v2-beta",
+		"wss://metadata.example.test/v2-beta/subscribe",
+	)
+	if err == nil {
+		t.Fatal("expected cross-origin event subscription URL to fail")
+	}
+}

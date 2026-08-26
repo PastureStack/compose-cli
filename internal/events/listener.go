@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -19,6 +20,8 @@ import (
 )
 
 const MaxWait = time.Duration(time.Second * 10)
+
+var eventSubscriptionURLPattern = regexp.MustCompile(`^wss?://(?:\[[0-9A-Fa-f:.%]+\]|[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)(?::[0-9]{1,5})?(?:/[A-Za-z0-9._~!$&'()*+,;=:@%/-]*)?(?:\?[A-Za-z0-9._~!$&'()*+,;=:@%/?-]*)?$`)
 
 // EventHandler Defines the function "interface" that handlers must conform to.
 type EventHandler func(*Event, *client.RancherClient) error
@@ -71,7 +74,10 @@ func NewEventRouter(name string, priority int, apiURL string, accessKey string, 
 	subscribe.Path = strings.TrimSuffix(subscribe.Path, "/") + "/subscribe"
 	subscribe.RawQuery = ""
 	subscribe.Fragment = ""
-	subscribeURL := subscribe.String()
+	subscribeURL, err := validateEventSubscriptionURL(apiURL, subscribe.String())
+	if err != nil {
+		return nil, err
+	}
 
 	return &EventRouter{
 		name:          name,
@@ -196,7 +202,14 @@ func (router *EventRouter) subscribeToEvents(subscribeURL string, accessKey stri
 		}
 	}
 	endpoint.RawQuery = query.Encode()
-	ws, resp, err := dialer.Dial(endpoint.String(), headers)
+	target, err := validateEventSubscriptionURL(router.apiURL, endpoint.String())
+	if err != nil {
+		return nil, err
+	}
+	if !eventSubscriptionURLPattern.MatchString(target) {
+		return nil, fmt.Errorf("event subscription URL failed validation")
+	}
+	ws, resp, err := dialer.Dial(target, headers)
 
 	if err != nil {
 		log.WithFields(log.Fields{
@@ -218,6 +231,30 @@ func (router *EventRouter) subscribeToEvents(subscribeURL string, accessKey stri
 		return nil, err
 	}
 	return ws, nil
+}
+
+func validateEventSubscriptionURL(apiURL, candidateURL string) (string, error) {
+	if !eventSubscriptionURLPattern.MatchString(candidateURL) {
+		return "", fmt.Errorf("event subscription URL has an unsupported format")
+	}
+	base, err := url.Parse(apiURL)
+	if err != nil || base.Opaque != "" || base.User != nil || base.Hostname() == "" {
+		return "", fmt.Errorf("event API URL must contain a valid origin")
+	}
+	target, err := url.Parse(candidateURL)
+	if err != nil || target.Opaque != "" || target.User != nil || target.Hostname() == "" {
+		return "", fmt.Errorf("event subscription URL must contain a valid origin")
+	}
+	expectedScheme := "ws"
+	if strings.EqualFold(base.Scheme, "https") {
+		expectedScheme = "wss"
+	} else if !strings.EqualFold(base.Scheme, "http") {
+		return "", fmt.Errorf("unsupported event API URL scheme %q", base.Scheme)
+	}
+	if !strings.EqualFold(target.Scheme, expectedScheme) || !strings.EqualFold(target.Host, base.Host) {
+		return "", fmt.Errorf("event subscription URL crosses the configured origin")
+	}
+	return target.String(), nil
 }
 
 func (router *EventRouter) GetWebSocketConn() *websocket.Conn {

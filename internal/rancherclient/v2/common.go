@@ -24,9 +24,11 @@ const (
 )
 
 var (
-	debug             = false
-	dialer            = &websocket.Dialer{}
-	privateFieldRegex = regexp.MustCompile("^[[:lower:]]")
+	debug                      = false
+	dialer                     = &websocket.Dialer{}
+	privateFieldRegex          = regexp.MustCompile("^[[:lower:]]")
+	rancherHTTPURLPattern      = regexp.MustCompile(`^https?://(?:\[[0-9A-Fa-f:.%]+\]|[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)(?::[0-9]{1,5})?(?:/[A-Za-z0-9._~!$&'()*+,;=:@%/-]*)?(?:\?[A-Za-z0-9._~!$&'()*+,;=:@%/?-]*)?$`)
+	rancherWebSocketURLPattern = regexp.MustCompile(`^wss?://(?:\[[0-9A-Fa-f:.%]+\]|[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)(?::[0-9]{1,5})?(?:/[A-Za-z0-9._~!$&'()*+,;=:@%/-]*)?(?:\?[A-Za-z0-9._~!$&'()*+,;=:@%/?-]*)?$`)
 )
 
 type ClientOpts struct {
@@ -146,6 +148,65 @@ func NormalizeUrl(existingUrl string) (string, error) {
 	return u.String(), nil
 }
 
+func rancherOrigin(raw string) (string, string, string, error) {
+	u, err := url.Parse(raw)
+	if err != nil || u.Opaque != "" || u.User != nil || u.Hostname() == "" {
+		return "", "", "", errors.New("Rancher URL must contain a valid origin")
+	}
+	scheme := strings.ToLower(u.Scheme)
+	switch scheme {
+	case "ws":
+		scheme = "http"
+	case "wss":
+		scheme = "https"
+	case "http", "https":
+	default:
+		return "", "", "", errors.New("Rancher URL has an unsupported scheme")
+	}
+	port := u.Port()
+	if port == "" {
+		if scheme == "https" {
+			port = "443"
+		} else {
+			port = "80"
+		}
+	}
+	return scheme, strings.ToLower(u.Hostname()), port, nil
+}
+
+func validateRancherRequestURL(baseURL, candidateURL string, websocketRequest bool) (string, error) {
+	pattern := rancherHTTPURLPattern
+	if websocketRequest {
+		pattern = rancherWebSocketURLPattern
+	}
+	if !pattern.MatchString(candidateURL) {
+		return "", errors.New("Rancher request URL has an unsupported format")
+	}
+	baseScheme, baseHost, basePort, err := rancherOrigin(baseURL)
+	if err != nil {
+		return "", err
+	}
+	targetScheme, targetHost, targetPort, err := rancherOrigin(candidateURL)
+	if err != nil {
+		return "", err
+	}
+	if baseScheme != targetScheme || baseHost != targetHost || basePort != targetPort {
+		return "", errors.New("Rancher request URL crosses the configured origin")
+	}
+	return candidateURL, nil
+}
+
+func newRancherRequest(baseURL, method, candidateURL string, body io.Reader) (*http.Request, error) {
+	target, err := validateRancherRequestURL(baseURL, candidateURL, false)
+	if err != nil {
+		return nil, err
+	}
+	if !rancherHTTPURLPattern.MatchString(target) {
+		return nil, errors.New("Rancher request URL failed validation")
+	}
+	return http.NewRequest(method, target, body)
+}
+
 func safeURLForLog(value string) string {
 	u, err := url.Parse(value)
 	if err != nil {
@@ -182,7 +243,7 @@ func setupRancherBaseClient(rancherClient *RancherBaseClientImpl, opts *ClientOp
 		opts.Timeout = time.Second * time.Duration(defaultTimeout())
 	}
 	client := newHTTPClient(opts.Timeout)
-	req, err := http.NewRequest("GET", opts.Url, nil)
+	req, err := newRancherRequest(opts.Url, "GET", opts.Url, nil)
 	if err != nil {
 		return err
 	}
@@ -206,7 +267,7 @@ func setupRancherBaseClient(rancherClient *RancherBaseClientImpl, opts *ClientOp
 	}
 
 	if schemasUrls != opts.Url {
-		req, err = http.NewRequest("GET", schemasUrls, nil)
+		req, err = newRancherRequest(opts.Url, "GET", schemasUrls, nil)
 		if err != nil {
 			return err
 		}
@@ -264,7 +325,7 @@ func (rancherClient *RancherBaseClientImpl) newHttpClient() *http.Client {
 
 func (rancherClient *RancherBaseClientImpl) doDelete(url string) error {
 	client := rancherClient.newHttpClient()
-	req, err := http.NewRequest("DELETE", url, nil)
+	req, err := newRancherRequest(rancherClient.Opts.Url, "DELETE", url, nil)
 	if err != nil {
 		return err
 	}
@@ -297,7 +358,14 @@ func (rancherClient *RancherBaseClientImpl) Websocket(url string, headers map[st
 		httpHeaders.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(s)))
 	}
 
-	return dialer.Dial(url, http.Header(httpHeaders))
+	target, err := validateRancherRequestURL(rancherClient.Opts.Url, url, true)
+	if err != nil {
+		return nil, nil, err
+	}
+	if !rancherWebSocketURLPattern.MatchString(target) {
+		return nil, nil, errors.New("Rancher WebSocket URL failed validation")
+	}
+	return dialer.Dial(target, http.Header(httpHeaders))
 }
 
 func (rancherClient *RancherBaseClientImpl) doGet(url string, opts *ListOpts, respObject interface{}) error {
@@ -314,7 +382,7 @@ func (rancherClient *RancherBaseClientImpl) doGet(url string, opts *ListOpts, re
 	}
 
 	client := rancherClient.newHttpClient()
-	req, err := http.NewRequest("GET", url, nil)
+	req, err := newRancherRequest(rancherClient.Opts.Url, "GET", url, nil)
 	if err != nil {
 		return err
 	}
@@ -398,7 +466,7 @@ func (rancherClient *RancherBaseClientImpl) doModify(method string, url string, 
 	}
 
 	client := rancherClient.newHttpClient()
-	req, err := http.NewRequest(method, url, bytes.NewBuffer(bodyContent))
+	req, err := newRancherRequest(rancherClient.Opts.Url, method, url, bytes.NewBuffer(bodyContent))
 	if err != nil {
 		return err
 	}
@@ -592,7 +660,7 @@ func (rancherClient *RancherBaseClientImpl) doAction(schemaType string, action s
 	}
 
 	client := rancherClient.newHttpClient()
-	req, err := http.NewRequest("POST", actionUrl, input)
+	req, err := newRancherRequest(rancherClient.Opts.Url, "POST", actionUrl, input)
 	if err != nil {
 		return err
 	}
