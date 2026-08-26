@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
+	"github.com/PastureStack/compose-cli/logging"
 	"github.com/gorilla/websocket"
 	log "github.com/sirupsen/logrus"
 )
@@ -175,7 +176,7 @@ func (router *EventRouter) run(wp WorkerPool, ready chan<- bool, eventSuffix str
 		if err != nil {
 			log.WithFields(log.Fields{
 				"messageBytes": len(message),
-			}).Warnf("Error parsing message: %s", err)
+			}).Warnf("Error parsing message: %s", logging.SafeLogValue(err))
 			continue
 		}
 		wp.HandleWork(event, handlers, router.apiClient)
@@ -213,11 +214,11 @@ func (router *EventRouter) subscribeToEvents(subscribeURL string, accessKey stri
 
 	if err != nil {
 		log.WithFields(log.Fields{
-			"subscribeEndpoint": endpoint.Scheme + "://" + endpoint.Host + endpoint.Path,
-		}).Errorf("Error subscribing to events: %s", err)
+			"subscribeEndpoint": logging.SafeLogValue(endpoint.Scheme + "://" + endpoint.Host + endpoint.Path),
+		}).Errorf("Error subscribing to events: %s", logging.SafeLogValue(err))
 		if resp != nil {
 			log.WithFields(log.Fields{
-				"status":     resp.Status,
+				"status":     logging.SafeLogValue(resp.Status),
 				"statusCode": resp.StatusCode,
 			}).Error("Got error response")
 			if resp.Body != nil {

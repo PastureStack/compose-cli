@@ -163,7 +163,7 @@ func (p *Project) load(file string, bytes []byte) error {
 		Name: p.context.EnvironmentName,
 	}, file, bytes)
 	if err != nil {
-		log.Errorf("Could not parse config for project %s : %v", p.Name, err)
+		log.Errorf("Could not parse config for project %s : %s", logging.SafeLogValue(p.Name), logging.SafeLogValue(err))
 		return err
 	}
 
@@ -299,18 +299,18 @@ func (p *Project) startService(wrappers map[string]*serviceWrapper, history []st
 		}
 		target := wrappers[dep.Target]
 		if target == nil {
-			log.Debugf("Failed to find %s", dep.Target)
+			log.Debugf("Failed to find %s", logging.SafeLogValue(dep.Target))
 			return fmt.Errorf("Service '%s' has a link to service '%s' which is undefined", wrapper.name, dep.Target)
 		}
 
 		if rUtils.Contains(history, dep.Target) {
 			cycle := strings.Join(append(history, dep.Target), "->")
 			if dep.Optional {
-				log.Debugf("Ignoring cycle for %s", cycle)
+				log.Debugf("Ignoring cycle for %s", logging.SafeLogValue(cycle))
 				wrapper.IgnoreDep(dep.Target)
 				if cycleAction != nil {
 					var err error
-					log.Debugf("Running cycle action for %s", cycle)
+					log.Debugf("Running cycle action for %s", logging.SafeLogValue(cycle))
 					err = cycleAction(target.service)
 					if err != nil {
 						return err
@@ -330,7 +330,7 @@ func (p *Project) startService(wrappers map[string]*serviceWrapper, history []st
 	}
 
 	if isSelected(wrapper, selected) {
-		log.Debugf("Launching action for %s", wrapper.name)
+		log.Debugf("Launching action for %s", logging.SafeLogValue(wrapper.name))
 		go action(wrapper, wrappers)
 	} else {
 		wrapper.Ignore()
@@ -391,7 +391,7 @@ func (p *Project) traverse(waiter options.Waiter, start bool, selected map[strin
 		if err := wrapper.Wait(); err == ErrRestart {
 			restart = true
 		} else if err != nil {
-			log.Errorf("Failed to start: %s : %v", wrapper.name, err)
+			log.Errorf("Failed to start: %s : %s", logging.SafeLogValue(wrapper.name), logging.SafeLogValue(err))
 			if firstError == nil {
 				firstError = err
 			}
@@ -404,7 +404,7 @@ func (p *Project) traverse(waiter options.Waiter, start bool, selected map[strin
 	if restart {
 		if p.ReloadCallback != nil {
 			if err := p.ReloadCallback(); err != nil {
-				log.Errorf("Failed calling callback: %v", err)
+				log.Errorf("Failed calling callback: %s", logging.SafeLogValue(err))
 			}
 		}
 		return p.traverse(waiter, false, selected, wrappers, action, cycleAction)

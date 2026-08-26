@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path"
 
+	"github.com/PastureStack/compose-cli/logging"
 	"github.com/PastureStack/compose-cli/utils"
 	"github.com/sirupsen/logrus"
 )
@@ -18,7 +19,7 @@ func MergeServicesV2(existingServices *ServiceConfigs, environmentLookup Environ
 		var err error
 		datas[name], err = parseV2(resourceLookup, environmentLookup, file, data, datas)
 		if err != nil {
-			logrus.Errorf("Failed to parse service %s: %v", name, err)
+			logrus.Errorf("Failed to parse service %s: %s", logging.SafeLogValue(name), logging.SafeLogValue(err))
 			return nil, err
 		}
 	}
@@ -71,7 +72,7 @@ func parseV2(resourceLookup ResourceLookup, environmentLookup EnvironmentLookup,
 	} else {
 		bytes, resolved, err := resourceLookup.Lookup(file, inFile)
 		if err != nil {
-			logrus.Errorf("Failed to lookup file %s: %v", file, err)
+			logrus.Errorf("Failed to lookup file %s: %s", logging.SafeLogValue(file), logging.SafeLogValue(err))
 			return nil, err
 		}
 
@@ -108,7 +109,10 @@ func parseV2(resourceLookup ResourceLookup, environmentLookup EnvironmentLookup,
 
 	baseService = clone(baseService)
 
-	logrus.Debugf("Merging %#v, %#v", baseService, serviceData)
+	logrus.WithFields(logrus.Fields{
+		"baseFields":     len(baseService),
+		"overrideFields": len(serviceData),
+	}).Debug("Merging service configuration")
 
 	for _, k := range noMerge {
 		if _, ok := baseService[k]; ok {
@@ -122,7 +126,7 @@ func parseV2(resourceLookup ResourceLookup, environmentLookup EnvironmentLookup,
 
 	baseService = mergeConfig(baseService, serviceData)
 
-	logrus.Debugf("Merged result %#v", baseService)
+	logrus.WithField("resultFields", len(baseService)).Debug("Merged service configuration")
 
 	return baseService, nil
 }

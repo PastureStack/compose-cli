@@ -114,7 +114,7 @@ func WithProject(factory ProjectFactory, action ProjectAction) func(context *cli
 	return func(context *cli.Context) error {
 		p, err := factory.Create(context)
 		if err != nil {
-			logrus.Fatalf("Failed to read project: %v", err)
+			logrus.Fatalf("Failed to read project: %s", logging.SafeLogValue(err))
 		}
 		return action(p, context)
 	}
