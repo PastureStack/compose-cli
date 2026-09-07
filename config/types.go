@@ -21,6 +21,10 @@ type ResourceLookup interface {
 
 // ServiceConfigV1 holds version 1 Compose service configuration.
 type ServiceConfigV1 struct {
+	Runtime             string                   `yaml:"runtime,omitempty"`
+	GPUs                GPURequests              `yaml:"gpus,omitempty"`
+	Deploy              *HardwareDeployment      `yaml:"deploy,omitempty"`
+	PidsLimit           *int64                   `yaml:"pids_limit,omitempty"`
 	BlkioWeight         yaml.StringorInt         `yaml:"blkio_weight,omitempty"`
 	BlkioWeightDevice   []string                 `yaml:"blkio_weight_device,omitempty"`
 	Build               string                   `yaml:"build,omitempty"`
@@ -125,6 +129,10 @@ type Log struct {
 
 // ServiceConfig holds version 2 Compose service configuration.
 type ServiceConfig struct {
+	Runtime             string                   `yaml:"runtime,omitempty"`
+	GPUs                GPURequests              `yaml:"gpus,omitempty"`
+	Deploy              *HardwareDeployment      `yaml:"deploy,omitempty"`
+	PidsLimit           *int64                   `yaml:"pids_limit,omitempty"`
 	BlkioWeight         yaml.StringorInt         `yaml:"blkio_weight,omitempty"`
 	BlkioWeightDevice   []string                 `yaml:"blkio_weight_device,omitempty"`
 	Build               yaml.Build               `yaml:"build,omitempty"`
