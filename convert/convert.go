@@ -276,7 +276,13 @@ func Convert(c *config.ServiceConfig, ctx project.Context) (*DockerConfig, *cont
 		return nil, nil, err
 	}
 
+	deviceRequests, err := hardwareRequests(c)
+	if err != nil {
+		return nil, nil, err
+	}
 	resources := container.Resources{
+		DeviceRequests:       deviceRequests,
+		PidsLimit:            c.PidsLimit,
 		BlkioWeight:          uint16(c.BlkioWeight),
 		BlkioWeightDevice:    blkioWeightDevices,
 		CgroupParent:         c.CgroupParent,
@@ -298,6 +304,7 @@ func Convert(c *config.ServiceConfig, ctx project.Context) (*DockerConfig, *cont
 	}
 
 	hostConfig := &container.HostConfig{
+		Runtime:     c.Runtime,
 		VolumesFrom: volumesFrom,
 		CapAdd:      strslice.StrSlice(utils.CopySlice(c.CapAdd)),
 		CapDrop:     strslice.StrSlice(utils.CopySlice(c.CapDrop)),

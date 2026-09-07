@@ -55,7 +55,7 @@ func getValue(val interface{}, context string) string {
 		case string:
 			return typedVal
 		case []interface{}:
-			if index, err := strconv.Atoi(k); err == nil {
+			if index, err := strconv.Atoi(k); err == nil && index >= 0 && index < len(typedVal) {
 				val = typedVal[index]
 			}
 		case RawServiceMap:
@@ -255,8 +255,16 @@ func generateErrorMessages(serviceMap RawServiceMap, schema map[string]interface
 
 				switch err.Type() {
 				case "additional_property_not_allowed":
-					validationErrors = append(validationErrors, unsupportedConfigMessage(key, result.Errors()[i+1]))
+					property, _ := err.Details()["property"].(string)
+					if property == "" {
+						property = key
+					}
+					validationErrors = append(validationErrors, unsupportedConfigMessage(property, err))
 				case "number_one_of":
+					if i+1 >= len(result.Errors()) {
+						validationErrors = append(validationErrors, fmt.Sprintf("Service '%s' configuration key '%s': %s", serviceName, key, err.Description()))
+						continue
+					}
 					validationErrors = append(validationErrors, fmt.Sprintf("Service '%s' configuration key '%s' %s", serviceName, key, oneOfMessage(serviceMap, schema, err, result.Errors()[i+1])))
 
 					// Next error handled in oneOfMessage, skip over it

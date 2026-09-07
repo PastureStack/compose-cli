@@ -59,7 +59,7 @@ func CreateLaunchConfig(name string, serviceConfig *config.ServiceConfig, c *cli
 	dockerContainer.HostConfig.NetworkMode = container.NetworkMode("")
 	dockerContainer.Name = "/" + name
 
-	if c.Post(scriptsUrl, dockerContainer, &result); err != nil {
+	if err = c.Post(scriptsUrl, dockerContainer, &result); err != nil {
 		return result, err
 	}
 
@@ -78,6 +78,9 @@ func CreateLaunchConfig(name string, serviceConfig *config.ServiceConfig, c *cli
 
 	if result.Labels == nil {
 		result.Labels = map[string]interface{}{}
+	}
+	if result.LogConfig == nil {
+		result.LogConfig = &client.LogConfig{}
 	}
 	if result.LogConfig.Config == nil {
 		result.LogConfig.Config = map[string]interface{}{}
