@@ -82,7 +82,11 @@ jobs:
           gzip -cd "$artifact" > evidence/product/compose-executor
           chmod +x evidence/product/compose-executor
           evidence/product/compose-executor --version | grep -F '0.14.36' >/dev/null
-          sha256sum "$artifact" > evidence/compose-executor.gz.sha256
+          cp "$artifact" evidence/
+          (
+            cd evidence
+            sha256sum "$(basename "$artifact")" > compose-executor.gz.sha256
+          )
           docker run --rm --entrypoint go \
             --volume "$PWD:/work:ro" \
             "$DAPPER_IMAGE" \
