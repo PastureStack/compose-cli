@@ -26,9 +26,24 @@ func PreprocessServiceMap(serviceMap RawServiceMap) (RawServiceMap, error) {
 
 func Preprocess(item interface{}, replaceTypes bool) interface{} {
 	switch typedDatas := item.(type) {
+	case RawService:
+		newMap := make(map[string]interface{}, len(typedDatas))
+
+		for key, value := range typedDatas {
+			newMap[key] = Preprocess(value, replaceTypes)
+		}
+		return newMap
 
 	case map[interface{}]interface{}:
 		newMap := make(map[interface{}]interface{})
+
+		for key, value := range typedDatas {
+			newMap[key] = Preprocess(value, replaceTypes)
+		}
+		return newMap
+
+	case map[string]interface{}:
+		newMap := make(map[string]interface{}, len(typedDatas))
 
 		for key, value := range typedDatas {
 			newMap[key] = Preprocess(value, replaceTypes)
@@ -72,9 +87,24 @@ func TryConvertStringsToInts(serviceMap RawServiceMap, fields map[string]bool) (
 
 func tryConvertStringsToInts(item interface{}, replaceTypes bool) interface{} {
 	switch typedDatas := item.(type) {
+	case RawService:
+		newMap := make(map[string]interface{}, len(typedDatas))
+
+		for key, value := range typedDatas {
+			newMap[key] = tryConvertStringsToInts(value, replaceTypes)
+		}
+		return newMap
 
 	case map[interface{}]interface{}:
 		newMap := make(map[interface{}]interface{})
+
+		for key, value := range typedDatas {
+			newMap[key] = tryConvertStringsToInts(value, replaceTypes)
+		}
+		return newMap
+
+	case map[string]interface{}:
+		newMap := make(map[string]interface{}, len(typedDatas))
 
 		for key, value := range typedDatas {
 			newMap[key] = tryConvertStringsToInts(value, replaceTypes)

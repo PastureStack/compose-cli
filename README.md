@@ -26,7 +26,7 @@ make test
 make package
 ```
 
-Set `VERSION_OVERRIDE=0.14.33` for the current maintenance candidate. Packaging produces the deterministic, versioned `compose-executor-0.14.33-linux-amd64.gz` asset for a matching future `PastureStack/server` GitHub Release. The Python integration suite must run against an isolated compatible Server before integration; it must never target an operator's live control plane.
+Set `VERSION_OVERRIDE=0.14.36` for the current maintenance candidate. Packaging produces the deterministic, versioned `compose-executor-0.14.36-linux-amd64.gz` asset for a matching future `PastureStack/server` GitHub Release. The Python integration suite must run against an isolated compatible Server before integration; it must never target an operator's live control plane.
 
 The compatibility-server test requires an explicitly reviewed artifact URL through `PLATFORM_COMPAT_JAR_URL` and its exact SHA-256 through `PLATFORM_COMPAT_JAR_SHA256`; no artifact is downloaded by default. See [COMPATIBILITY.md](COMPATIBILITY.md), [SECURITY.md](SECURITY.md), and [ORIGIN.md](ORIGIN.md).
 

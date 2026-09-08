@@ -122,6 +122,26 @@ func parseConfig(key string, data *interface{}, mapping func(string) string) err
 
 			typedData[k] = v
 		}
+	case RawService:
+		for k, v := range typedData {
+			err := parseConfig(key, &v, mapping)
+
+			if err != nil {
+				return err
+			}
+
+			typedData[k] = v
+		}
+	case map[string]interface{}:
+		for k, v := range typedData {
+			err := parseConfig(key, &v, mapping)
+
+			if err != nil {
+				return err
+			}
+
+			typedData[k] = v
+		}
 	case map[interface{}]interface{}:
 		for k, v := range typedData {
 			err := parseConfig(key, &v, mapping)

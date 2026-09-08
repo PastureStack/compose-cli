@@ -44,6 +44,7 @@ require_line Dockerfile.dapper 'ARG GO_SHA256_amd64=675c26c449cbb18fc24b74650de1
 require_line Dockerfile.dapper 'ARG GO_SHA256_arm64=51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda'
 require_line Dockerfile.dapper '    GO111MODULE=on \'
 require_line Dockerfile.dapper '    GOFLAGS=-mod=vendor \'
+require_line Dockerfile.dapper "    printf 'Types: deb\\nURIs: https://archive.ubuntu.com/ubuntu\\nSuites: resolute resolute-updates resolute-backports\\nComponents: main universe restricted multiverse\\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\\nSnapshot: no\\n\\nTypes: deb\\nURIs: https://security.ubuntu.com/ubuntu\\nSuites: resolute-security\\nComponents: main universe restricted multiverse\\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\\nSnapshot: no\\n' \\"
 require_line go.mod 'go 1.26.0'
 require_line go.mod 'toolchain go1.27.0'
 require_line go.mod $'\tgithub.com/aws/aws-sdk-go-v2 v1.43.8'
@@ -54,7 +55,6 @@ require_line vendor/modules.txt '# github.com/aws/aws-sdk-go-v2 v1.43.8'
 require_line vendor/modules.txt '# github.com/moby/moby/api v1.55.0'
 require_line security/openvex.json '        "name": "GO-2026-5932"'
 require_line security/openvex.json '      "justification": "vulnerable_code_not_present",'
-require_line ubuntu-apt.lock "UBUNTU_APT_SNAPSHOT='20260825T000000Z'"
 require_line ubuntu-apt.lock "UBUNTU_APT_GCC_VERSION='4:15.2.0-5ubuntu1'"
 require_line .python-version '3.14.7'
 require_line tests/integration/requirements.txt 'pytest==9.1.1'
@@ -109,4 +109,4 @@ fi
 require_line README.md 'PastureStack is an independent community effort to preserve, audit, and modernize the Rancher 1.6 ecosystem. It is not affiliated with or endorsed by Rancher Labs or SUSE.'
 require_line ORIGIN.md '- Migration model: unchanged upstream history followed by one PastureStack maintenance commit'
 
-printf 'PASTURESTACK_COMPOSE_SOURCE_GATE_OK modules=vendor aws_sdk=v2 moby_api=1.55.0 archived_go_dependencies=absent system_images=ghcr local_resource_boundary=root_scoped unused_docker_cli=absent ubuntu=26.04 apt_snapshot=20260825 language_floor=1.26.0 toolchain=1.27.0 python=3.14.7\n'
+printf 'PASTURESTACK_COMPOSE_SOURCE_GATE_OK modules=vendor aws_sdk=v2 moby_api=1.55.0 archived_go_dependencies=absent system_images=ghcr local_resource_boundary=root_scoped unused_docker_cli=absent ubuntu=26.04 apt_direct_versions=locked language_floor=1.26.0 toolchain=1.27.0 python=3.14.7\n'

@@ -28,8 +28,8 @@ RUN set -eux; \
         | while IFS= read -r certificate; do sed -e '$a\' "${certificate}"; done \
         > /etc/ssl/certs/ca-certificates.crt; \
     test -s /etc/ssl/certs/ca-certificates.crt; \
-    printf 'Types: deb\nURIs: https://snapshot.ubuntu.com/ubuntu/%s\nSuites: resolute resolute-updates resolute-backports resolute-security\nComponents: main universe restricted multiverse\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\nSnapshot: no\n' \
-        "${UBUNTU_APT_SNAPSHOT}" > /etc/apt/sources.list.d/pasturestack-snapshot.sources; \
+    printf 'Types: deb\nURIs: https://archive.ubuntu.com/ubuntu\nSuites: resolute resolute-updates resolute-backports\nComponents: main universe restricted multiverse\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\nSnapshot: no\n\nTypes: deb\nURIs: https://security.ubuntu.com/ubuntu\nSuites: resolute-security\nComponents: main universe restricted multiverse\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\nSnapshot: no\n' \
+        > /etc/apt/sources.list.d/pasturestack-archive.sources; \
     printf 'Acquire::Retries "5";\nAcquire::http::Timeout "30";\nAcquire::https::Timeout "30";\nAcquire::http::Pipeline-Depth "0";\nAcquire::https::CaInfo "/etc/ssl/certs/ca-certificates.crt";\nAcquire::https::Verify-Peer "true";\nAcquire::https::Verify-Host "true";\nAcquire::AllowInsecureRepositories "false";\nAPT::Get::AllowUnauthenticated "false";\n' > /etc/apt/apt.conf.d/80pasturestack-retries; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
@@ -50,7 +50,7 @@ RUN set -eux; \
         xz-utils="${UBUNTU_APT_XZ_UTILS_VERSION}" \
         zip="${UBUNTU_APT_ZIP_VERSION}"; \
     { \
-        printf 'snapshot\t%s\n' "${UBUNTU_APT_SNAPSHOT}"; \
+        printf 'archive\tubuntu-26.04-supported-pockets\n'; \
         dpkg-query -W -f='${binary:Package}\t${Version}\n' | LC_ALL=C sort; \
     } > /licenses/COMPOSE-CLI-UBUNTU-APT-PACKAGES.tsv; \
     apt-get clean; \
