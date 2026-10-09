@@ -8,7 +8,7 @@ PastureStack is an independent community effort to preserve, audit, and moderniz
 
 ## Project status
 
-The maintained release uses Ubuntu 26.04, Go 1.27.0, and Python 3.14.7 for integration-source verification. Ubuntu build packages, the base image, and Go archives are fixed by snapshot, exact version, and SHA-256. Go dependencies are managed by `go.mod` and a reproducible module vendor tree. AWS access uses AWS SDK for Go v2; container structures use the maintained Moby API module; the command parser uses urfave/cli v3. The abandoned AWS SDK v1, Rancher generated-client modules, event-subscriber module, `docker/libcompose`, and other GOPATH-era dependencies have been removed. The small Rancher 1.6 protocol boundary retained by this compatibility CLI is maintained and tested locally. The Dapper builder does not embed a Docker CLI or mount a Docker socket; Docker is required only on the host to create and run the isolated builder. The maintained binaries are `pasturestack-compose` and `compose-executor`; `platform-compose.yml` is the preferred companion file. Releases are built and verified from the preserved source history; this repository does not enable automated deployment.
+The maintained release uses Ubuntu 26.04, Go 1.27.2, and Python 3.14.7 for integration-source verification. Ubuntu build packages, the base image, and Go archives are fixed by snapshot, exact version, and SHA-256. Go dependencies are managed by `go.mod` and a reproducible module vendor tree. AWS access uses AWS SDK for Go v2; container structures use the maintained Moby API module; the command parser uses urfave/cli v3. The abandoned AWS SDK v1, Rancher generated-client modules, event-subscriber module, `docker/libcompose`, and other GOPATH-era dependencies have been removed. The small Rancher 1.6 protocol boundary retained by this compatibility CLI is maintained and tested locally. The Dapper builder does not embed a Docker CLI or mount a Docker socket; Docker is required only on the host to create and run the isolated builder. The maintained binaries are `pasturestack-compose` and `compose-executor`; `platform-compose.yml` is the preferred companion file. Releases are built and verified from the preserved source history; this repository does not enable automated deployment.
 
 ## Configuration
 
@@ -26,7 +26,11 @@ make test
 make package
 ```
 
-Set `VERSION_OVERRIDE=0.14.36` for the current maintenance candidate. Packaging produces the deterministic, versioned `compose-executor-0.14.36-linux-amd64.gz` asset for a matching future `PastureStack/server` GitHub Release. The Python integration suite must run against an isolated compatible Server before integration; it must never target an operator's live control plane.
+Set `VERSION_OVERRIDE=0.14.37` for the current maintenance candidate. Packaging produces the deterministic, versioned `compose-executor-0.14.37-linux-amd64.gz` asset for a matching future `PastureStack/server` GitHub Release; existing published tags and assets remain immutable. The Python integration suite must run against an isolated compatible Server before integration; it must never target an operator's live control plane.
+
+Go 1.27.2 compiler archives are checksum-pinned for Linux/amd64 and Linux/arm64.
+This candidate's artifact qualification covers Linux/amd64 only, not an ARM64
+binary build.
 
 The compatibility-server test requires an explicitly reviewed artifact URL through `PLATFORM_COMPAT_JAR_URL` and its exact SHA-256 through `PLATFORM_COMPAT_JAR_SHA256`; no artifact is downloaded by default. See [COMPATIBILITY.md](COMPATIBILITY.md), [SECURITY.md](SECURITY.md), and [ORIGIN.md](ORIGIN.md).
 
