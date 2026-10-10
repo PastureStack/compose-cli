@@ -39,12 +39,13 @@ require_line scripts/build 'OS_ARCH_ARG[linux]="amd64"'
 require_line scripts/build 'OS_ARCH_ARG[windows]="amd64"'
 require_line scripts/build 'OS_ARCH_ARG[darwin]="amd64"'
 require_line Dockerfile.dapper 'FROM ubuntu:26.04@sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b'
-require_line Dockerfile.dapper 'ARG GO_VERSION=1.27.0'
-require_line Dockerfile.dapper 'ARG GO_SHA256_amd64=675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685'
-require_line Dockerfile.dapper 'ARG GO_SHA256_arm64=51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda'
+require_line Dockerfile.dapper 'ARG GO_VERSION=1.27.2'
+require_line Dockerfile.dapper 'ARG GO_SHA256_amd64=ecbadb99091a3f46e31f5f934b068b1864eafa7995211b39eaddf76996045fe5'
+require_line Dockerfile.dapper 'ARG GO_SHA256_arm64=94f3e30b8e374bc285e7dadc11e0865726b9bc6e85b841ccceaabc0214c6b7c8'
 require_line Dockerfile.dapper '    GO111MODULE=on \'
 require_line Dockerfile.dapper '    GOFLAGS=-mod=vendor \'
 require_line Dockerfile.dapper "    printf 'Types: deb\\nURIs: https://archive.ubuntu.com/ubuntu\\nSuites: resolute resolute-updates resolute-backports\\nComponents: main universe restricted multiverse\\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\\nSnapshot: no\\n\\nTypes: deb\\nURIs: https://security.ubuntu.com/ubuntu\\nSuites: resolute-security\\nComponents: main universe restricted multiverse\\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\\nSnapshot: no\\n' \\"
+# Preserve module declarations independently of the checksum-pinned build compiler.
 require_line go.mod 'go 1.26.0'
 require_line go.mod 'toolchain go1.27.0'
 require_line go.mod $'\tgithub.com/aws/aws-sdk-go-v2 v1.43.8'
@@ -109,4 +110,4 @@ fi
 require_line README.md 'PastureStack is an independent community effort to preserve, audit, and modernize the Rancher 1.6 ecosystem. It is not affiliated with or endorsed by Rancher Labs or SUSE.'
 require_line ORIGIN.md '- Migration model: unchanged upstream history followed by one PastureStack maintenance commit'
 
-printf 'PASTURESTACK_COMPOSE_SOURCE_GATE_OK modules=vendor aws_sdk=v2 moby_api=1.55.0 archived_go_dependencies=absent system_images=ghcr local_resource_boundary=root_scoped unused_docker_cli=absent ubuntu=26.04 apt_direct_versions=locked language_floor=1.26.0 toolchain=1.27.0 python=3.14.7\n'
+printf 'PASTURESTACK_COMPOSE_SOURCE_GATE_OK modules=vendor aws_sdk=v2 moby_api=1.55.0 archived_go_dependencies=absent system_images=ghcr local_resource_boundary=root_scoped unused_docker_cli=absent ubuntu=26.04 apt_direct_versions=locked language_floor=1.26.0 toolchain=1.27.2 module_toolchain=1.27.0 python=3.14.7\n'
