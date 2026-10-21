@@ -41,7 +41,13 @@ RUN set -eux; \
         git="${UBUNTU_APT_GIT_VERSION}" \
         gzip="${UBUNTU_APT_GZIP_VERSION}" \
         libc6-dev="${UBUNTU_APT_LIBC6_DEV_VERSION}" \
+        libcurl3t64-gnutls="${UBUNTU_APT_CURL_VERSION}" \
+        libcurl4t64="${UBUNTU_APT_CURL_VERSION}" \
+        libssl3t64="${UBUNTU_APT_OPENSSL_VERSION}" \
+        linux-libc-dev="${UBUNTU_APT_LINUX_LIBC_DEV_VERSION}" \
         make="${UBUNTU_APT_MAKE_VERSION}" \
+        openssl="${UBUNTU_APT_OPENSSL_VERSION}" \
+        openssl-provider-legacy="${UBUNTU_APT_OPENSSL_VERSION}" \
         python3="${UBUNTU_APT_PYTHON3_VERSION}" \
         python3-virtualenv="${UBUNTU_APT_PYTHON3_VIRTUALENV_VERSION}" \
         rsync="${UBUNTU_APT_RSYNC_VERSION}" \

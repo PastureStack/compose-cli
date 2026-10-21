@@ -60,6 +60,15 @@ require_line vendor/modules.txt '# github.com/moby/moby/api v1.55.0'
 require_line security/openvex.json '        "name": "GO-2026-5932"'
 require_line security/openvex.json '      "justification": "vulnerable_code_not_present",'
 require_line ubuntu-apt.lock "UBUNTU_APT_GCC_VERSION='4:15.2.0-5ubuntu1'"
+require_line ubuntu-apt.lock "UBUNTU_APT_CURL_VERSION='8.18.0-1ubuntu2.8'"
+require_line ubuntu-apt.lock "UBUNTU_APT_OPENSSL_VERSION='3.5.5-1ubuntu3.7'"
+require_line ubuntu-apt.lock "UBUNTU_APT_LINUX_LIBC_DEV_VERSION='7.0.0-38.38'"
+require_line Dockerfile.dapper '        libcurl3t64-gnutls="${UBUNTU_APT_CURL_VERSION}" \'
+require_line Dockerfile.dapper '        libcurl4t64="${UBUNTU_APT_CURL_VERSION}" \'
+require_line Dockerfile.dapper '        libssl3t64="${UBUNTU_APT_OPENSSL_VERSION}" \'
+require_line Dockerfile.dapper '        linux-libc-dev="${UBUNTU_APT_LINUX_LIBC_DEV_VERSION}" \'
+require_line Dockerfile.dapper '        openssl="${UBUNTU_APT_OPENSSL_VERSION}" \'
+require_line Dockerfile.dapper '        openssl-provider-legacy="${UBUNTU_APT_OPENSSL_VERSION}" \'
 require_line .python-version '3.14.7'
 require_line tests/integration/requirements.txt 'pytest==9.1.1'
 require_line tests/integration/requirements.txt 'setuptools==84.0.0'
