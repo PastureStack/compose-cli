@@ -39,9 +39,12 @@ require_line scripts/build 'OS_ARCH_ARG[linux]="amd64"'
 require_line scripts/build 'OS_ARCH_ARG[windows]="amd64"'
 require_line scripts/build 'OS_ARCH_ARG[darwin]="amd64"'
 require_line Dockerfile.dapper 'FROM ubuntu:26.04@sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b'
-require_line Dockerfile.dapper 'ARG GO_VERSION=1.27.2'
-require_line Dockerfile.dapper 'ARG GO_SHA256_amd64=ecbadb99091a3f46e31f5f934b068b1864eafa7995211b39eaddf76996045fe5'
-require_line Dockerfile.dapper 'ARG GO_SHA256_arm64=94f3e30b8e374bc285e7dadc11e0865726b9bc6e85b841ccceaabc0214c6b7c8'
+require_line Dockerfile.dapper 'ARG GO_VERSION=1.27.3'
+require_line Dockerfile.dapper 'ARG GO_SHA256_amd64=65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40'
+require_line Dockerfile.dapper 'ARG GO_SHA256_arm64=a06e99309dbcbdca1a8ccd2282c3ee146e55930886e26b4f1193269587165f49'
+require_line .github/workflows/codeql-verification.yml '          archive="$RUNNER_TEMP/go1.27.3.linux-amd64.tar.gz"'
+require_line .github/workflows/codeql-verification.yml "            '65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40' \\"
+require_line .github/workflows/security-release-gate.yml "          grep -F 'go1.27.3' evidence/product-go-version.txt >/dev/null"
 require_line Dockerfile.dapper '    GO111MODULE=on \'
 require_line Dockerfile.dapper '    GOFLAGS=-mod=vendor \'
 require_line Dockerfile.dapper "    printf 'Types: deb\\nURIs: https://archive.ubuntu.com/ubuntu\\nSuites: resolute resolute-updates resolute-backports\\nComponents: main universe restricted multiverse\\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\\nSnapshot: no\\n\\nTypes: deb\\nURIs: https://security.ubuntu.com/ubuntu\\nSuites: resolute-security\\nComponents: main universe restricted multiverse\\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\\nSnapshot: no\\n' \\"
@@ -57,6 +60,15 @@ require_line vendor/modules.txt '# github.com/moby/moby/api v1.55.0'
 require_line security/openvex.json '        "name": "GO-2026-5932"'
 require_line security/openvex.json '      "justification": "vulnerable_code_not_present",'
 require_line ubuntu-apt.lock "UBUNTU_APT_GCC_VERSION='4:15.2.0-5ubuntu1'"
+require_line ubuntu-apt.lock "UBUNTU_APT_CURL_VERSION='8.18.0-1ubuntu2.8'"
+require_line ubuntu-apt.lock "UBUNTU_APT_OPENSSL_VERSION='3.5.5-1ubuntu3.7'"
+require_line ubuntu-apt.lock "UBUNTU_APT_LINUX_LIBC_DEV_VERSION='7.0.0-38.38'"
+require_line Dockerfile.dapper '        libcurl3t64-gnutls="${UBUNTU_APT_CURL_VERSION}" \'
+require_line Dockerfile.dapper '        libcurl4t64="${UBUNTU_APT_CURL_VERSION}" \'
+require_line Dockerfile.dapper '        libssl3t64="${UBUNTU_APT_OPENSSL_VERSION}" \'
+require_line Dockerfile.dapper '        linux-libc-dev="${UBUNTU_APT_LINUX_LIBC_DEV_VERSION}" \'
+require_line Dockerfile.dapper '        openssl="${UBUNTU_APT_OPENSSL_VERSION}" \'
+require_line Dockerfile.dapper '        openssl-provider-legacy="${UBUNTU_APT_OPENSSL_VERSION}" \'
 require_line .python-version '3.14.7'
 require_line tests/integration/requirements.txt 'pytest==9.1.1'
 require_line tests/integration/requirements.txt 'setuptools==84.0.0'
@@ -110,4 +122,4 @@ fi
 require_line README.md 'PastureStack is an independent community effort to preserve, audit, and modernize the Rancher 1.6 ecosystem. It is not affiliated with or endorsed by Rancher Labs or SUSE.'
 require_line ORIGIN.md '- Migration model: unchanged upstream history followed by one PastureStack maintenance commit'
 
-printf 'PASTURESTACK_COMPOSE_SOURCE_GATE_OK modules=vendor aws_sdk=v2 moby_api=1.55.0 archived_go_dependencies=absent system_images=ghcr local_resource_boundary=root_scoped unused_docker_cli=absent ubuntu=26.04 apt_direct_versions=locked language_floor=1.26.0 toolchain=1.27.2 module_toolchain=1.27.0 python=3.14.7\n'
+printf 'PASTURESTACK_COMPOSE_SOURCE_GATE_OK modules=vendor aws_sdk=v2 moby_api=1.55.0 archived_go_dependencies=absent system_images=ghcr local_resource_boundary=root_scoped unused_docker_cli=absent ubuntu=26.04 apt_direct_versions=locked language_floor=1.26.0 toolchain=1.27.3 module_toolchain=1.27.0 python=3.14.7\n'
