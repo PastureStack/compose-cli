@@ -1,7 +1,7 @@
 FROM ubuntu:26.04@sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b
 
 COPY ubuntu-apt.lock /licenses/ubuntu-apt.lock
-ADD --checksum=sha256:6077d27c6b6f8b23590cb01ff877ed8c804a67a5442cc32b5a33da10d2bd0e90 https://archive.ubuntu.com/ubuntu/pool/main/c/ca-certificates/ca-certificates_20260601~26.04.1_all.deb /tmp/ca-certificates.deb
+ADD --checksum=sha256:5b6326f1932cfd7be57130561dc78192f09ed9f58bfbe6606ed0c50510c3b6cd https://archive.ubuntu.com/ubuntu/pool/main/c/ca-certificates/ca-certificates_20260816ubuntu0.26.04.1_all.deb /tmp/ca-certificates.deb
 
 ARG GO_VERSION=1.27.3
 ARG GO_SHA256_amd64=65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40
@@ -17,6 +17,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     XDG_CONFIG_HOME=/tmp/go-config \
     PATH=/go/bin:/usr/local/go/bin:${PATH}
 
+ADD --checksum=sha256:5b6326f1932cfd7be57130561dc78192f09ed9f58bfbe6606ed0c50510c3b6cd https://archive.ubuntu.com/ubuntu/pool/main/c/ca-certificates/ca-certificates_20260816ubuntu0.26.04.1_all.deb /opt/pasturestack-ca-certificates.deb
 RUN set -eux; \
     . /licenses/ubuntu-apt.lock; \
     rm -f /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources; \
@@ -55,6 +56,11 @@ RUN set -eux; \
         tox="${UBUNTU_APT_TOX_VERSION}" \
         xz-utils="${UBUNTU_APT_XZ_UTILS_VERSION}" \
         zip="${UBUNTU_APT_ZIP_VERSION}"; \
+    dpkg -i /opt/pasturestack-ca-certificates.deb && \
+    update-ca-certificates --fresh && \
+    test "$(dpkg-query -W -f='${Version}' ca-certificates)" = '20260816ubuntu0.26.04.1' && \
+    test ! -e /usr/share/ca-certificates/mozilla/emSign_ECC_Root_CA_-_G3.crt && \
+    rm -f /opt/pasturestack-ca-certificates.deb && \
     { \
         printf 'archive\tubuntu-26.04-supported-pockets\n'; \
         dpkg-query -W -f='${binary:Package}\t${Version}\n' | LC_ALL=C sort; \
@@ -63,6 +69,14 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/bin/pebble
 
 RUN git config --system --add safe.directory '*'
+
+COPY scripts/pip-security /opt/python-security/scripts
+RUN python3 /opt/python-security/scripts/build-pip-overlay.py --work /tmp/pip-overlay-build --output /opt/python-security && \
+    rm -rf /tmp/pip-overlay-build
+ADD --checksum=sha256:42d35340cc5b9ba78e818ddbff0c5b1c2b779de448a340fd1b989f5fa8670e1b https://files.pythonhosted.org/packages/c4/51/29046e48f693c54e5b7412216d447a1d8362c9653148d98c02cdf65fa733/certifi-2026.10.19-py3-none-any.whl /opt/python-security/certifi-2026.10.19-py3-none-any.whl
+COPY scripts/install-python-security-tools /usr/local/bin/install-python-security-tools
+ENV VIRTUALENV_PIP=26.2.2+pasturestack.1 VIRTUALENV_EXTRA_SEARCH_DIR=/usr/share/python-wheels VIRTUALENV_NO_PERIODIC_UPDATE=1
+RUN PYTHON_SECURITY_VIRTUALENV_PYTHON=python3 bash /usr/local/bin/install-python-security-tools
 
 RUN case "${DAPPER_HOST_ARCH}" in \
         amd64) go_arch=amd64; go_sha="${GO_SHA256_amd64}" ;; \
