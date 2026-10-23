@@ -54,3 +54,18 @@ Maintained Go builds select the patched Go 1.27.3 compiler without raising the e
 # Python installer security rebuild
 
 The disposable Dapper image rebuilds pip `26.2.2+pasturestack.1` from checksum-pinned official inputs using upstream vendoring and the original urllib3 patches. Only urllib3 changes to released `2.8.0`; this is a local security rebuild, not a new official PyPA release. The expected wheel SHA-256 is `be5f63d537bbe611dc422fabb6740a44b5997888b592888df5091727f023802a`. Ubuntu's Python ABI is retained. The image tests live pip, available ensurepip/new-venv seeds, virtualenv, streaming limits, and trusted/untrusted TLS. See `scripts/pip-security/README.md` for source and license evidence.
+
+
+## Disposable builder security
+
+CI retains the complete all-severity Dapper scan and SBOM. Available fixes,
+unknown severity, secrets, missing binary analysis, and findings absent from the
+exact official no-fix ledger fail the gate. Reviewed Linux API headers require
+the fixed package/version/PURL/advisory set and an actual header-only payload
+proof; this is not a kernel or runtime exemption. Ubuntu security micro-updates
+apply only to already-installed packages without changing the Python ABI.
+
+The focused `Builder full-severity security` workflow validates builder-only
+maintenance without rebuilding or republishing the unchanged `v0.14.39`
+runtime. Raw distro pip metadata is retained alongside the actual replaced seed
+paths, wheel hash, and existing narrow pip-vendor VEX evidence.

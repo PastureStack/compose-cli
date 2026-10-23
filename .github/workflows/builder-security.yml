@@ -1,0 +1,101 @@
+name: Builder full-severity security
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'Dockerfile.dapper'
+      - 'ubuntu*.lock'
+      - 'scripts/install-ubuntu-security-updates.sh'
+      - '.github/dapper-*.json'
+      - '.github/scripts/**'
+      - '.github/workflows/builder-security.yml'
+      - '.github/workflows/security-release-gate.yml'
+permissions:
+  contents: read
+concurrency:
+  group: compose-builder-security-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  builder-security:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      DAPPER_IMAGE: pasturestack/compose-cli-builder-audit:${{ github.sha }}
+      TRIVY_IMAGE: aquasec/trivy:0.74.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Record exact source and run policy controls
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test -z "$(git status --porcelain)"
+          mkdir -p evidence
+          git rev-parse HEAD > evidence/source-revision.txt
+          sha256sum Dockerfile.dapper ubuntu-apt.lock ubuntu-security-packages.lock \
+            scripts/install-ubuntu-security-updates.sh .github/dapper-*.json \
+            scripts/pip-security/inputs.json > evidence/source-locks.sha256
+          python3 .github/scripts/test_builder_vulnerability_policy.py
+      - name: Build and verify actual Python tools and installed package boundary
+        run: |
+          set -euo pipefail
+          docker build --build-arg DAPPER_HOST_ARCH=amd64 -f Dockerfile.dapper -t "$DAPPER_IMAGE" .
+          docker image inspect "$DAPPER_IMAGE" > evidence/dapper-image-inspect.json
+          docker run --rm --entrypoint bash "$DAPPER_IMAGE" -euo pipefail -c '
+            if command -v docker >/dev/null 2>&1; then
+              echo "Unexpected Docker CLI in Compose builder" >&2; exit 1
+            fi
+            dpkg-query -W -f="\${binary:Package}\t\${Version}\n" | LC_ALL=C sort
+          ' > evidence/dapper-dpkg.tsv
+          bash .github/scripts/check-builder-header-boundary.sh "$DAPPER_IMAGE" > evidence/dapper-header-boundary.json
+          docker run --rm --entrypoint python3 "$DAPPER_IMAGE" \
+            /opt/python-security/scripts/check-pip-vendor-slice.py > evidence/pip-vendor-proof.json
+          # Retain dpkg metadata; prove the actual installed/removed seed paths.
+          docker run --rm --entrypoint bash "$DAPPER_IMAGE" -euo pipefail -c '
+            dpkg-query -L python3-pip-whl | while IFS= read -r path; do
+              case "$path" in
+                *.whl)
+                  if test -e "$path"; then
+                    printf "%s  %s\n" be5f63d537bbe611dc422fabb6740a44b5997888b592888df5091727f023802a "$path" | sha256sum -c -
+                  else
+                    printf "REMOVED_OLD_DISTRO_WHEEL %s\n" "$path"
+                  fi ;;
+              esac
+            done
+            test "$(find /usr/share/python-wheels -maxdepth 1 -name "pip-*.whl" | wc -l)" -eq 1
+            printf "%s  %s\n" be5f63d537bbe611dc422fabb6740a44b5997888b592888df5091727f023802a \
+              /usr/share/python-wheels/pip-26.2.2+pasturestack.1-py3-none-any.whl | sha256sum -c -
+          ' > evidence/distro-pip-seed-paths.txt
+      - name: Retain raw scan and apply exact pip and builder policies
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/trivy-cache"
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "$PWD:/work" -w /work -v "$RUNNER_TEMP/trivy-cache:/root/.cache/trivy" \
+            "$TRIVY_IMAGE" image --scanners vuln,secret --list-all-pkgs --format json \
+            --output /work/evidence/dapper-image-raw.json "$DAPPER_IMAGE"
+          python3 scripts/pip-security/test-pip-vex.py
+          python3 scripts/pip-security/filter-pip-vendor-findings.py \
+            --raw evidence/dapper-image-raw.json --proof evidence/pip-vendor-proof.json \
+            --output evidence/dapper-image-applicable.json --vex evidence/pip-vendor.openvex.json \
+            --subject "$(docker image inspect --format '{{.Id}}' "$DAPPER_IMAGE")"
+          python3 .github/scripts/enforce-builder-vulnerabilities.py < evidence/dapper-image-applicable.json |
+            tee evidence/dapper-full-severity-policy.txt
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "$PWD:/work" -w /work -v "$RUNNER_TEMP/trivy-cache:/root/.cache/trivy" \
+            "$TRIVY_IMAGE" image --format cyclonedx \
+            --output /work/evidence/dapper-image.cdx.json "$DAPPER_IMAGE"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
+        with:
+          name: compose-builder-security-${{ github.sha }}
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Clean run-owned resources
+        if: always()
+        run: |
+          docker image rm -f "$DAPPER_IMAGE" "$TRIVY_IMAGE" >/dev/null 2>&1 || true
+          sudo rm -rf "$RUNNER_TEMP/trivy-cache"
