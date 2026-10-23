@@ -15,8 +15,16 @@ install -m 0644 "$pip_wheel" /usr/share/python-wheels/
 python3 -c 'import pip, certifi, pip._vendor.certifi as vendor; assert pip.__version__ == "26.2.2"; assert certifi.__version__ == "2026.10.19"; assert vendor.__version__ == "2026.10.19"'
 scratch=$(mktemp -d)
 trap 'rm -rf "$scratch"' EXIT
-python3 -m venv "$scratch/ensurepip"
+if python3 -c 'import ensurepip' 2>/dev/null; then
+    python3 -m venv "$scratch/ensurepip"
+    ensurepip_status=26.2.2
+else
+    # This builder uses virtualenv; do not install an unused OS ensurepip package.
+    python3 -m venv --without-pip "$scratch/ensurepip"
+    PYTHONPATH="$pip_wheel" "$scratch/ensurepip/bin/python" -m pip install --no-index --no-deps "$pip_wheel"
+    ensurepip_status=not-installed
+fi
 "$scratch/ensurepip/bin/python" -c 'import pip, pip._vendor.certifi as c; assert pip.__version__ == "26.2.2"; assert c.__version__ == "2026.10.19"'
 python3 -m virtualenv --no-download --pip=26.2.2 --extra-search-dir=/usr/share/python-wheels "$scratch/virtualenv"
 "$scratch/virtualenv/bin/python" -c 'import pip, pip._vendor.certifi as c; assert pip.__version__ == "26.2.2"; assert c.__version__ == "2026.10.19"'
-printf 'PYTHON_SECURITY_TOOLS_OK pip=26.2.2 certifi=2026.10.19 ensurepip=26.2.2 virtualenv=26.2.2\n'
+printf 'PYTHON_SECURITY_TOOLS_OK pip=26.2.2 certifi=2026.10.19 ensurepip=%s virtualenv=26.2.2\n' "$ensurepip_status"
