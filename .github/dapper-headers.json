@@ -3156,6 +3156,16 @@
     "CVE-2026-98863",
     "CVE-2026-98867",
     "CVE-2026-98868",
+    "CVE-2026-98869",
     "CVE-2026-99999"
-  ]
+  ],
+  "additionalReviews": {
+    "CVE-2026-98869": {
+      "officialEvidence": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98869",
+      "ubuntuStatus": "resolute_linux: needed",
+      "scope": "Linux kernel eBPF verifier implementation, including s390 JIT zero-extension behavior. The exact installed linux-libc-dev package contains userspace API headers only, not kernel/bpf/verifier.c, kernel images or modules. Actual header package payload and absent runtime kernel files are checked in CI.",
+      "checkedAt": "2026-10-23",
+      "fixedVersion": "none in current report; any future FixedVersion remains rejected"
+    }
+  }
 }
