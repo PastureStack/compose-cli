@@ -40,7 +40,7 @@ jobs:
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           mkdir -p evidence
           git rev-parse HEAD > evidence/source-revision.txt
-          sha256sum Dockerfile.dapper ubuntu-apt.lock go.mod go.sum vendor/modules.txt .python-version tests/integration/requirements.txt > evidence/source-locks.sha256
+          sha256sum Dockerfile.dapper ubuntu-apt.lock ubuntu-security-packages.lock scripts/install-ubuntu-security-updates.sh .github/dapper-headers.json .github/dapper-unfixed.json go.mod go.sum vendor/modules.txt .python-version tests/integration/requirements.txt > evidence/source-locks.sha256
 
       - name: Build, test, validate, and package twice
         shell: bash
@@ -100,7 +100,7 @@ jobs:
           set -euo pipefail
           docker inspect "$DAPPER_IMAGE" > evidence/dapper-image-inspect.json
           docker run --rm --entrypoint sh "$DAPPER_IMAGE" -lc \
-            "! command -v docker >/dev/null 2>&1; printf 'package\\tversion\\n'; dpkg-query -W -f='\${binary:Package}\\t\${Version}\\n' | LC_ALL=C sort" \
+            "if command -v docker >/dev/null 2>&1; then echo Unexpected Docker CLI >&2; exit 1; fi; printf 'package\\tversion\\n'; dpkg-query -W -f='\${binary:Package}\\t\${Version}\\n' | LC_ALL=C sort" \
             > evidence/dapper-dpkg.tsv
           cp go.mod go.sum vendor/modules.txt evidence/
 
@@ -160,6 +160,11 @@ jobs:
             --raw evidence/dapper-image-raw.json --proof evidence/pip-vendor-proof.json \
             --output evidence/dapper-image-applicable.json --vex evidence/pip-vendor.openvex.json \
             --subject "$(docker image inspect --format '{{.Id}}' "$DAPPER_IMAGE")"
+          bash .github/scripts/check-builder-header-boundary.sh "$DAPPER_IMAGE" > evidence/dapper-header-boundary.json
+          python3 .github/scripts/test_builder_vulnerability_policy.py
+          python3 .github/scripts/enforce-builder-vulnerabilities.py < evidence/dapper-image-applicable.json |
+            tee evidence/dapper-full-severity-policy.txt
+
           jq -r '
             .Results[]?.Vulnerabilities[]?
             | select(.Severity == "CRITICAL" or .Severity == "HIGH")

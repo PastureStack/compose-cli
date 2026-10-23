@@ -68,6 +68,14 @@ RUN set -eux; \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/bin/pebble
 
+COPY ubuntu-security-packages.lock /licenses/ubuntu-security-packages.lock
+COPY scripts/install-ubuntu-security-updates.sh /usr/local/bin/install-ubuntu-security-updates
+RUN /bin/sh /usr/local/bin/install-ubuntu-security-updates \
+      /licenses/ubuntu-security-packages.lock /etc/ssl/certs/ca-certificates.crt && \
+    { printf 'archive\tubuntu-26.04-supported-pockets\n'; \
+      dpkg-query -W -f='${binary:Package}\t${Version}\n' | LC_ALL=C sort; \
+    } > /licenses/COMPOSE-CLI-UBUNTU-APT-PACKAGES.tsv
+
 RUN git config --system --add safe.directory '*'
 
 COPY scripts/pip-security /opt/python-security/scripts
