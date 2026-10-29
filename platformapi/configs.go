@@ -3,6 +3,7 @@ package platformapi
 import (
 	"encoding/json"
 	"fmt"
+	"sort"
 	"strings"
 	"time"
 
@@ -52,6 +53,13 @@ func createLaunchConfigs(r *PlatformService) (client.LaunchConfig, []client.Seco
 
 func createLaunchConfig(r *PlatformService, name string, serviceConfig *config.ServiceConfig) (client.LaunchConfig, error) {
 	var result client.LaunchConfig
+	if r.context.CatalogLaunchDelegation != "" {
+		copy, err := CatalogCanonicalConfig(serviceConfig)
+		if err != nil {
+			return result, err
+		}
+		serviceConfig = copy
+	}
 
 	schemasUrl := strings.SplitN(r.Context().Client.GetSchemas().Links["self"], "/schemas", 2)[0]
 	scriptsUrl := schemasUrl + "/scripts/transform"
@@ -105,19 +113,21 @@ func createLaunchConfig(r *PlatformService, name string, serviceConfig *config.S
 		return result, err
 	}
 
-	result.VolumeDriver = hostConfig.VolumeDriver
-	result.MilliCpuReservation = int64(serviceConfig.MilliCpuReservation)
-
-	setupNetworking(serviceConfig.NetworkMode, &result)
-	setupVolumesFrom(serviceConfig.VolumesFrom, &result)
-
 	if err = setupBuild(r, name, &result, serviceConfig); err != nil {
 		return result, err
 	}
 	if err = setupSecrets(r, name, &result, serviceConfig); err != nil {
 		return result, err
 	}
+	finishLaunchConfig(&result, serviceConfig, hostConfig.VolumeDriver)
+	return result, err
+}
 
+func finishLaunchConfig(result *client.LaunchConfig, serviceConfig *config.ServiceConfig, volumeDriver string) {
+	result.VolumeDriver = volumeDriver
+	result.MilliCpuReservation = int64(serviceConfig.MilliCpuReservation)
+	setupNetworking(serviceConfig.NetworkMode, result)
+	setupVolumesFrom(serviceConfig.VolumesFrom, result)
 	if result.Labels == nil {
 		result.Labels = map[string]interface{}{}
 	}
@@ -133,11 +143,30 @@ func createLaunchConfig(r *PlatformService, name string, serviceConfig *config.S
 		result.Kind = "virtualMachine"
 	}
 
+	if result.LogConfig == nil {
+		result.LogConfig = &client.LogConfig{}
+	}
 	if result.LogConfig.Config == nil {
 		result.LogConfig.Config = map[string]interface{}{}
 	}
 
-	return result, err
+}
+
+// Only delegated, prevalidated creation canonicalizes the semantically keyed
+// environment list. Ordinary Compose order and duplicate behavior is unchanged.
+func CatalogCanonicalConfig(source *config.ServiceConfig) (*config.ServiceConfig, error) {
+	copy := *source
+	copy.Environment = append([]string(nil), source.Environment...)
+	seen := map[string]bool{}
+	for _, entry := range copy.Environment {
+		key := strings.SplitN(entry, "=", 2)[0]
+		if seen[key] {
+			return nil, fmt.Errorf("CatalogLaunchUnsupported")
+		}
+		seen[key] = true
+	}
+	sort.Strings(copy.Environment)
+	return &copy, nil
 }
 
 func setupNetworking(netMode string, launchConfig *client.LaunchConfig) {
@@ -194,20 +223,30 @@ func setupBuild(r *PlatformService, name string, result *client.LaunchConfig, se
 }
 
 func setupSecrets(r *PlatformService, name string, result *client.LaunchConfig, serviceConfig *config.ServiceConfig) error {
-	for _, secret := range r.serviceConfig.Secrets {
+	return appendResolvedSecrets(result, r.serviceConfig.Secrets, func(source string) (string, error) {
 		existingSecrets, err := r.Client().Secret.List(&client.ListOpts{
 			Filters: map[string]interface{}{
-				"name": secret.Source,
+				"name": source,
 			},
 		})
 		if err != nil {
-			return err
+			return "", err
 		}
 		if len(existingSecrets.Data) == 0 {
-			return fmt.Errorf("Failed to find secret %s", secret.Source)
+			return "", fmt.Errorf("Failed to find secret %s", source)
+		}
+		return existingSecrets.Data[0].Id, nil
+	})
+}
+
+func appendResolvedSecrets(result *client.LaunchConfig, references config.SecretReferences, resolve func(string) (string, error)) error {
+	for _, secret := range references {
+		id, err := resolve(secret.Source)
+		if err != nil {
+			return err
 		}
 		result.Secrets = append(result.Secrets, client.SecretReference{
-			SecretId: existingSecrets.Data[0].Id,
+			SecretId: id,
 			Name:     secret.Target,
 			Uid:      secret.Uid,
 			Gid:      secret.Gid,

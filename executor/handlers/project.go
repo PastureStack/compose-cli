@@ -62,6 +62,10 @@ func constructProjectUpgrade(logger *logrus.Entry, stack *client.Stack, upgradeO
 }
 
 func constructProject(logger *logrus.Entry, stack *client.Stack, url, accessKey, secretKey string) (*platformapi.Context, *project.Project, error) {
+	return constructProjectWithOptions(logger, stack, &client.ClientOpts{Url: url, AccessKey: accessKey, SecretKey: secretKey})
+}
+
+func constructProjectWithOptions(logger *logrus.Entry, stack *client.Stack, opts *client.ClientOpts) (*platformapi.Context, *project.Project, error) {
 	variables, err := createVariableMap(stack, stack.RancherCompose)
 	if err != nil {
 		return nil, nil, err
@@ -87,9 +91,13 @@ func constructProject(logger *logrus.Entry, stack *client.Stack, url, accessKey,
 			},
 			Version: catalogInfo.Version,
 		},
-		Url:       fmt.Sprintf("%s/projects/%s/schemas", url, stack.AccountId),
-		AccessKey: accessKey,
-		SecretKey: secretKey,
+		Url:                     fmt.Sprintf("%s/projects/%s/schemas", opts.Url, stack.AccountId),
+		AccessKey:               opts.AccessKey,
+		SecretKey:               opts.SecretKey,
+		CatalogLaunchDelegation: opts.CatalogLaunchDelegation,
+	}
+	if opts.CatalogLaunchDelegation != "" {
+		context.Stack = stack
 	}
 
 	p, err := platformapi.NewProject(&context)

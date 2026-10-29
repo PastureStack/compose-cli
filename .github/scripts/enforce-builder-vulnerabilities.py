@@ -27,6 +27,23 @@ def violations(report, ledger, boundary, headers):
     if (headers.get("package") != "linux-libc-dev"
             or headers.get("version") != HEADER_VERSION or headers.get("purl") != HEADER_PURL):
         raise ValueError("Changed exact header review")
+    refresh = headers.get("mediumRefresh", {})
+    refreshed = {}
+    for entry in refresh.get("entries", []):
+        identifier = entry.get("id")
+        official = ("https://raw.githubusercontent.com/canonical/ubuntu-security-notices/"
+                    + str(refresh.get("officialSnapshot")) + "/osv/cve/2026/UBUNTU-"
+                    + str(identifier) + ".json")
+        if (identifier in refreshed or identifier not in headers.get("ids", [])
+                or entry.get("package") != "linux-libc-dev" or entry.get("version") != HEADER_VERSION
+                or entry.get("purl") != HEADER_PURL or entry.get("severity") != "MEDIUM"
+                or entry.get("decision") != "UNFIXED_MEDIUM_HEADER_ONLY"
+                or entry.get("officialFixedVersions") != []
+                or entry.get("officialRangeEvents") != [{"introduced": "0"}]
+                or entry.get("officialUrl") != official
+                or not entry.get("rawSha256") or not entry.get("target")):
+            raise ValueError("Invalid exact medium header refresh")
+        refreshed[identifier] = entry
     reviewed = {}
     for entry in ledger.get("unfixed", []):
         key = (entry["id"], entry["package"], entry["version"], entry["purl"])
@@ -54,7 +71,8 @@ def violations(report, ledger, boundary, headers):
                 if boundary != expected:
                     raise ValueError("Missing exact installed header-only proof")
                 if (not fixed and key[0] in headers.get("ids", [])
-                        and key[2] == HEADER_VERSION and key[3] == HEADER_PURL):
+                        and key[2] == HEADER_VERSION and key[3] == HEADER_PURL
+                        and (key[0] not in refreshed or finding.get("Severity") == "MEDIUM")):
                     continue
             severity = finding.get("Severity", "UNKNOWN")
             entry = reviewed.get(key)

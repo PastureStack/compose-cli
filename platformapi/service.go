@@ -328,22 +328,10 @@ func (r *PlatformService) getServiceLinks() ([]client.ServiceLink, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	result := []client.ServiceLink{}
-	for link, id := range links {
-		if rUtils.IsRegionService(link.ServiceName) {
-			result = append(result, client.ServiceLink{
-				Name:    link.Alias,
-				Service: link.ServiceName,
-			})
-		} else {
-			result = append(result, client.ServiceLink{
-				Name:      link.Alias,
-				ServiceId: id,
-			})
-		}
+	result := serviceLinksFromResolved(links)
+	if r.context.CatalogLaunchDelegation != "" {
+		sortCatalogLinks(result)
 	}
-
 	return result, nil
 }
 
@@ -351,15 +339,8 @@ func (r *PlatformService) getLinks() (map[Link]string, error) {
 	result := map[Link]string{}
 
 	for _, link := range append(r.serviceConfig.Links, r.serviceConfig.ExternalLinks...) {
-		parts := strings.SplitN(link, ":", 2)
-		name := parts[0]
-		alias := ""
-		if len(parts) == 2 {
-			alias = parts[1]
-		}
-
-		name = strings.TrimSpace(name)
-		alias = strings.TrimSpace(alias)
+		parsed := parseServiceLink(link)
+		name, alias := parsed.ServiceName, parsed.Alias
 
 		if rUtils.IsRegionService(name) {
 			result[Link{

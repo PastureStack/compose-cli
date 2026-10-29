@@ -67,9 +67,23 @@ bash verify-pip-runtime.sh --virtualenv /usr/share/python-wheels
 
 `check-pip-vendor-slice.py` 會比對實際載入的全部 299 個 vendor 檔案與
 固定 wheel，拒絕額外檔案、其他同版本完整 distribution。只有取得此證據後，
-`filter-pip-vendor-findings.py` 才可對上述三個 CVE（含 msgpack GHSA 別名）
+`filter-pip-vendor-findings.py` 才可對已驗證的 CVE（含 msgpack GHSA 別名）
 產生綁定該映像的 OpenVEX 與有效掃描檔。原始掃描必須另行保存；未知 CVE、
 其他版本、非 SBOM 套件來源與 urllib3 finding 全部保留，不做泛用版本排除。
-執行 `python3 test-pip-vex.py` 可驗證以上六組正反控制。
+執行 `python3 test-pip-vex.py` 可驗證以上正反控制。
+
+新增公告仍限同一個 wheel 與實際 vendor slice：
+
+- [CVE-2026-114613／GHSA-j586-36cw-2gc2](https://github.com/msgpack/msgpack-python/security/advisories/GHSA-j586-36cw-2gc2)
+  的 C extension 不在固定 wheel，實際載入 pure-Python fallback。
+- [GHSA-xmj3-9gf7-h52w](https://github.com/pypa/setuptools/security/advisories/GHSA-xmj3-9gf7-h52w)
+  所需 `setuptools/wheel.py` 不在此 slice。
+
+每個 Compose builder 都須重新驗證 299 個 live 檔案、固定 seed wheel、
+SHA-256、脆弱模組缺席及整個檔案系統中相關 wheel／SBOM／distribution 來源。
+只有已列明的 Compose 路徑且內容完全一致才可承接此證據；未知位置的同版
+SBOM、額外完整套件或 seed copy 會拒絕。負向 fixtures 包含 sys.path 外完整
+distribution、外來 CycloneDX/SPDX、不同 bytes 與未知 wheel。虛擬環境驗證的
+app-data 放在其自有暫存目錄，不留下另一份未追蹤 seed。
 
 官方政策：https://pip.pypa.io/en/stable/development/vendoring-policy/
