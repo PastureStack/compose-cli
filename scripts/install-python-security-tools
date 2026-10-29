@@ -30,7 +30,7 @@ else
 fi
 "$scratch/venv/bin/python" /opt/python-security/scripts/test-pip-overlay.py
 if [ -n "${PYTHON_SECURITY_VIRTUALENV_PYTHON:-}" ]; then
-    "$PYTHON_SECURITY_VIRTUALENV_PYTHON" -m virtualenv --no-download --no-periodic-update --pip="$expected" --extra-search-dir=/usr/share/python-wheels "$scratch/virtualenv"
+    "$PYTHON_SECURITY_VIRTUALENV_PYTHON" -m virtualenv --app-data "$scratch/virtualenv-app-data" --no-download --no-periodic-update --pip="$expected" --extra-search-dir=/usr/share/python-wheels "$scratch/virtualenv"
     "$scratch/virtualenv/bin/python" /opt/python-security/scripts/test-pip-overlay.py
 fi
 printf 'PYTHON_SECURITY_TOOLS_OK pip=%s certifi=2026.10.19 ensurepip=%s\n' "$expected" "$ensurepip_status"
