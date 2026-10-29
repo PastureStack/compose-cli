@@ -16,19 +16,20 @@ var projectRegexp = regexp.MustCompile("[^a-zA-Z0-9-]")
 type Context struct {
 	project.Context
 
-	Url          string
-	AccessKey    string
-	SecretKey    string
-	Client       *client.RancherClient
-	Stack        *client.Stack
-	isOpen       bool
-	SidekickInfo *SidekickInfo
-	Uploader     Uploader
-	PullCached   bool
-	Pull         bool
-	Prune        bool
-	Args         []string
-	Description  string
+	Url                     string
+	AccessKey               string
+	SecretKey               string
+	CatalogLaunchDelegation string
+	Client                  *client.RancherClient
+	Stack                   *client.Stack
+	isOpen                  bool
+	SidekickInfo            *SidekickInfo
+	Uploader                Uploader
+	PullCached              bool
+	Pull                    bool
+	Prune                   bool
+	Args                    []string
+	Description             string
 
 	Upgrade        bool
 	ForceUpgrade   bool
@@ -55,9 +56,10 @@ func (c *Context) loadClient() (*client.RancherClient, error) {
 		}
 
 		if client, err := client.NewRancherClient(&client.ClientOpts{
-			Url:       c.Url,
-			AccessKey: c.AccessKey,
-			SecretKey: c.SecretKey,
+			Url:                     c.Url,
+			AccessKey:               c.AccessKey,
+			SecretKey:               c.SecretKey,
+			CatalogLaunchDelegation: c.CatalogLaunchDelegation,
 		}); err != nil {
 			return nil, err
 		} else {
@@ -80,6 +82,9 @@ func (c *Context) open() error {
 	}
 
 	if stackSchema, ok := c.Client.GetTypes()["stack"]; !ok || !utils.Contains(stackSchema.CollectionMethods, "POST") {
+		if c.CatalogLaunchDelegation != "" {
+			return fmt.Errorf("CatalogLaunchOwnerPermissionDenied")
+		}
 		return fmt.Errorf("Can not create a stack, check API key [%s] for [%s]", c.AccessKey, c.Url)
 	}
 

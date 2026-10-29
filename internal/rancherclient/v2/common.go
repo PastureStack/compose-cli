@@ -36,6 +36,8 @@ type ClientOpts struct {
 	AccessKey string
 	SecretKey string
 	Timeout   time.Duration
+	// Server-only, event-local proof. It is never a CLI flag or resource body.
+	CatalogLaunchDelegation string
 }
 
 type ApiError struct {
@@ -96,6 +98,21 @@ func newApiError(resp *http.Response, url string) *ApiError {
 		Status:     resp.Status,
 		Body:       body,
 	}
+}
+
+func apiErrorForOpts(resp *http.Response, url string, opts *ClientOpts) *ApiError {
+	if opts != nil && opts.CatalogLaunchDelegation != "" {
+		return &ApiError{StatusCode: resp.StatusCode, Msg: "CatalogLaunchRequestDenied"}
+	}
+	return newApiError(resp, url)
+}
+
+func decodeForOpts(raw []byte, target interface{}, opts *ClientOpts) error {
+	err := json.Unmarshal(raw, target)
+	if err != nil && opts != nil && opts.CatalogLaunchDelegation != "" {
+		return errors.New("CatalogLaunchResponseInvalid")
+	}
+	return err
 }
 
 func contains(array []string, item string) bool {
@@ -248,7 +265,7 @@ func setupRancherBaseClient(rancherClient *RancherBaseClientImpl, opts *ClientOp
 		return err
 	}
 
-	req.SetBasicAuth(opts.AccessKey, opts.SecretKey)
+	applyClientIdentity(req, opts)
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -258,7 +275,7 @@ func setupRancherBaseClient(rancherClient *RancherBaseClientImpl, opts *ClientOp
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return newApiError(resp, opts.Url)
+		return apiErrorForOpts(resp, opts.Url, opts)
 	}
 
 	schemasUrls := resp.Header.Get("X-API-Schemas")
@@ -271,7 +288,7 @@ func setupRancherBaseClient(rancherClient *RancherBaseClientImpl, opts *ClientOp
 		if err != nil {
 			return err
 		}
-		req.SetBasicAuth(opts.AccessKey, opts.SecretKey)
+		applyClientIdentity(req, opts)
 
 		resp, err = client.Do(req)
 		if err != nil {
@@ -281,7 +298,7 @@ func setupRancherBaseClient(rancherClient *RancherBaseClientImpl, opts *ClientOp
 		defer resp.Body.Close()
 
 		if resp.StatusCode != 200 {
-			return newApiError(resp, opts.Url)
+			return apiErrorForOpts(resp, opts.Url, opts)
 		}
 	}
 
@@ -291,7 +308,7 @@ func setupRancherBaseClient(rancherClient *RancherBaseClientImpl, opts *ClientOp
 		return err
 	}
 
-	err = json.Unmarshal(bytes, &schemas)
+	err = decodeForOpts(bytes, &schemas, opts)
 	if err != nil {
 		return err
 	}
@@ -313,7 +330,27 @@ func NewListOpts() *ListOpts {
 }
 
 func (rancherClient *RancherBaseClientImpl) setupRequest(req *http.Request) {
-	req.SetBasicAuth(rancherClient.Opts.AccessKey, rancherClient.Opts.SecretKey)
+	applyClientIdentity(req, rancherClient.Opts)
+}
+
+const CatalogLaunchDelegationHeader = "X-PastureStack-Catalog-Launch-Delegation"
+
+func applyClientIdentity(req *http.Request, opts *ClientOpts) {
+	req.SetBasicAuth(opts.AccessKey, opts.SecretKey)
+	if opts.CatalogLaunchDelegation != "" {
+		req.Header.Set(CatalogLaunchDelegationHeader, opts.CatalogLaunchDelegation)
+	}
+}
+
+// WithCatalogLaunchDelegation returns an independent client, preserving the
+// shared router client's credentials, options and ordinary event behavior.
+func WithCatalogLaunchDelegation(original *RancherClient, proof string) (*RancherClient, error) {
+	if original == nil || original.GetOpts() == nil || proof == "" {
+		return nil, errors.New("CatalogLaunchDelegationInvalid")
+	}
+	opts := *original.GetOpts()
+	opts.CatalogLaunchDelegation = proof
+	return NewRancherClient(&opts)
 }
 
 func (rancherClient *RancherBaseClientImpl) newHttpClient() *http.Client {
@@ -341,7 +378,7 @@ func (rancherClient *RancherBaseClientImpl) doDelete(url string) error {
 	_, _ = io.Copy(io.Discard, resp.Body)
 
 	if resp.StatusCode >= 300 {
-		return newApiError(resp, url)
+		return apiErrorForOpts(resp, url, rancherClient.Opts)
 	}
 
 	return nil
@@ -397,7 +434,7 @@ func (rancherClient *RancherBaseClientImpl) doGet(url string, opts *ListOpts, re
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return newApiError(resp, url)
+		return apiErrorForOpts(resp, url, rancherClient.Opts)
 	}
 
 	byteContent, err := io.ReadAll(resp.Body)
@@ -410,6 +447,9 @@ func (rancherClient *RancherBaseClientImpl) doGet(url string, opts *ListOpts, re
 	}
 
 	if err := json.Unmarshal(byteContent, respObject); err != nil {
+		if rancherClient.Opts.CatalogLaunchDelegation != "" {
+			return errors.New("CatalogLaunchResponseInvalid")
+		}
 		return fmt.Errorf("failed to parse response %q: %w", byteContent, err)
 	}
 
@@ -482,7 +522,7 @@ func (rancherClient *RancherBaseClientImpl) doModify(method string, url string, 
 	defer resp.Body.Close()
 
 	if resp.StatusCode >= 300 {
-		return newApiError(resp, url)
+		return apiErrorForOpts(resp, url, rancherClient.Opts)
 	}
 
 	byteContent, err := io.ReadAll(resp.Body)
@@ -494,7 +534,7 @@ func (rancherClient *RancherBaseClientImpl) doModify(method string, url string, 
 		if debug {
 			fmt.Printf("Response <= %d bytes\n", len(byteContent))
 		}
-		return json.Unmarshal(byteContent, respObject)
+		return decodeForOpts(byteContent, respObject, rancherClient.Opts)
 	}
 
 	return nil
@@ -677,7 +717,7 @@ func (rancherClient *RancherBaseClientImpl) doAction(schemaType string, action s
 	defer resp.Body.Close()
 
 	if resp.StatusCode >= 300 {
-		return newApiError(resp, actionUrl)
+		return apiErrorForOpts(resp, actionUrl, rancherClient.Opts)
 	}
 
 	byteContent, err := io.ReadAll(resp.Body)
@@ -689,7 +729,7 @@ func (rancherClient *RancherBaseClientImpl) doAction(schemaType string, action s
 		fmt.Printf("Response <= %d bytes\n", len(byteContent))
 	}
 
-	return json.Unmarshal(byteContent, respObject)
+	return decodeForOpts(byteContent, respObject, rancherClient.Opts)
 }
 
 func (rancherClient *RancherBaseClientImpl) GetOpts() *ClientOpts {

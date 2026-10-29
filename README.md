@@ -10,6 +10,20 @@ PastureStack is an independent community effort to preserve, audit, and moderniz
 
 The maintained source uses Ubuntu 26.04, Go 1.27.3, and Python 3.14.9 for integration-source verification. Ubuntu build packages, the base image, and Go archives are fixed by snapshot, exact version, and SHA-256. Go dependencies are managed by `go.mod` and a reproducible module vendor tree. AWS access uses AWS SDK for Go v2; container structures use the maintained Moby API module; the command parser uses urfave/cli v3. The abandoned AWS SDK v1, Rancher generated-client modules, event-subscriber module, `docker/libcompose`, and other GOPATH-era dependencies have been removed. The small Rancher 1.6 protocol boundary retained by this compatibility CLI is maintained and tested locally. The Dapper builder does not embed a Docker CLI or mount a Docker socket; Docker is required only on the host to create and run the isolated builder. The maintained binaries are `pasturestack-compose` and `compose-executor`; `platform-compose.yml` is the preferred companion file. Releases are built and verified from the preserved source history; this repository does not enable automated deployment.
 
+The current published component is
+[v0.14.39](https://github.com/PastureStack/compose-cli/releases/tag/v0.14.39).
+The **v0.14.40** verification candidate adds the private two-phase Catalog launch
+materializer and event-local delegated execution. It shares normal service,
+volume, launch-config, secret-reference, sidekick and hash owners; ordinary CLI
+and executor calls without a delegation marker keep their existing behavior.
+See [the owner contract](docs/catalog-launch-owner.md) and
+[candidate release note](docs/releases/compose-executor-0.14.40.md).
+
+The matching Engine owns the original actor/Key ceiling, human approval,
+encrypted inputs, exact graph and child-request ledger. Neither a component
+build nor a Stack reply proves workload success. This candidate is unpublished;
+official gates and complete matching Server runtime acceptance are pending.
+
 ## Configuration
 
 Use `PLATFORM_URL`, `PLATFORM_ACCESS_KEY`, and `PLATFORM_SECRET_KEY`. Historical `RANCHER_*` and `CATTLE_*` settings remain compatibility fallbacks. Operator messages support `PASTURESTACK_LOCALE=en-US` and `zh-TW`.
@@ -31,7 +45,8 @@ publishes `compose-executor-0.14.39-linux-amd64.gz`. Published tags and assets
 remain immutable; a later recipe or documentation commit does not replace
 their bytes or change their producer identity.
 
-Set `VERSION_OVERRIDE=0.14.39` for this recipe. Source changes alone are not
+Set `VERSION_OVERRIDE=0.14.40` to verify this candidate; rebuild the published
+release only from its numeric tag and original recipe. Source changes alone are not
 publication proof: verify the official release assets and their SHA-256.
 Component publication and matching Server acceptance are separate evidence
 boundaries. The Python integration suite must run against an
@@ -66,6 +81,5 @@ proof; this is not a kernel or runtime exemption. Ubuntu security micro-updates
 apply only to already-installed packages without changing the Python ABI.
 
 The focused `Builder full-severity security` workflow validates builder-only
-maintenance without rebuilding or republishing the unchanged `v0.14.39`
-runtime. Raw distro pip metadata is retained alongside the actual replaced seed
+maintenance without rebuilding or replacing published runtime assets. Raw distro pip metadata is retained alongside the actual replaced seed
 paths, wheel hash, and existing narrow pip-vendor VEX evidence.

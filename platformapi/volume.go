@@ -8,6 +8,7 @@ import (
 	"github.com/PastureStack/compose-cli/config"
 	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
 	"github.com/PastureStack/compose-cli/project"
+	"github.com/PastureStack/compose-cli/yaml"
 	"github.com/sirupsen/logrus"
 )
 
@@ -112,18 +113,8 @@ func (v *Volume) EnsureItExists(ctx context.Context) error {
 }
 
 func (v *Volume) create(ctx context.Context) error {
-	driverOptions := map[string]interface{}{}
-	for k, v := range v.driverOptions {
-		driverOptions[k] = v
-	}
-	_, err := v.context.Client.VolumeTemplate.Create(&client.VolumeTemplate{
-		Name:         v.name,
-		Driver:       v.driver,
-		DriverOpts:   driverOptions,
-		External:     v.external,
-		PerContainer: v.perContainer,
-		StackId:      v.context.Stack.Id,
-	})
+	_, err := v.context.Client.VolumeTemplate.Create(volumeCreateFields(v.name, &config.VolumeConfig{
+		Driver: v.driver, DriverOpts: v.driverOptions, External: yaml.External{External: v.external}, PerContainer: v.perContainer}, v.context.Stack.Id))
 	return err
 }
 

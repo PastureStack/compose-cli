@@ -21,6 +21,9 @@ func CreateStack(event *events.Event, apiClient *client.RancherClient) error {
 	logger.Info("Stack Create Event Received")
 
 	if err := createStack(logger, event, apiClient); err != nil {
+		if _, marked := event.Data["catalogLaunchDelegation"]; marked {
+			err = errors.New("CatalogLaunchDispatchFailed")
+		}
 		logger.Errorf("Stack Create Event Failed: %s", logging.SafeLogValue(err))
 		publishTransitioningReply(err.Error(), event, apiClient, true)
 		return err
@@ -31,6 +34,11 @@ func CreateStack(event *events.Event, apiClient *client.RancherClient) error {
 }
 
 func createStack(logger *logrus.Entry, event *events.Event, apiClient *client.RancherClient) error {
+	replyClient := apiClient
+	apiClient, err := catalogLaunchClient(event, apiClient)
+	if err != nil {
+		return err
+	}
 	stack, err := apiClient.Stack.ById(event.ResourceID)
 	if err != nil {
 		return err
@@ -41,15 +49,15 @@ func createStack(logger *logrus.Entry, event *events.Event, apiClient *client.Ra
 	}
 
 	if stack.DockerCompose == "" {
-		return emptyReply(event, apiClient)
+		return emptyReply(event, replyClient)
 	}
 
-	_, project, err := constructProject(logger, stack, apiClient.GetOpts().Url, apiClient.GetOpts().AccessKey, apiClient.GetOpts().SecretKey)
+	_, project, err := constructProjectWithOptions(logger, stack, apiClient.GetOpts())
 	if err != nil {
 		return err
 	}
 
-	publishTransitioningReply("Creating stack", event, apiClient, false)
+	publishTransitioningReply("Creating stack", event, replyClient, false)
 
 	if err := project.Create(context.Background(), options.Create{}); err != nil {
 		return err
@@ -77,5 +85,5 @@ func createStack(logger *logrus.Entry, event *events.Event, apiClient *client.Ra
 		}
 	}
 
-	return emptyReply(event, apiClient)
+	return emptyReply(event, replyClient)
 }

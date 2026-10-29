@@ -22,7 +22,10 @@ func (f *NormalFactory) configAndHash(r *PlatformService) (digest.ServiceHash, *
 	if err != nil {
 		return digest.ServiceHash{}, nil, err
 	}
+	return serviceConfigAndHash(platformService, launchConfig, secondaryLaunchConfigs)
+}
 
+func serviceConfigAndHash(platformService *CompositeService, launchConfig *client.LaunchConfig, secondaryLaunchConfigs []client.SecondaryLaunchConfig) (digest.ServiceHash, *CompositeService, error) {
 	hash, err := digest.CreateServiceHash(platformService, launchConfig, secondaryLaunchConfigs)
 	if err != nil {
 		return digest.ServiceHash{}, nil, err
@@ -46,27 +49,8 @@ func (f *NormalFactory) config(r *PlatformService) (*CompositeService, *client.L
 		return nil, nil, nil, err
 	}
 
-	service := &CompositeService{
-		Service: client.Service{
-			Name:              r.name,
-			Metadata:          r.Metadata(),
-			Scale:             int64(r.getConfiguredScale()),
-			ScalePolicy:       r.serviceConfig.ScalePolicy,
-			RetainIp:          r.serviceConfig.RetainIp,
-			StackId:           r.Context().Stack.Id,
-			SelectorContainer: r.SelectorContainer(),
-			SelectorLink:      r.SelectorLink(),
-		},
-		ExternalIpAddresses: r.serviceConfig.ExternalIps,
-		Hostname:            r.serviceConfig.Hostname,
-		HealthCheck:         r.HealthCheck(""),
-		StorageDriver:       r.serviceConfig.StorageDriver,
-		NetworkDriver:       r.serviceConfig.NetworkDriver,
-	}
-
-	if service.NetworkDriver != nil {
-		service.NetworkDriver.CniConfig = convertNestedMapKeysToStrings(service.NetworkDriver.CniConfig)
-	}
+	service := serviceCreateFields(r.name, r.serviceConfig, r.Context().Stack.Id)
+	service.HealthCheck = r.HealthCheck("")
 
 	if err := populateLbFields(r, &launchConfig, service); err != nil {
 		return nil, nil, nil, err
@@ -82,21 +66,12 @@ func (f *NormalFactory) Create(r *PlatformService) error {
 	}
 
 	logrus.Debugf("Creating service %s with hash: %#v", r.name, hash)
-	switch FindServiceType(r) {
-	case ExternalServiceType:
-		return r.context.Client.Create(client.EXTERNAL_SERVICE_TYPE, &service, nil)
-	case DnsServiceType:
-		return r.context.Client.Create(client.DNS_SERVICE_TYPE, &service, nil)
-	case LegacyLbServiceType:
-		fallthrough
-	case LbServiceType:
-		return r.context.Client.Create(client.LOAD_BALANCER_SERVICE_TYPE, &service, nil)
-	case StorageDriverType:
-		return r.context.Client.Create(client.STORAGE_DRIVER_SERVICE_TYPE, &service, nil)
-	case NetworkDriverType:
-		return r.context.Client.Create(client.NETWORK_DRIVER_SERVICE_TYPE, &service, nil)
-	default:
-		_, err = r.context.Client.Service.Create(&service.Service)
+	resourceType := serviceCreateType(r)
+	payload := serviceCreatePayload(resourceType, service)
+	if resourceType == client.SERVICE_TYPE {
+		_, err = r.context.Client.Service.Create(payload.(*client.Service))
+	} else {
+		return r.context.Client.Create(resourceType, payload, nil)
 	}
 
 	return err

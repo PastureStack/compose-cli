@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"path"
 
 	composeApp "github.com/PastureStack/compose-cli/app"
+	"github.com/PastureStack/compose-cli/cataloglaunch"
 	"github.com/PastureStack/compose-cli/executor"
 	cli "github.com/PastureStack/compose-cli/internal/legacycli"
 	"github.com/PastureStack/compose-cli/version"
@@ -25,6 +27,12 @@ func beforeApp(c *cli.Context) error {
 }
 
 func main() {
+	if len(os.Args) == 2 && os.Args[1] == cataloglaunch.Command {
+		// Existing parser diagnostics may contain private input. This fixed
+		// server-only mode emits only its bounded protocol on stdout.
+		logrus.SetOutput(io.Discard)
+		os.Exit(cataloglaunch.Run(os.Stdin, os.Stdout))
+	}
 	base := path.Base(os.Args[0])
 	if base == "compose-executor" || base == "rancher-compose-executor" {
 		if requestsVersion(os.Args) {
