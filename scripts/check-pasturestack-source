@@ -71,7 +71,7 @@ require_line Dockerfile.dapper '        openssl="${UBUNTU_APT_OPENSSL_VERSION}" 
 require_line Dockerfile.dapper '        openssl-provider-legacy="${UBUNTU_APT_OPENSSL_VERSION}" \'
 require_line .python-version '3.14.9'
 require_line tests/integration/requirements.txt 'pytest==9.1.1'
-require_line tests/integration/requirements.txt 'setuptools==84.0.0'
+require_line tests/integration/requirements.txt 'setuptools==84.1.0'
 require_line .github/workflows/security-release-gate.yml '      PLATFORM_COMPAT_JAR_URL: https://github.com/PastureStack/orchestration-engine/releases/download/v0.183.281/orchestration-engine-0.183.281.jar'
 require_line .github/workflows/security-release-gate.yml '      PLATFORM_COMPAT_JAR_SHA256: da2a8a51562ed16e296f7e29e99482bb44042ff0834cca679bbe01d951ba1682'
 require_line lookup/file.go $'\t\troot, err := os.OpenRoot(allowedRoot)'
