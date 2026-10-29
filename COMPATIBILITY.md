@@ -2,7 +2,7 @@
 
 The migration preserves Docker Compose parsing, stack event names, generated stack fields, service labels, catalog question data, upgrade and rollback payloads, and compatibility API behavior.
 
-The v0.14.40 candidate adds one server-private mode,
+The published v0.14.40 adds one server-private mode,
 `compose-executor.real --catalog-launch-preview`, with fixed inspect/finalize
 JSON contracts and bounded stdin/stdout. Existing parser, conversion, service
 factory, launch-config and secret-reference owners produce the exact graph;
@@ -13,8 +13,8 @@ Only a trusted Engine event may carry `catalogLaunchDelegation`. Its event-local
 client uses the fixed delegation header for schema/read/transform/child calls;
 missing or invalid proof cannot fall back to service FULL. Control progress and
 replies retain the original trusted service channel, and unmarked ordinary
-events retain their original client and API behavior. The Engine must recheck
-the original actor/Key, source/plan/Stack/event/graph, destination create/update
+events retain their original client and API behavior. Engine 0.183.359 must recheck
+the original actor/Key, source/plan/Stack/event/graph, destination read/create/update
 and references on each request. Completion needs its committed ledger, full
 intended links and normal deployment readiness, not only a Stack reply.
 
@@ -22,6 +22,10 @@ KVM, unsupported provider/host/build/file/dependency/network graphs, external or
 cross-Stack links and unsupported typed inputs fail closed in this private mode;
 they remain pending typed adapters rather than completed UI features. Component
 source/unit and official CI evidence do not establish matching Server runtime.
+Official component gates and original public assets passed verification;
+matching Server559 runtime/browser/role/weak-model acceptance remains pending.
+Use the matching Catalog 0.20.17 and Engine private-proxy/delegation boundary;
+an older Engine without those guards is not a compatible launch gateway.
 
 The archived external Compose implementation is no longer a build dependency. The conversion, collection-copy, logger, and Compose configuration-hash contracts still required by this compatibility client are implemented locally and covered by behavior tests. This does not expand or silently reinterpret the accepted Compose document format.
 
