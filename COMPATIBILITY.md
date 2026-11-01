@@ -1,5 +1,20 @@
 # Compatibility Contract
 
+## 0.14.41 source candidate: private Catalog request wire
+
+The private Catalog preview producer emits business-only mutation inputs.
+`setServiceLinks` always includes an array, including `[]` for no links, and
+retains native target IDs and aliases. Service/Volume creation skeletons and
+finalized child request structs exclude the generic SDK Resource envelope,
+including nested launch configs. Business maps such as metadata, labels,
+environment and log-driver options retain their exact keys and values.
+
+This changes only the private preview serialization. Format version `1`,
+normal parser/DTO owners, ordinary CLI/SDK serialization and Engine closed
+validation remain unchanged. Qualification, publication and matching Server
+runtime acceptance are pending. See the
+[candidate note](docs/releases/compose-executor-0.14.41.md).
+
 The migration preserves Docker Compose parsing, stack event names, generated stack fields, service labels, catalog question data, upgrade and rollback payloads, and compatibility API behavior.
 
 The published v0.14.40 adds one server-private mode,
