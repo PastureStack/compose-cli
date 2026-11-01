@@ -1,6 +1,6 @@
-# Typed Catalog launch owner（未發行）
+# Typed Catalog launch owner（0.14.41 已發行）
 
-這是隔離的 Compose owner 實作，尚未代表正式 Go 1.27.3 CI、Engine 整合或 runtime 驗收通過。一般 CLI／executor 行為沿原路。
+Compose 0.14.41 已通過正式 Go 1.27.3 CI、原始成品資格及 20 項公開資產匿名位元驗證；精確 producer／tag／tree 與測試範圍見[發行說明](releases/compose-executor-0.14.41.md)。匹配 Engine 0.183.366、Web205／Bridge 0.2.7 的 Server565 runtime 驗收仍待完成。一般 CLI／executor 行為沿原路。
 
 Engine 固定呼叫 `/usr/bin/compose-executor.real --catalog-launch-preview`，只透過 stdin/stdout 傳 server-private JSON，不接 URL、檔案路徑、服務憑證或任意命令。caller 必須限制執行期限、清除繼承憑證／debug 環境、限制 stdout 並丟棄 stderr。
 
@@ -10,11 +10,11 @@ Engine 固定呼叫 `/usr/bin/compose-executor.real --catalog-launch-preview`，
 
 不在 Auth 重寫 YAML 或建立規則：使用既有 `project.Parse/config.Merge/convert.Convert`。Go template 採 bounded、無 host environment／DNS／random／檔案功能的子集，執行錯誤不吞掉；render 後加 `# notemplating` 固定核准內容。context name/version 取原 owner 的 normalization／Catalog config。finalize 與普通 `NormalFactory` 共用 service/volume skeleton、launch config 補值、secret resolver、sidekick、ports 與 service hash。
 
-finalize 的 `serviceRequests[].createBody` 沿正常 POST owner 的 business fields；`volumeRequests[].createSkeleton` 沿正常 VolumeTemplate owner。0.14.41 source candidate 的專用 wire projection 只在這個 private preview 入口排除 typed SDK `Resource` envelope，涵蓋 Service／Volume skeleton 與巢狀 launch config。`metadata`／`labels`／`environment`／log-driver options 等 business map 不遍歷、不刪鍵；一般 SDK／legacy API 序列化維持原樣。
+finalize 的 `serviceRequests[].createBody` 沿正常 POST owner 的 business fields；`volumeRequests[].createSkeleton` 沿正常 VolumeTemplate owner。0.14.41 的專用 wire projection 只在這個 private preview 入口排除 typed SDK `Resource` envelope，涵蓋 Service／Volume skeleton 與巢狀 launch config。`metadata`／`labels`／`environment`／log-driver options 等 business map 不遍歷、不刪鍵；一般 SDK／legacy API 序列化維持原樣。
 
 `$createdStack`／`$service:<name>` 只容許 Engine 綁本計畫實際建立的 ID，不能接受模型 ID。`setServiceLinks` 沿同一 native parser／排序，使用專用 `{serviceLinks:[{name,serviceId}]}` wire DTO；空集合明確送 `[]`，保留 target 與 alias，不夾帶通用 API `links/actions`。此階段只支援 graph 內部服務；順序視為集合。正常 owner 會跑兩次 Create 以完成循環 links，因此可先送已存在 targets 的 subset，再送完整 intended links；完成判定仍需完整關聯收斂。
 
-此 candidate 明確拒絕 KVM、provider/driver、host/dependency、build、外部檔案、ignored extends/secret 形狀、外部或跨 Stack／region links、動態 service selectors、未支援的 network graph。這些是尚待 typed adapter 的功能，不能因已有工具就標成完整 Catalog UI 通過。
+此 private mode 明確拒絕 KVM、provider/driver、host/dependency、build、外部檔案、ignored extends/secret 形狀、外部或跨 Stack／region links、動態 service selectors、未支援的 network graph。這些是尚待 typed adapter 的功能，不能因已有工具就標成完整 Catalog UI 通過。
 
 跨程序授權只使用 Engine 私有 event：`data.catalogLaunchDelegation={planId,stackId,eventId,proof}`。它綁定實際 event/resource，經事件專屬 client 將 proof 放入固定 `X-PastureStack-Catalog-Launch-Delegation` header，含 schema/read/transform/child requests；不修改 router 的共用服務 client。已有 marker 而缺／錯 proof 不退回服務 FULL。delegated context 直接綁已讀回的 exact Stack，避免 name normalization 另建 Stack。
 

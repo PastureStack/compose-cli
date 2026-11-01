@@ -1,6 +1,6 @@
 # Compatibility Contract
 
-## 0.14.41 source candidate: private Catalog request wire
+## 0.14.41 published: private Catalog request wire
 
 The private Catalog preview producer emits business-only mutation inputs.
 `setServiceLinks` always includes an array, including `[]` for no links, and
@@ -11,13 +11,21 @@ environment and log-driver options retain their exact keys and values.
 
 This changes only the private preview serialization. Format version `1`,
 normal parser/DTO owners, ordinary CLI/SDK serialization and Engine closed
-validation remain unchanged. Qualification, publication and matching Server
-runtime acceptance are pending. See the
-[candidate note](docs/releases/compose-executor-0.14.41.md).
+validation remain unchanged. Official Security/Builder/CodeQL gates, two
+byte-identical packages and all 20 anonymously read public assets passed.
+Producer `ed3dbddda8a04522e6969fef12672bfb30f3d180` is the signed v0.14.41 tag
+target; merged source `d283a7787257770988d06ac770ca07b9783827dc` shares tree
+`d6279b05f6e3ccc8f9ff28b1300979502f5079c8`.
+
+Three new wire cases and six inherited Catalog cases passed official race
+coverage in both builds. Two Linux native compatibility runs use the existing
+pinned Engine281 JAR; they do not establish Engine366 Catalog runtime acceptance.
+Matching Server565/runtime acceptance remains pending. See the
+[published note](docs/releases/compose-executor-0.14.41.md).
 
 The migration preserves Docker Compose parsing, stack event names, generated stack fields, service labels, catalog question data, upgrade and rollback payloads, and compatibility API behavior.
 
-The published v0.14.40 adds one server-private mode,
+The server-private mode introduced in v0.14.40 remains
 `compose-executor.real --catalog-launch-preview`, with fixed inspect/finalize
 JSON contracts and bounded stdin/stdout. Existing parser, conversion, service
 factory, launch-config and secret-reference owners produce the exact graph;
@@ -28,7 +36,7 @@ Only a trusted Engine event may carry `catalogLaunchDelegation`. Its event-local
 client uses the fixed delegation header for schema/read/transform/child calls;
 missing or invalid proof cannot fall back to service FULL. Control progress and
 replies retain the original trusted service channel, and unmarked ordinary
-events retain their original client and API behavior. Engine 0.183.359 must recheck
+events retain their original client and API behavior. The matching Engine must recheck
 the original actor/Key, source/plan/Stack/event/graph, destination read/create/update
 and references on each request. Completion needs its committed ledger, full
 intended links and normal deployment readiness, not only a Stack reply.
@@ -38,8 +46,8 @@ cross-Stack links and unsupported typed inputs fail closed in this private mode;
 they remain pending typed adapters rather than completed UI features. Component
 source/unit and official CI evidence do not establish matching Server runtime.
 Official component gates and original public assets passed verification;
-matching Server559 runtime/browser/role/weak-model acceptance remains pending.
-Use the matching Catalog 0.20.17 and Engine private-proxy/delegation boundary;
+matching Server565 runtime/browser/role/weak-model acceptance remains pending.
+Use Catalog 0.20.17 and the matching Engine 0.183.366 private-proxy/delegation boundary;
 an older Engine without those guards is not a compatible launch gateway.
 
 The archived external Compose implementation is no longer a build dependency. The conversion, collection-copy, logger, and Compose configuration-hash contracts still required by this compatibility client are implemented locally and covered by behavior tests. This does not expand or silently reinterpret the accepted Compose document format.
