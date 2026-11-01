@@ -52,18 +52,18 @@ type Inspect struct {
 }
 
 type Service struct {
-	Name           string                        `json:"name"`
-	PrimaryName    string                        `json:"primaryName,omitempty"`
-	ResourceType   string                        `json:"resourceType,omitempty"`
-	CreateSkeleton *platformapi.CompositeService `json:"createSkeleton,omitempty"`
-	Config         *config.ServiceConfig         `json:"config"`
-	Inspect        Inspect                       `json:"dockerInspect"`
+	Name           string                 `json:"name"`
+	PrimaryName    string                 `json:"primaryName,omitempty"`
+	ResourceType   string                 `json:"resourceType,omitempty"`
+	CreateSkeleton map[string]interface{} `json:"createSkeleton,omitempty"`
+	Config         *config.ServiceConfig  `json:"config"`
+	Inspect        Inspect                `json:"dockerInspect"`
 }
 
 type VolumeRequest struct {
 	Name           string                 `json:"name"`
 	ResourceType   string                 `json:"resourceType"`
-	CreateSkeleton *client.VolumeTemplate `json:"createSkeleton"`
+	CreateSkeleton map[string]interface{} `json:"createSkeleton"`
 }
 
 type Output struct {
@@ -83,10 +83,10 @@ type Output struct {
 }
 
 type ServiceRequest struct {
-	Name            string                       `json:"name"`
-	ResourceType    string                       `json:"resourceType"`
-	CreateBody      interface{}                  `json:"createBody"`
-	SetServiceLinks *client.SetServiceLinksInput `json:"setServiceLinks"`
+	Name            string                 `json:"name"`
+	ResourceType    string                 `json:"resourceType"`
+	CreateBody      map[string]interface{} `json:"createBody"`
+	SetServiceLinks *serviceLinksWire      `json:"setServiceLinks"`
 }
 
 type catalogEnvironment struct {
@@ -221,7 +221,11 @@ func Prepare(input Input) (*Output, error) {
 		if !namePattern.MatchString(name) {
 			return nil, ErrUnsupported
 		}
-		result.VolumeRequests = append(result.VolumeRequests, VolumeRequest{Name: name, ResourceType: "volumeTemplate", CreateSkeleton: platformapi.CatalogVolumeCreateSkeleton(name, p.VolumeConfigs[name])})
+		skeleton, err := catalogRequestWire(platformapi.CatalogVolumeCreateSkeleton(name, p.VolumeConfigs[name]))
+		if err != nil {
+			return nil, err
+		}
+		result.VolumeRequests = append(result.VolumeRequests, VolumeRequest{Name: name, ResourceType: "volumeTemplate", CreateSkeleton: skeleton})
 	}
 	for _, name := range names {
 		if !namePattern.MatchString(name) {
@@ -275,7 +279,12 @@ func Prepare(input Input) (*Output, error) {
 		h.NetworkMode = ""
 		entry := Service{Name: name, PrimaryName: primaries[name], Config: canonical, Inspect: Inspect{Name: "/" + name, Config: c, HostConfig: h}}
 		if entry.PrimaryName == "" {
-			entry.ResourceType, entry.CreateSkeleton = platformapi.CatalogServiceCreateSkeleton(name, &copy)
+			kind, skeleton := platformapi.CatalogServiceCreateSkeleton(name, &copy)
+			wire, err := catalogRequestWire(skeleton)
+			if err != nil {
+				return nil, err
+			}
+			entry.ResourceType, entry.CreateSkeleton = kind, wire
 		}
 		result.Services = append(result.Services, entry)
 	}
@@ -326,7 +335,11 @@ func Prepare(input Input) (*Output, error) {
 			if kind == "externalService" {
 				links = nil
 			}
-			result.ServiceRequests = append(result.ServiceRequests, ServiceRequest{Name: entry.Name, ResourceType: kind, CreateBody: platformapi.CatalogServiceRequestPayload(kind, body), SetServiceLinks: links})
+			wire, err := catalogRequestWire(platformapi.CatalogServiceRequestPayload(kind, body))
+			if err != nil {
+				return nil, err
+			}
+			result.ServiceRequests = append(result.ServiceRequests, ServiceRequest{Name: entry.Name, ResourceType: kind, CreateBody: wire, SetServiceLinks: catalogLinksWire(links)})
 		}
 		result.Phase = "finalize"
 	}
