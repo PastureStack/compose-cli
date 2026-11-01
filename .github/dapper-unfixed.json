@@ -958,6 +958,2877 @@
       "officialEvidence": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-95210",
       "reason": "Canonical Ubuntu 26.04 status: resolute_gnutls28: deferred (2026-10-15). No official resolute fixed package is available; keep tracking.",
       "checkedAt": "2026-10-23"
+    },
+    {
+      "id": "CVE-2026-99100",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99100.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "3bb96f8c01918fe7adf50c59be35e2d2b32190b218118dd41b172ab37c3c615c",
+      "officialModified": "2026-10-30T19:03:49Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99101",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99101.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "1a06a065dc9f16dcae02c5154031221e8133aba03ca9185e984b117ab27b0de5",
+      "officialModified": "2026-10-30T19:03:49Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99103",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99103.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "36c10949ea678352f6c35674d979e19217823348b56d1197b8096b4e8bae4ab8",
+      "officialModified": "2026-10-30T06:30:30Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99105",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99105.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "a4778ee7c31b107bfd1c8f0b432df291f6f9388329e36113ffb562b0f37be62d",
+      "officialModified": "2026-10-30T06:30:30Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99106",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99106.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "95053421f380ea275aea288fe5904dd6c19392d1ef9927925c3990727c40d387",
+      "officialModified": "2026-10-30T06:30:30Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99109",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99109.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "4107fa33b02ef0e7fb39a06db1bae97cdf94b065186b882098a4624e501155f3",
+      "officialModified": "2026-10-30T19:03:50Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99110",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99110.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "47a0fcfbf4e7f5cc858ef1e77b1d382b5252f86a249c9b72612e4cdf21c85e02",
+      "officialModified": "2026-10-30T06:30:31Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99111",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99111.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "2476c5b49f2ee72f997bfaef4ca36a88ff170fede22782bb04a9a1838fbb55a0",
+      "officialModified": "2026-10-30T06:30:31Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99112",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99112.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "ce328efb78f8a7748e8bcb6dcb0ef4b468c405e5c49471eaf1a6ab8aa90702f3",
+      "officialModified": "2026-10-30T19:03:51Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99113",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99113.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "76c585da776c59353c0ab60b9c36ac0172db2f7a858e45a9b1470fd27f2e3696",
+      "officialModified": "2026-10-30T19:03:51Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99114",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99114.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "d852826e1df6d037e40653c43b0f5395a5ec36e932aa0d6ac21f1794cb9f420b",
+      "officialModified": "2026-10-30T19:03:51Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99115",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99115.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "c984a00b59cd48e5c4a3bb534604f58c58039ea8605858c4a909b87404b2f892",
+      "officialModified": "2026-10-30T19:03:51Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99116",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99116.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "95b6ca0ec5f49baadc646747ff272f406288cc89c2af864d04ed98200b1c9061",
+      "officialModified": "2026-10-30T06:30:32Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99117",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99117.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "e4698041f64bf47f56ab7d2d5351a6bceb38509de10c24d589286d590dccc8af",
+      "officialModified": "2026-10-30T19:03:52Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99118",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99118.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "7d5032ed7a8900b4ed5cfddfe030b63a75cc6da6b31a5e26e82207662d7392c0",
+      "officialModified": "2026-10-30T19:03:52Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99120",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99120.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "705e91581717eb5beb294fd64e3a1085906352361e1c46d35291bde0a1368f21",
+      "officialModified": "2026-10-30T06:30:33Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99121",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99121.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "556a0582f882f807fb9129ea6c26ef5a34c715ee7cbce627cec18d6cde6cee9b",
+      "officialModified": "2026-10-30T19:03:52Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99122",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99122.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "20a7306a5e0c419a6048c7040aeff895cd5c65583ffd3fc5ab5e4cd02fea63b9",
+      "officialModified": "2026-10-30T19:03:53Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99123",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99123.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "4f9f32f14134ce43fbca767da63329c4493e714b900273e961f3bbc4af925bad",
+      "officialModified": "2026-10-30T19:03:53Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99124",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99124.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "6fc95d3a68ed6e50b5414b20f71c1b58c3663e1b7e5da5df2673b37157dc88f8",
+      "officialModified": "2026-10-30T19:03:53Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99125",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99125.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "1b7febd568fee5d2fd8c60fa81478b5bfd37e20658778afc405a50f6c4ffa82d",
+      "officialModified": "2026-10-30T06:30:34Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99126",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99126.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "4512bee526a2bc6f4ec3f225a26d7978fe21c309824f969c47c2f13f1ec34274",
+      "officialModified": "2026-10-30T19:03:53Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99127",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99127.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "139d0fe54f648b3728634f606e26410373efdc0f0a0f29b743559857fd5a257c",
+      "officialModified": "2026-10-30T19:03:54Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99128",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99128.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "89a4a0612afeaff5a93baa16c94b6ac540b7ac474db79d5bc554d9ccdb45f107",
+      "officialModified": "2026-10-30T19:03:54Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99129",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99129.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "754799d252d77b1f325a4535e18574a3a8319eafe4d9fea8f6aff07583339593",
+      "officialModified": "2026-10-30T06:30:35Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99130",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99130.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "90f40357957524fc7726b9b0000be2d2f7b248f8c1f150758d1581aac3600044",
+      "officialModified": "2026-10-30T06:30:35Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99131",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99131.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "b1ebf2366eb9f921bf5085633003ba0f5f641fdb2f688063e580eb98a9e2a9b5",
+      "officialModified": "2026-10-30T06:30:35Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99132",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99132.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "4da4c59e9f1e16561a4c3a0abc02ea3ce91efa5b7de3a90c554be177eaf2fa32",
+      "officialModified": "2026-10-30T19:03:55Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99133",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99133.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "85e8bd773b04202bdecac3f2c37bdf6c3ff718ce1ac07f612eee8267d8ff0fa7",
+      "officialModified": "2026-10-30T19:03:55Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99134",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99134.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "0343439697061e4c1029ae0d094e99be29972c40833a2e134851127dbe1caac1",
+      "officialModified": "2026-10-30T06:30:36Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99135",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99135.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "a40f0b9c9301e7c6f6af3dfdacb4f2d965ec1eeb622a4a0088ccbcfe35ea0711",
+      "officialModified": "2026-10-30T19:03:55Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99136",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99136.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "2d61f77d18faeb14f69af73efa51d115b9a2ae416483fc60713009a3af6f6c0c",
+      "officialModified": "2026-10-30T19:03:55Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99137",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99137.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "1dfb7752e0e732649337b798f3f592e74891fba62c6498f915919aa703587419",
+      "officialModified": "2026-10-30T06:30:36Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99138",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99138.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "f0153e4a8eceea0e9b5059fb33af8e760eab0e62bb13339d7f49992db2c5616b",
+      "officialModified": "2026-10-30T19:03:56Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99139",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99139.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "eff711d5e14ee1b8834dc2972fb7fb942a5f64ea8ea3576c5be734d336f60616",
+      "officialModified": "2026-10-30T19:03:56Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99140",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99140.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "d6a7ee592d135fc40301af475d259b1f471350c575ec70fcd9b78ffcd86e866d",
+      "officialModified": "2026-10-30T19:03:56Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99141",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99141.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "e64b8122739cec38cfba67764e737a533ec40a4a11f3009e790bf83a04191f34",
+      "officialModified": "2026-10-30T06:30:37Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99142",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99142.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "bbc5db546cf3bb73bcb31b13b8a5e6dbd5de412cd6d25850fb541fbfd6c36b50",
+      "officialModified": "2026-10-30T06:30:37Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99143",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99143.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "e0c005b68bc4f097cb8c487b475b2bebca1fdeac552ee3bb0ea20aaed63c6cb9",
+      "officialModified": "2026-10-30T06:30:37Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99146",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99146.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "b36072e3da81527e0627364cf6299ba2fa893dd632a355cc502f98bf779d5afb",
+      "officialModified": "2026-10-30T19:03:57Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99147",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99147.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "cd3dbf90afe417481660c2f513b9b0ded88b1d91f71868271d16f33ab22cc22c",
+      "officialModified": "2026-10-30T06:30:38Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99148",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99148.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "ae7fc377917a5b6b19a3b10b314c968bf14e7c50c4ae1f9a9274ee5dd8a07403",
+      "officialModified": "2026-10-30T06:30:38Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99149",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99149.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "33716e79dc1bfc373192a1163ef3e017607f145860a277b39c6f7e61f62870cd",
+      "officialModified": "2026-10-30T06:30:38Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99150",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99150.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "b93e775b581fdee050bfd51b1def70695792bdf676365d2373fab77d694f213e",
+      "officialModified": "2026-10-30T19:03:58Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99151",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99151.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "c312dba7ab462e83b66862fa1359b6949a57f535c3e0e2d706b2028fe8a3bee6",
+      "officialModified": "2026-10-30T00:14:53Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99152",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99152.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "f658d3b392b29e166709f879b0119d8210ebb011222f35db5e1260391b505f27",
+      "officialModified": "2026-10-30T19:03:58Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99153",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99153.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "e4c1f5e7cdd55bc835146da922bf7f2684b531aeecfe28ad9dfe1de25d05fa51",
+      "officialModified": "2026-10-30T19:03:58Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99154",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99154.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "fff8ba5baaae3f84d25fefcf04437cb9eefaddc9de6b105a110474be9f9db6ab",
+      "officialModified": "2026-10-30T19:03:58Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99155",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99155.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "cef37d893b6f97d78d1cb50cfba1e634c7a74e60faaa08518d7569a6d7941249",
+      "officialModified": "2026-10-30T06:30:39Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99156",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99156.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "78e3c8ed849b50183908d3e8c8d4c3b340f38e22d206f922f0d3d6129d06cc9a",
+      "officialModified": "2026-10-30T19:03:59Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99157",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99157.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "1f2374aa4a11def94c1f7213120cb4caca46348f5ad06dac6a36ccf91942f92e",
+      "officialModified": "2026-10-30T06:30:39Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99158",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99158.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "dc54e90c27de6a988859bc12818288a6dbe561df1ffe32fa030952c45c01b0ed",
+      "officialModified": "2026-10-30T06:30:40Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99159",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99159.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "98806b062b84ea18ff351909069f296190ee665155c0b504021d6ed7921c282d",
+      "officialModified": "2026-10-30T06:30:40Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99160",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99160.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "df20ba166369c14813bf9b65e2c4c148a1a66e07f184d644759ba25d2f420a05",
+      "officialModified": "2026-10-30T06:30:40Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99161",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99161.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "785b821b3f5ba4ce2d706da16c5ac06748d8c4a4cb2976c08dc3b52910390c0e",
+      "officialModified": "2026-10-30T19:03:59Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99162",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99162.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "06704f3d9d6291c4e45d50fbb776ac43fad8b7b1eaf42be4977346fb2515f1c1",
+      "officialModified": "2026-10-30T06:30:40Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99163",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99163.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "13475c517eaccba8f3d92bb8a4340a777bc99d4a8d3071273abaf472a5c1a988",
+      "officialModified": "2026-10-30T19:04:00Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99164",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99164.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "dd74d147a6ac0b338e44f1a79443f3dda36a887cd83e691bbe448310b142fb8a",
+      "officialModified": "2026-10-30T06:30:41Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99165",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99165.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "562acf6440f18068cceae38f01c11e32343d1183f9d0b39e338d83b2eefbf64c",
+      "officialModified": "2026-10-30T19:04:00Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99166",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99166.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "ef88a011237f79c89d0590fbfb2e03b5c1c6082e87e5efee740059e570cbc946",
+      "officialModified": "2026-10-30T19:04:00Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99167",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99167.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "f5da00c04ec3194223ca9999fb9275a320b1a303a07cc0fc0004b38293e70a5e",
+      "officialModified": "2026-10-30T19:04:01Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99168",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99168.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "53d504665f6c163ad3f1df83b8231d1b41bb1111d7da8d89b272035ca5dd9f23",
+      "officialModified": "2026-10-30T06:30:42Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99169",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99169.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "dcf360d5fd3c4354debdae4f26eb2907562a062dba0f34f06b3e1813726279f3",
+      "officialModified": "2026-10-30T19:04:01Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99171",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99171.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "b5083ce1b9c6c39385ff04c74a927d8a7a8107d22179c173f7cd655410db0a29",
+      "officialModified": "2026-10-30T06:30:42Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99172",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99172.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "b705f30ba82caea38a9eb04a39f19c618b05d8b28bf18fc3a0a97a110749aa8d",
+      "officialModified": "2026-10-30T19:04:02Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99173",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99173.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "82bc1a594f8b9e2c9538d2dc3ddd95ca78105779a5d6ddff46c2e6b03825a481",
+      "officialModified": "2026-10-30T06:30:42Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99174",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99174.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "8c44ca9b4d901a4368c49090c9fd647242e432e5334852e9971dfd4265856420",
+      "officialModified": "2026-10-30T06:30:43Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99175",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99175.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "e6a2f3ec5fac8d9a2b46507e24852f232d2a0315363dbbc55d97c811a3e2ec01",
+      "officialModified": "2026-10-30T19:04:02Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99176",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99176.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "d9a518973dea1d349c4d4c42c47b303c8dd8d4f8e1784fa705c899b44a2fde23",
+      "officialModified": "2026-10-30T19:04:02Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99178",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99178.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "4ef5b666cc270279d313290862d9600832a0a2e543bb7407eeccbc8630862c79",
+      "officialModified": "2026-10-30T19:04:03Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99179",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99179.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "b5c5655548ea2710ffa03f24289c075d58a77663c82dd9d3afe1ffb1bdbd51c5",
+      "officialModified": "2026-10-30T19:04:03Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99180",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99180.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "cac918f35490f82843a71d1af7eaed03457cc650d1480998923223d07bea629a",
+      "officialModified": "2026-10-30T19:04:03Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99181",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99181.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "3b2708c3c6f39db38be4c47761b08866e68cb69d5148b18ad94362bce38e4c90",
+      "officialModified": "2026-10-30T19:04:03Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99182",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99182.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "e40cbabf82c0aa5652af15a43bc64f94c645cdc8c815f6400082cf6200ff8a47",
+      "officialModified": "2026-10-30T06:30:44Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99183",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99183.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "23b914f6973844f1fa695d78996685f04e3d9b93d320a8902b7a536c0926f905",
+      "officialModified": "2026-10-30T06:30:45Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99184",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99184.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "ba5eaff092a96310613da0a1660838655bc52b9c71314c1aff2446f1a9fefdf0",
+      "officialModified": "2026-10-30T06:30:45Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99185",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99185.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "10dfdc0294e6bf31e271db173d474bb6ba1587855c00834bb8e972d990da272a",
+      "officialModified": "2026-10-30T06:30:45Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99186",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99186.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "724cf91454f4cb927d29612cf2044c130dce1859aa729beb61c48506b5cc6733",
+      "officialModified": "2026-10-30T06:30:45Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99187",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99187.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "c6e5d68172cd7828886b1b43cd412a8dcf7693aba09584b4aea581562b7bc870",
+      "officialModified": "2026-10-30T06:30:45Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99188",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99188.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "371f7f344f7d2426b6d8f408839c3eb1e5ecdc5c9f6cd959aa980af8d82055e4",
+      "officialModified": "2026-10-30T06:30:45Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99189",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99189.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "d4ec5e56c65e1a5e941072324222a515bec0de62750f1b1e30e9d79cee035239",
+      "officialModified": "2026-10-30T06:30:45Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99190",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99190.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "e9cf14a43117348ce880f36dabf0b397dd9cf6def9cc554daf91e9dde2893866",
+      "officialModified": "2026-10-30T06:30:46Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99191",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99191.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "00a96945144cbeaa320a1b2f059a3b1167e5feb16e424198329b991d5ae0a722",
+      "officialModified": "2026-10-30T06:30:46Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99192",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99192.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "8c82b572d2c7299ee1d463028e3f97d91d0147ae813ac00db20ea456f9ce727c",
+      "officialModified": "2026-10-30T19:04:05Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99201",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99201.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "1ce80402dd735018b9c51b817f4d9965eccaf48adf49da02060b4d7dbff7e34d",
+      "officialModified": "2026-10-30T19:04:06Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99202",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99202.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "61af3c5586629b8a9a5fc052d2fc0d445065d1b37c80db01c0f586dab0c6371b",
+      "officialModified": "2026-10-30T00:15:02Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99203",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99203.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "130913f0d285578aaaab9e057e266b38f6539753ef5c8f155bd86655486ea2eb",
+      "officialModified": "2026-10-30T19:04:07Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99204",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99204.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "9e9b5a395618baadf605380c8dc4d334366194eab2c33f1275eb5cac456b9f77",
+      "officialModified": "2026-10-30T19:04:07Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99205",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99205.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "7fb994370afa9c02107e03bcbc032f41454e5493ab11afbb15ec27a0b3644128",
+      "officialModified": "2026-10-30T06:30:48Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99206",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99206.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "40a4cff56c43df04be7602f0c594a83c09c8f6a1ee183bb050e9dda65c834951",
+      "officialModified": "2026-10-30T19:04:07Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99208",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99208.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "1e07f385ea5ac5289fc035f1085fd7125206e9f60fbb52c3dd5d8cf060f549f1",
+      "officialModified": "2026-10-30T06:30:49Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99209",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99209.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "412d107dc172972ea9b5b2b04d963d298ff7a750e3b51f1829b389a6f69f7578",
+      "officialModified": "2026-10-30T06:30:49Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99210",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99210.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "f37407c9f51dd212d3ab0c3f4c543cf908ebd8451e798560b4786a5228cd6272",
+      "officialModified": "2026-10-30T06:30:49Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99211",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99211.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "45262315a0759add165fa6f5c3f22dad7be84d2afb313ff90ec3f54f4ead8471",
+      "officialModified": "2026-10-30T19:04:08Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99212",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99212.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "1491a271316677be163d079dbd20702ecab507ae13e6a07d522e98a5c698cb93",
+      "officialModified": "2026-10-30T19:04:08Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99213",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99213.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "9ba3e0cbaa2431a1c56379a2c0f1fbcba5ba14cdea318528012a8b633aff5da7",
+      "officialModified": "2026-10-30T19:04:08Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99214",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99214.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "6be28f3f33cd0b9756c0df4a13088027166e81511d02d3527050335c4482096b",
+      "officialModified": "2026-10-30T06:30:50Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99215",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99215.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "67a93a76a8e33b542ead7455d28bb3779f7a12f3d86a92775614a3f1ffbb42ee",
+      "officialModified": "2026-10-30T19:04:09Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-99216",
+      "package": "linux-libc-dev",
+      "version": "7.0.0-38.38",
+      "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://raw.githubusercontent.com/canonical/ubuntu-security-notices/8fdde882b47cb3972740ffef118fe74c628e993c/osv/cve/2026/UBUNTU-CVE-2026-99216.json",
+      "reason": "Canonical Ubuntu 26.04 LTS linux OSV includes the installed linux-libc-dev binary version and lists no fixed version. The disposable builder contains headers only; retain this affected MEDIUM finding for review, without a fixed or not_affected claim.",
+      "checkedAt": "2026-11-02",
+      "reviewAfter": "2026-11-09",
+      "officialSnapshot": "8fdde882b47cb3972740ffef118fe74c628e993c",
+      "officialRawSha256": "5ed2649acbe6c304ea83a1db4feda964479695148d11f878f5bf82e97afd7a2f",
+      "officialModified": "2026-10-30T19:04:09Z",
+      "officialPriority": [
+        "medium"
+      ],
+      "officialRangeEvents": [
+        {
+          "introduced": "0"
+        }
+      ],
+      "officialFixedVersions": [],
+      "scanRawSha256": "e42870cc26d1fe7a9e6f212a13e38681db5d3227a6ec01a9188a4c69e5a95f4a",
+      "scanApplicableSha256": "ab6de6f510e9f98640d3408e34acaa57cd668ce81e7f2898b07c4eac0a438240",
+      "scanRunId": 41327670634,
+      "scanArtifactId": 13091519384,
+      "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
     }
   ]
 }
