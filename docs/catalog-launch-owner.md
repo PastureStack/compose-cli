@@ -10,7 +10,7 @@ Engine 固定呼叫 `/usr/bin/compose-executor.real --catalog-launch-preview`，
 
 不在 Auth 重寫 YAML 或建立規則：使用既有 `project.Parse/config.Merge/convert.Convert`。Go template 採 bounded、無 host environment／DNS／random／檔案功能的子集，執行錯誤不吞掉；render 後加 `# notemplating` 固定核准內容。context name/version 取原 owner 的 normalization／Catalog config。finalize 與普通 `NormalFactory` 共用 service/volume skeleton、launch config 補值、secret resolver、sidekick、ports 與 service hash。
 
-finalize 的 `serviceRequests[].createBody` 沿正常 POST owner 的 business fields；`volumeRequests[].createSkeleton` 沿正常 VolumeTemplate owner。0.14.41 的專用 wire projection 只在這個 private preview 入口排除 typed SDK `Resource` envelope，涵蓋 Service／Volume skeleton 與巢狀 launch config。`metadata`／`labels`／`environment`／log-driver options 等 business map 不遍歷、不刪鍵；一般 SDK／legacy API 序列化維持原樣。
+finalize 的 `serviceRequests[].createBody` 沿正常 POST owner 的 business fields；`volumeRequests[].createSkeleton` 沿正常 VolumeTemplate owner。0.14.42 候選讓 private preview 與持 delegation proof 的實際 mutation 共用 typed SDK `Resource` envelope 投影，涵蓋 Service／Volume skeleton、巢狀 launch config 與明確空 service links；Engine exact-body 判斷不變。`metadata`／`labels`／`environment`／log-driver options 等 business map 不遍歷、不刪鍵；一般 SDK／legacy API 序列化維持原樣。
 
 `$createdStack`／`$service:<name>` 只容許 Engine 綁本計畫實際建立的 ID，不能接受模型 ID。`setServiceLinks` 沿同一 native parser／排序，使用專用 `{serviceLinks:[{name,serviceId}]}` wire DTO；空集合明確送 `[]`，保留 target 與 alias，不夾帶通用 API `links/actions`。此階段只支援 graph 內部服務；順序視為集合。正常 owner 會跑兩次 Create 以完成循環 links，因此可先送已存在 targets 的 subset，再送完整 intended links；完成判定仍需完整關聯收斂。
 

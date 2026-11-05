@@ -496,7 +496,7 @@ func (rancherClient *RancherBaseClientImpl) GetLink(resource Resource, link stri
 }
 
 func (rancherClient *RancherBaseClientImpl) doModify(method string, url string, createObj interface{}, respObject interface{}) error {
-	bodyContent, err := json.Marshal(createObj)
+	bodyContent, err := rancherClient.marshalMutationRequest(createObj)
 	if err != nil {
 		return err
 	}
@@ -689,7 +689,7 @@ func (rancherClient *RancherBaseClientImpl) doAction(schemaType string, action s
 	var input io.Reader
 
 	if inputObject != nil {
-		bodyContent, err := json.Marshal(inputObject)
+		bodyContent, err := rancherClient.marshalMutationRequest(inputObject)
 		if err != nil {
 			return err
 		}

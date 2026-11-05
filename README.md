@@ -27,6 +27,10 @@ matching Server565 runtime/browser/role/weak-model acceptance remains pending.
 See [the owner contract](docs/catalog-launch-owner.md); a Stack reply alone does
 not prove workload completion.
 
+The 0.14.42 source candidate aligns delegated child requests with that approved
+preview using one typed DTO projection; ordinary/legacy SDK bytes and Engine
+exact-body authorization stay unchanged. Runtime acceptance remains pending.
+
 ## Configuration
 
 Use `PLATFORM_URL`, `PLATFORM_ACCESS_KEY`, and `PLATFORM_SECRET_KEY`. Historical `RANCHER_*` and `CATTLE_*` settings remain compatibility fallbacks. Operator messages support `PASTURESTACK_LOCALE=en-US` and `zh-TW`.
