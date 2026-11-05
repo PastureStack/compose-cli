@@ -64,6 +64,6 @@ func CatalogFinalizeService(primary CatalogLaunchPart, secondaries []CatalogLaun
 	if err := populateLbFields(&PlatformService{name: primary.Name, serviceConfig: primary.Config}, &launch, body); err != nil {
 		return "", nil, err
 	}
-	_, body, err = serviceConfigAndHash(body, &launch, secondaryLaunches)
+	_, body, err = catalogServiceConfigAndHash(body, &launch, secondaryLaunches)
 	return typeName, body, err
 }

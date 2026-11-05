@@ -22,6 +22,9 @@ func (f *NormalFactory) configAndHash(r *PlatformService) (digest.ServiceHash, *
 	if err != nil {
 		return digest.ServiceHash{}, nil, err
 	}
+	if r.Context().CatalogLaunchDelegation != "" {
+		return catalogServiceConfigAndHash(platformService, launchConfig, secondaryLaunchConfigs)
+	}
 	return serviceConfigAndHash(platformService, launchConfig, secondaryLaunchConfigs)
 }
 
