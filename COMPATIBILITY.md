@@ -1,15 +1,22 @@
 # Compatibility Contract
 
-## 0.14.42 published: identical approved and delegated mutation DTOs
+## 0.14.43 published: stable approved Catalog service hashes
 
-Private preview and proof-bearing HTTP mutations now share the typed SDK
-request projection, including nested launch configurations and explicit empty
-service links. Business maps keep their keys and values; ordinary and legacy
-SDK bytes remain unchanged. Engine exact-body authorization is not relaxed.
-Original official CI, two reproducible packages, all 20 anonymous assets and
-native GitHub release attestation passed. Matching Server runtime remains pending.
-The builder retains the original 22 tools and Go1.27.3; its selected official
-security overlay preserves installed package names and the Python ABI.
+Private preview and delegated service creation share one typed request and
+configuration-hash owner. SDK response envelopes are projected at DTO boundaries,
+and the owned Stack binding is symbolic only while hashing; the actual request
+keeps its exact bound Stack. Nested launch configurations, explicit empty service
+links and business maps retain their values. Engine exact-body authorization,
+actor/Key, proof and origin checks remain unchanged.
+
+Ordinary and legacy Compose hashing and SDK serialization are unchanged. An
+explicit ordinary Compose `up` or `upgrade` taking over a Catalog-created service
+may detect one initial hash difference; this does not trigger an automatic update.
+Original official CI, two reproducible Linux/amd64 packages, all 20 anonymous
+assets and native GitHub release attestation passed. Server573 deployment and
+matching Catalog runtime acceptance remain pending. A Stack reply alone is not
+workload completion. The builder retains the original 22 tools and Go1.27.3;
+its selected official security overlay preserves package names and the Python ABI.
 
 ## 0.14.41 published: private Catalog request wire
 
