@@ -37,6 +37,49 @@ class AptFixedTest(unittest.TestCase):
         self.raw["Results"][0]["Vulnerabilities"] = [finding]
         self.assertEqual(self.check()["fixedOccurrences"], 0)
 
+    def test_proven_pip_owner_precedes_strict_apt_delta_without_dropping_other_layers(self):
+        import sys
+        scripts = str(gate.ROOT / 'scripts/pip-security')
+        sys.path.insert(0, scripts)
+        try:
+            spec = importlib.util.spec_from_file_location('pip_boundary_fixture',
+                gate.ROOT / 'scripts/pip-security/test-pip-vex.py')
+            fixture_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(fixture_module)
+            fixture = fixture_module.VexBoundary('test_exact_slice_only')
+            fixture.setUp()  # Pure existing fixture; not a physical image proof.
+            self.raw['Results'].append(deepcopy(fixture.raw['Results'][0]))
+            self.native['Results'].append(deepcopy(fixture.raw['Results'][0]))
+            for report, layer in ((self.raw, 'first-sbom-layer'), (self.native, 'second-sbom-layer')):
+                for finding in report['Results'][-1]['Vulnerabilities']:
+                    finding['Layer'] = {'DiffID': layer}
+                    finding['PkgIdentifier']['UID'] = layer
+            with self.assertRaises(ValueError):
+                self.check()  # Actual old ordering must reject differing layer attribution.
+            pip = fixture_module.vex
+            before = deepcopy(self.raw)
+            qualified_raw, _ = pip.apply(self.raw, fixture.proof, 'urn:test:same-image')
+            qualified_native, _ = pip.apply(self.native, fixture.proof, 'urn:test:same-image')
+            self.assertEqual(self.raw, before)
+            self.assertEqual(gate.validate(qualified_raw, qualified_native, self.dpkg, self.vex)['fixedOccurrences'], 2)
+            invalid_proof = deepcopy(fixture.proof)
+            invalid_proof['vendorFilesByteCompared'] = 298
+            with self.assertRaises(ValueError):
+                pip.apply(self.raw, invalid_proof, 'urn:test:same-image')
+            unrelated = {'VulnerabilityID': 'UNRELATED', 'Severity': 'HIGH',
+                         'Layer': {'DiffID': 'must-stay-exact'}}
+            for report in (qualified_raw, qualified_native):
+                report['Results'][0]['Vulnerabilities'].append(deepcopy(unrelated))
+            self.assertEqual(gate.validate(qualified_raw, qualified_native, self.dpkg, self.vex)['fixedOccurrences'], 2)
+            qualified_native['Results'][0]['Vulnerabilities'][0]['Layer']['DiffID'] = 'changed'
+            with self.assertRaises(ValueError):
+                gate.validate(qualified_raw, qualified_native, self.dpkg, self.vex)
+            qualified_native['Results'][0]['Vulnerabilities'] = [deepcopy(unrelated), deepcopy(unrelated)]
+            with self.assertRaises(ValueError):
+                gate.validate(qualified_raw, qualified_native, self.dpkg, self.vex)
+        finally:
+            sys.path.remove(scripts)
+
     def test_status_identity_scope_and_unrelated_delta_fail_closed(self):
         original = deepcopy(self.vex)
         for field, value in (("status", "not_affected"), ("vulnerability", {"name": "OTHER"}),
