@@ -1,12 +1,43 @@
 FROM ubuntu:26.04@sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b
 
 COPY ubuntu-apt.lock /licenses/ubuntu-apt.lock
+COPY ubuntu-security-packages.lock /licenses/ubuntu-security-packages.lock
+COPY ubuntu-apt-security.lock /licenses/ubuntu-apt-security.lock
 ADD --checksum=sha256:5b6326f1932cfd7be57130561dc78192f09ed9f58bfbe6606ed0c50510c3b6cd https://archive.ubuntu.com/ubuntu/pool/main/c/ca-certificates/ca-certificates_20260816ubuntu0.26.04.1_all.deb /tmp/ca-certificates.deb
 
 ARG GO_VERSION=1.27.3
 ARG GO_SHA256_amd64=65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40
 ARG GO_SHA256_arm64=a06e99309dbcbdca1a8ccd2282c3ee146e55930886e26b4f1193269587165f49
 ARG DAPPER_HOST_ARCH=amd64
+
+# USN-8996-1: update the package manager before its first network operation.
+ADD --checksum=sha256:0de729b8fe0e1c67c04e8e8d5bd6e0420dbd47f75b93f0b71c8e740edc2d5ffc https://security.ubuntu.com/ubuntu/pool/main/a/apt/apt_3.2.1ubuntu0.1_amd64.deb /tmp/apt-amd64.deb
+ADD --checksum=sha256:94e5d41303265b66af0f8c70ade18bfb77260ad286edee6c8045faddef82b94c https://security.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg7.0_3.2.1ubuntu0.1_amd64.deb /tmp/libapt-pkg7.0-amd64.deb
+ADD --checksum=sha256:195d94000a23c71f6661b4315d656650181d4ffedf3d3a36c6d158c3628d528a https://ports.ubuntu.com/ubuntu-ports/pool/main/a/apt/apt_3.2.1ubuntu0.1_arm64.deb /tmp/apt-arm64.deb
+ADD --checksum=sha256:a77e4bd3b761711d9d12ac4d17d9e05aaf7b6b754270831793943c6caa25e41f https://ports.ubuntu.com/ubuntu-ports/pool/main/a/apt/libapt-pkg7.0_3.2.1ubuntu0.1_arm64.deb /tmp/libapt-pkg7.0-arm64.deb
+RUN set -eux; \
+    native_arch=$(dpkg --print-architecture); \
+    test "${native_arch}" = "${DAPPER_HOST_ARCH}"; \
+    case "${native_arch}" in amd64|arm64) ;; *) exit 1 ;; esac; \
+    set --; \
+    while read -r arch package version bytes sha; do \
+        case "${arch}" in ''|'#'*) continue ;; esac; \
+        test "${arch}" = "${native_arch}" || continue; \
+        deb="/tmp/${package}-${arch}.deb"; \
+        test "$(dpkg-query -W -f='${db:Status-Status}' "${package}")" = installed; \
+        dpkg --compare-versions "$(dpkg-query -W -f='${Version}' "${package}")" le "${version}"; \
+        test "$(dpkg-deb -f "${deb}" Package)" = "${package}"; \
+        test "$(dpkg-deb -f "${deb}" Version)" = "${version}"; \
+        test "$(dpkg-deb -f "${deb}" Architecture)" = "${arch}"; \
+        test "$(stat -c '%s' "${deb}")" = "${bytes}"; \
+        printf '%s  %s\n' "${sha}" "${deb}" | sha256sum -c -; \
+        set -- "$@" "${deb}"; \
+    done < /licenses/ubuntu-apt-security.lock; \
+    test "$#" -eq 2; \
+    DEBIAN_FRONTEND=noninteractive dpkg -i "$@"; \
+    test "$(dpkg-query -W -f='${Version}' apt)" = '3.2.1ubuntu0.1'; \
+    test "$(dpkg-query -W -f='${Version}' libapt-pkg7.0)" = '3.2.1ubuntu0.1'; \
+    rm -f /tmp/apt-*.deb /tmp/libapt-pkg7.0-*.deb
 
 ENV DEBIAN_FRONTEND=noninteractive \
     GOPATH=/go \
@@ -20,6 +51,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
 ADD --checksum=sha256:5b6326f1932cfd7be57130561dc78192f09ed9f58bfbe6606ed0c50510c3b6cd https://archive.ubuntu.com/ubuntu/pool/main/c/ca-certificates/ca-certificates_20260816ubuntu0.26.04.1_all.deb /opt/pasturestack-ca-certificates.deb
 RUN set -eux; \
     . /licenses/ubuntu-apt.lock; \
+    bootstrap_snapshot=$(sed -n 's/^# Official Ubuntu 26.04 security\/updates snapshot: \([0-9]\{8\}T[0-9]\{6\}Z\)$/\1/p' /licenses/ubuntu-security-packages.lock); \
+    test "${bootstrap_snapshot}" = '20261023T000000Z'; \
     rm -f /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources; \
     rm -rf /tmp/ca-bootstrap; \
     mkdir -p /tmp/ca-bootstrap /etc/ssl/certs; \
@@ -29,10 +62,10 @@ RUN set -eux; \
         | while IFS= read -r certificate; do sed -e '$a\' "${certificate}"; done \
         > /etc/ssl/certs/ca-certificates.crt; \
     test -s /etc/ssl/certs/ca-certificates.crt; \
-    printf 'Types: deb\nURIs: https://archive.ubuntu.com/ubuntu\nSuites: resolute resolute-updates resolute-backports\nComponents: main universe restricted multiverse\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\nSnapshot: no\n\nTypes: deb\nURIs: https://security.ubuntu.com/ubuntu\nSuites: resolute-security\nComponents: main universe restricted multiverse\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\nSnapshot: no\n' \
+    printf 'Types: deb\nURIs: https://snapshot.ubuntu.com/ubuntu/%s\nSuites: resolute resolute-updates resolute-backports resolute-security\nComponents: main universe restricted multiverse\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\nSnapshot: no\n' "${bootstrap_snapshot}" \
         > /etc/apt/sources.list.d/pasturestack-archive.sources; \
     printf 'Acquire::Retries "5";\nAcquire::http::Timeout "30";\nAcquire::https::Timeout "30";\nAcquire::http::Pipeline-Depth "0";\nAcquire::https::CaInfo "/etc/ssl/certs/ca-certificates.crt";\nAcquire::https::Verify-Peer "true";\nAcquire::https::Verify-Host "true";\nAcquire::AllowInsecureRepositories "false";\nAPT::Get::AllowUnauthenticated "false";\n' > /etc/apt/apt.conf.d/80pasturestack-retries; \
-    apt-get update; \
+    apt-get update --error-on=any; \
     apt-get install -y --no-install-recommends \
         bash="${UBUNTU_APT_BASH_VERSION}" \
         ca-certificates="${UBUNTU_APT_CA_CERTIFICATES_VERSION}" \
@@ -68,7 +101,6 @@ RUN set -eux; \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/bin/pebble
 
-COPY ubuntu-security-packages.lock /licenses/ubuntu-security-packages.lock
 COPY scripts/install-ubuntu-security-updates.sh /usr/local/bin/install-ubuntu-security-updates
 RUN /bin/sh /usr/local/bin/install-ubuntu-security-updates \
       /licenses/ubuntu-security-packages.lock /etc/ssl/certs/ca-certificates.crt && \

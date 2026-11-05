@@ -13,3 +13,10 @@ their exact keys and values, including keys named `id`, `type`, `links` or
 The Engine's exact-body checks, original actor/Key authorization, event proof,
 origin checks and one-claim ledger remain unchanged. Component qualification
 and publication do not establish matching Server/Catalog runtime acceptance.
+
+The builder resolves its unchanged exact bootstrap versions from the existing
+official security snapshot and stops if any required index is unavailable.
+
+The disposable builder installs the official USN-8996-1 APT fix before using
+APT. Raw findings stay available; native Trivy fixed VEX is restricted to the
+exact Ubuntu 26.04 amd64 pair. All other severity gates remain unchanged.

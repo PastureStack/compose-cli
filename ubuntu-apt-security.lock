@@ -1,0 +1,6 @@
+# USN-8996-1 https://ubuntu.com/security/notices/USN-8996-1
+# Architecture package version bytes SHA256; official Ubuntu security/ports bytes.
+amd64 apt 3.2.1ubuntu0.1 1506688 0de729b8fe0e1c67c04e8e8d5bd6e0420dbd47f75b93f0b71c8e740edc2d5ffc
+amd64 libapt-pkg7.0 3.2.1ubuntu0.1 1139022 94e5d41303265b66af0f8c70ade18bfb77260ad286edee6c8045faddef82b94c
+arm64 apt 3.2.1ubuntu0.1 1442098 195d94000a23c71f6661b4315d656650181d4ffedf3d3a36c6d158c3628d528a
+arm64 libapt-pkg7.0 3.2.1ubuntu0.1 1053678 a77e4bd3b761711d9d12ac4d17d9e05aaf7b6b754270831793943c6caa25e41f

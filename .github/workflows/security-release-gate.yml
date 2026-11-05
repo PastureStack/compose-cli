@@ -40,7 +40,9 @@ jobs:
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           mkdir -p evidence
           git rev-parse HEAD > evidence/source-revision.txt
-          sha256sum Dockerfile.dapper ubuntu-apt.lock ubuntu-security-packages.lock scripts/install-ubuntu-security-updates.sh .github/dapper-headers.json .github/dapper-unfixed.json go.mod go.sum vendor/modules.txt .python-version tests/integration/requirements.txt > evidence/source-locks.sha256
+          python3 scripts/test-dapper-apt-snapshot.py -v
+          python3 .github/scripts/test_builder_apt_fixed.py -v
+          sha256sum Dockerfile.dapper ubuntu-apt.lock ubuntu-apt-security.lock security/dapper-apt.openvex.json ubuntu-security-packages.lock scripts/install-ubuntu-security-updates.sh .github/dapper-headers.json .github/dapper-unfixed.json go.mod go.sum vendor/modules.txt .python-version tests/integration/requirements.txt > evidence/source-locks.sha256
 
       - name: Build, test, validate, and package twice
         shell: bash
@@ -155,9 +157,17 @@ jobs:
           docker run --rm --entrypoint python3 "$DAPPER_IMAGE" \
             /opt/python-security/scripts/check-pip-vendor-slice.py \
             > evidence/pip-vendor-proof.json
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "$PWD:/work" -w /work -v "$RUNNER_TEMP/trivy-cache:/root/.cache/trivy" \
+            "$TRIVY_IMAGE" image --scanners vuln,secret --list-all-pkgs --format json \
+            --vex /work/security/dapper-apt.openvex.json \
+            --output /work/evidence/dapper-image-apt-fixed.json "$DAPPER_IMAGE"
+          python3 .github/scripts/check_builder_apt_fixed.py \
+            --raw evidence/dapper-image-raw.json --native evidence/dapper-image-apt-fixed.json \
+            --dpkg evidence/dapper-dpkg.tsv > evidence/dapper-apt-fixed-proof.json
           python3 scripts/pip-security/test-pip-vex.py
           python3 scripts/pip-security/filter-pip-vendor-findings.py \
-            --raw evidence/dapper-image-raw.json --proof evidence/pip-vendor-proof.json \
+            --raw evidence/dapper-image-apt-fixed.json --proof evidence/pip-vendor-proof.json \
             --output evidence/dapper-image-applicable.json --vex evidence/pip-vendor.openvex.json \
             --subject "$(docker image inspect --format '{{.Id}}' "$DAPPER_IMAGE")"
           bash .github/scripts/check-builder-header-boundary.sh "$DAPPER_IMAGE" > evidence/dapper-header-boundary.json
