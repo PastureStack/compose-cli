@@ -20,3 +20,12 @@ does not trigger an automatic update or relax any permission check.
 Local focused source tests are not matching Server/Catalog runtime acceptance.
 Publication requires the original CI artifact and component-bound security
 qualification; no runtime result is claimed by this note.
+
+The disposable builder also records four exact Perl-package findings for
+[CVE-2026-82560](https://ubuntu.com/security/CVE-2026-82560) at
+`5.40.1-7ubuntu0.3`. Canonical still lists Ubuntu 26.04 as vulnerable without
+a released package fix. Canonical priority and Ubuntu-sourced Trivy severity
+are MEDIUM; the upstream CVSS 7.5
+High assessment remains disclosed. This build-only tracking is not a runtime
+clean claim. Available fixes, severity increases and identity changes still
+fail the existing security policy.
