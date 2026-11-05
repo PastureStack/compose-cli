@@ -27,6 +27,10 @@ matching Server565 runtime/browser/role/weak-model acceptance remains pending.
 See [the owner contract](docs/catalog-launch-owner.md); a Stack reply alone does
 not prove workload completion.
 
+The 0.14.42 source candidate aligns delegated child requests with that approved
+preview using one typed DTO projection; ordinary/legacy SDK bytes and Engine
+exact-body authorization stay unchanged. Runtime acceptance remains pending.
+
 ## Configuration
 
 Use `PLATFORM_URL`, `PLATFORM_ACCESS_KEY`, and `PLATFORM_SECRET_KEY`. Historical `RANCHER_*` and `CATTLE_*` settings remain compatibility fallbacks. Operator messages support `PASTURESTACK_LOCALE=en-US` and `zh-TW`.
@@ -83,9 +87,10 @@ the fixed package/version/PURL/advisory set and an actual header-only payload
 proof; this is not a kernel or runtime exemption. Ubuntu security micro-updates
 apply only to already-installed packages without changing the Python ABI.
 
-The release tracks 99 newly observed MEDIUM findings for build-only
-`linux-libc-dev 7.0.0-38.38`. Canonical lists no official fixed version; review is
-due 2026-11-09. These remain tracked findings, with the gate unchanged.
+The 0.14.42 candidate upgrades build-only `linux-libc-dev` to `7.0.0-42.42`
+and the existing Brotli/PCRE2 libraries to their official fixed versions. The
+current header-only scope is reviewed for that exact package; the previous
+38.38 review remains historical evidence and cannot authorize the new version.
 
 The focused `Builder full-severity security` workflow validates builder-only
 maintenance without rebuilding or replacing published runtime assets. Raw distro pip metadata is retained alongside the actual replaced seed

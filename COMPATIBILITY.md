@@ -1,5 +1,15 @@
 # Compatibility Contract
 
+## 0.14.42 candidate: identical approved and delegated mutation DTOs
+
+Private preview and proof-bearing HTTP mutations now share the typed SDK
+request projection, including nested launch configurations and explicit empty
+service links. Business maps keep their keys and values; ordinary and legacy
+SDK bytes remain unchanged. Engine exact-body authorization is not relaxed.
+Source and focused-test results do not establish matching Server runtime.
+The builder retains the original 22 tools and Go1.27.3; its selected official
+security overlay preserves installed package names and the Python ABI.
+
 ## 0.14.41 published: private Catalog request wire
 
 The private Catalog preview producer emits business-only mutation inputs.

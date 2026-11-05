@@ -47,7 +47,7 @@ require_line .github/workflows/codeql-verification.yml "            '65efbc80fdc
 require_line .github/workflows/security-release-gate.yml "          grep -F 'go1.27.3' evidence/product-go-version.txt >/dev/null"
 require_line Dockerfile.dapper '    GO111MODULE=on \'
 require_line Dockerfile.dapper '    GOFLAGS=-mod=vendor \'
-require_line Dockerfile.dapper "    printf 'Types: deb\\nURIs: https://archive.ubuntu.com/ubuntu\\nSuites: resolute resolute-updates resolute-backports\\nComponents: main universe restricted multiverse\\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\\nSnapshot: no\\n\\nTypes: deb\\nURIs: https://security.ubuntu.com/ubuntu\\nSuites: resolute-security\\nComponents: main universe restricted multiverse\\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\\nSnapshot: no\\n' \\"
+require_line Dockerfile.dapper '    printf '\''Types: deb\nURIs: https://snapshot.ubuntu.com/ubuntu/%s\nSuites: resolute resolute-updates resolute-backports resolute-security\nComponents: main universe restricted multiverse\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\nSnapshot: no\n'\'' "${bootstrap_snapshot}" \'
 # Preserve module declarations independently of the checksum-pinned build compiler.
 require_line go.mod 'go 1.26.0'
 require_line go.mod 'toolchain go1.27.3'
@@ -63,6 +63,8 @@ require_line ubuntu-apt.lock "UBUNTU_APT_GCC_VERSION='4:15.2.0-5ubuntu1'"
 require_line ubuntu-apt.lock "UBUNTU_APT_CURL_VERSION='8.18.0-1ubuntu2.8'"
 require_line ubuntu-apt.lock "UBUNTU_APT_OPENSSL_VERSION='3.5.5-1ubuntu3.7'"
 require_line ubuntu-apt.lock "UBUNTU_APT_LINUX_LIBC_DEV_VERSION='7.0.0-38.38'"
+python3 scripts/test-dapper-apt-snapshot.py -v
+python3 .github/scripts/test_builder_apt_fixed.py -v
 require_line Dockerfile.dapper '        libcurl3t64-gnutls="${UBUNTU_APT_CURL_VERSION}" \'
 require_line Dockerfile.dapper '        libcurl4t64="${UBUNTU_APT_CURL_VERSION}" \'
 require_line Dockerfile.dapper '        libssl3t64="${UBUNTU_APT_OPENSSL_VERSION}" \'

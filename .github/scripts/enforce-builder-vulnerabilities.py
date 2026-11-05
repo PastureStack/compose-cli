@@ -4,8 +4,8 @@ import sys
 from pathlib import Path
 
 REPOSITORY = "PastureStack/compose-cli"
-HEADER_VERSION = "7.0.0-38.38"
-HEADER_PURL = "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04"
+HEADER_VERSION = "7.0.0-42.42"
+HEADER_PURL = "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
 
 
 def violations(report, ledger, boundary, headers):
@@ -31,19 +31,25 @@ def violations(report, ledger, boundary, headers):
     refreshed = {}
     for entry in refresh.get("entries", []):
         identifier = entry.get("id")
-        official = ("https://raw.githubusercontent.com/canonical/ubuntu-security-notices/"
-                    + str(refresh.get("officialSnapshot")) + "/osv/cve/2026/UBUNTU-"
-                    + str(identifier) + ".json")
+        official = 'https://git.launchpad.net/ubuntu-cve-tracker/plain/active/' + str(identifier)
         if (identifier in refreshed or identifier not in headers.get("ids", [])
                 or entry.get("package") != "linux-libc-dev" or entry.get("version") != HEADER_VERSION
                 or entry.get("purl") != HEADER_PURL or entry.get("severity") != "MEDIUM"
                 or entry.get("decision") != "UNFIXED_MEDIUM_HEADER_ONLY"
                 or entry.get("officialFixedVersions") != []
-                or entry.get("officialRangeEvents") != [{"introduced": "0"}]
+                or refresh.get("sourceKind") != "UBUNTU_CVE_TRACKER_ACTIVE"
+                or entry.get("officialUbuntuSeries") != "resolute"
+                or entry.get("officialUbuntuStatus") != "needed"
+                or entry.get("officialPriority") != ["medium"]
+                or entry.get("sourcePackage") != "linux"
                 or entry.get("officialUrl") != official
                 or not entry.get("rawSha256") or not entry.get("target")):
             raise ValueError("Invalid exact medium header refresh")
         refreshed[identifier] = entry
+    medium_only = headers.get("mediumSeverityOnlyIds", [])
+    if (not isinstance(medium_only, list) or len(medium_only) != len(set(medium_only))
+            or not set(medium_only).issubset(headers.get("ids", []))):
+        raise ValueError("Invalid exact medium-only header ceiling")
     reviewed = {}
     for entry in ledger.get("unfixed", []):
         key = (entry["id"], entry["package"], entry["version"], entry["purl"])
@@ -66,13 +72,17 @@ def violations(report, ledger, boundary, headers):
                    finding.get("InstalledVersion"), (finding.get("PkgIdentifier") or {}).get("PURL", ""))
             fixed = str(finding.get("FixedVersion") or "").strip()
             if key[1] == "linux-libc-dev":
+                if key[2] != HEADER_VERSION or key[3] != HEADER_PURL:
+                    errors.append("Header finding does not match current exact installed42 proof")
+                    continue
                 expected = {"package": "linux-libc-dev", "version": HEADER_VERSION,
                             "kernel_images": False, "kernel_modules": False}
                 if boundary != expected:
                     raise ValueError("Missing exact installed header-only proof")
                 if (not fixed and key[0] in headers.get("ids", [])
                         and key[2] == HEADER_VERSION and key[3] == HEADER_PURL
-                        and (key[0] not in refreshed or finding.get("Severity") == "MEDIUM")):
+                        and (key[0] not in refreshed and key[0] not in medium_only
+                             or finding.get("Severity") == "MEDIUM")):
                     continue
             severity = finding.get("Severity", "UNKNOWN")
             entry = reviewed.get(key)

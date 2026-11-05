@@ -21,7 +21,7 @@ jobs:
     env:
       DAPPER_IMAGE: pasturestack/compose-cli-dapper:${{ github.sha }}
       TRIVY_IMAGE: aquasec/trivy:0.74.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969
-      VERSION_OVERRIDE: 0.14.41
+      VERSION_OVERRIDE: 0.14.42
       PLATFORM_COMPAT_JAR_URL: https://github.com/PastureStack/orchestration-engine/releases/download/v0.183.281/orchestration-engine-0.183.281.jar
       PLATFORM_COMPAT_JAR_SHA256: da2a8a51562ed16e296f7e29e99482bb44042ff0834cca679bbe01d951ba1682
 
@@ -40,7 +40,9 @@ jobs:
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           mkdir -p evidence
           git rev-parse HEAD > evidence/source-revision.txt
-          sha256sum Dockerfile.dapper ubuntu-apt.lock ubuntu-security-packages.lock scripts/install-ubuntu-security-updates.sh .github/dapper-headers.json .github/dapper-unfixed.json go.mod go.sum vendor/modules.txt .python-version tests/integration/requirements.txt > evidence/source-locks.sha256
+          python3 scripts/test-dapper-apt-snapshot.py -v
+          python3 -B .github/scripts/test_builder_apt_fixed.py -v
+          sha256sum Dockerfile.dapper ubuntu-apt.lock ubuntu-apt-security.lock security/dapper-apt.openvex.json ubuntu-security-packages.lock scripts/install-ubuntu-security-updates.sh .github/dapper-headers.json .github/dapper-unfixed.json go.mod go.sum vendor/modules.txt .python-version tests/integration/requirements.txt > evidence/source-locks.sha256
 
       - name: Build, test, validate, and package twice
         shell: bash
@@ -69,7 +71,7 @@ jobs:
           }
 
           run_ci
-          artifact="dist/artifacts/compose-executor-0.14.41-linux-amd64.gz"
+          artifact="dist/artifacts/compose-executor-0.14.42-linux-amd64.gz"
           test -s "$artifact"
           cp "$artifact" /tmp/compose-executor-first.gz
 
@@ -81,7 +83,7 @@ jobs:
           mkdir -p evidence/product
           gzip -cd "$artifact" > evidence/product/compose-executor
           chmod +x evidence/product/compose-executor
-          evidence/product/compose-executor --version | grep -F '0.14.41' >/dev/null
+          evidence/product/compose-executor --version | grep -F '0.14.42' >/dev/null
           cp "$artifact" evidence/
           (
             cd evidence
@@ -155,13 +157,27 @@ jobs:
           docker run --rm --entrypoint python3 "$DAPPER_IMAGE" \
             /opt/python-security/scripts/check-pip-vendor-slice.py \
             > evidence/pip-vendor-proof.json
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "$PWD:/work" -w /work -v "$RUNNER_TEMP/trivy-cache:/root/.cache/trivy" \
+            "$TRIVY_IMAGE" image --scanners vuln,secret --list-all-pkgs --format json \
+            --vex /work/security/dapper-apt.openvex.json \
+            --output /work/evidence/dapper-image-apt-fixed.json "$DAPPER_IMAGE"
           python3 scripts/pip-security/test-pip-vex.py
+          # Qualify only the existing proven pip slice independently in both
+          # original reports before comparing the unrelated native APT delta.
           python3 scripts/pip-security/filter-pip-vendor-findings.py \
             --raw evidence/dapper-image-raw.json --proof evidence/pip-vendor-proof.json \
+            --output evidence/dapper-image-pip-qualified.json --vex evidence/pip-vendor-raw.openvex.json \
+            --subject "$(docker image inspect --format '{{.Id}}' "$DAPPER_IMAGE")"
+          python3 scripts/pip-security/filter-pip-vendor-findings.py \
+            --raw evidence/dapper-image-apt-fixed.json --proof evidence/pip-vendor-proof.json \
             --output evidence/dapper-image-applicable.json --vex evidence/pip-vendor.openvex.json \
             --subject "$(docker image inspect --format '{{.Id}}' "$DAPPER_IMAGE")"
           bash .github/scripts/check-builder-header-boundary.sh "$DAPPER_IMAGE" > evidence/dapper-header-boundary.json
           python3 .github/scripts/test_builder_vulnerability_policy.py
+          python3 .github/scripts/check_builder_apt_fixed.py \
+            --raw evidence/dapper-image-pip-qualified.json --native evidence/dapper-image-applicable.json \
+            --dpkg evidence/dapper-dpkg.tsv > evidence/dapper-apt-fixed-proof.json
           python3 .github/scripts/enforce-builder-vulnerabilities.py < evidence/dapper-image-applicable.json |
             tee evidence/dapper-full-severity-policy.txt
 
