@@ -10,17 +10,18 @@ PastureStack is an independent community effort to preserve, audit, and moderniz
 
 The maintained source uses Ubuntu 26.04, Go 1.27.3, and Python 3.14.9 for integration-source verification. Ubuntu build packages, the base image, and Go archives are fixed by snapshot, exact version, and SHA-256. Go dependencies are managed by `go.mod` and a reproducible module vendor tree. AWS access uses AWS SDK for Go v2; container structures use the maintained Moby API module; the command parser uses urfave/cli v3. The abandoned AWS SDK v1, Rancher generated-client modules, event-subscriber module, `docker/libcompose`, and other GOPATH-era dependencies have been removed. The small Rancher 1.6 protocol boundary retained by this compatibility CLI is maintained and tested locally. The Dapper builder does not embed a Docker CLI or mount a Docker socket; Docker is required only on the host to create and run the isolated builder. The maintained binaries are `pasturestack-compose` and `compose-executor`; `platform-compose.yml` is the preferred companion file. Releases are built and verified from the preserved source history; this repository does not enable automated deployment.
 
-The current published [v0.14.42](https://github.com/PastureStack/compose-cli/releases/tag/v0.14.42)
-uses the same typed business-only DTOs for private Catalog previews and actual
-delegated writes, including empty service links. Business maps and ordinary
-or legacy SDK bytes retain their values and behavior. Engine exact-body,
-actor/Key, proof and origin checks remain unchanged.
+The current published [v0.14.43](https://github.com/PastureStack/compose-cli/releases/tag/v0.14.43)
+uses one typed request and configuration-hash owner for private Catalog previews
+and delegated service creation. SDK response metadata and runtime-assigned Stack
+IDs no longer change the approved hash. Business maps, ordinary and legacy
+Compose hashing, and SDK serialization retain their existing behavior. Engine
+exact-body, actor/Key, proof and origin checks remain unchanged.
 
 The original Go 1.27.3 CI passed two reproducible Linux/amd64 builds, race tests,
 native compatibility, full security gates and CodeQL. All twenty immutable
 public assets passed anonymous byte verification and native GitHub release
-attestation. See the [release note](docs/releases/compose-executor-0.14.42.md).
-Matching Server/Catalog runtime acceptance remains pending; a Stack reply alone
+attestation. See the [published release note](https://github.com/PastureStack/compose-cli/releases/tag/v0.14.43).
+Server573 deployment and matching Catalog runtime acceptance remain pending; a Stack reply alone
 does not prove workload completion. See [the owner contract](docs/catalog-launch-owner.md).
 
 ## Configuration
@@ -39,13 +40,13 @@ make test
 make package
 ```
 
-Release [v0.14.41](https://github.com/PastureStack/compose-cli/releases/tag/v0.14.41)
-publishes `compose-executor-0.14.41-linux-amd64.gz`. Published tags and assets
+Release [v0.14.43](https://github.com/PastureStack/compose-cli/releases/tag/v0.14.43)
+publishes `compose-executor-0.14.43-linux-amd64.gz`. Published tags and assets
 remain immutable; a later recipe or documentation commit does not replace
 their bytes or change their producer identity.
 
-To rebuild the published source, check out `v0.14.41` and set
-`VERSION_OVERRIDE=0.14.41` with its original recipe. Source changes alone are not
+To rebuild the published source, check out `v0.14.43` and set
+`VERSION_OVERRIDE=0.14.43` with its original recipe. Source changes alone are not
 publication proof: verify the official release assets and their SHA-256.
 Component publication and matching Server acceptance are separate evidence
 boundaries. The Python integration suite must run against an
@@ -79,8 +80,8 @@ the fixed package/version/PURL/advisory set and an actual header-only payload
 proof; this is not a kernel or runtime exemption. Ubuntu security micro-updates
 apply only to already-installed packages without changing the Python ABI.
 
-The 0.14.42 release upgrades build-only `linux-libc-dev` to `7.0.0-42.42`
-and the existing Brotli/PCRE2 libraries to their official fixed versions. The
+The published builder uses build-only `linux-libc-dev` at `7.0.0-42.42`
+and the existing Brotli/PCRE2 libraries at their official fixed versions. The
 current header-only scope is reviewed for that exact package; the previous
 38.38 review remains historical evidence and cannot authorize the new version.
 
