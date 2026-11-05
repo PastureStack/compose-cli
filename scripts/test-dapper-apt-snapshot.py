@@ -15,9 +15,12 @@ TOOLS = {
 
 
 def check_bootstrap(docker, lock, versions, gate):
-    dates = re.findall(r'^# Official Ubuntu 26[.]04 security/updates snapshot: ([0-9]{8}T[0-9]{6}Z)$', lock, re.M)
-    if len(dates) != 1:
+    security_dates = re.findall(r'^# Official Ubuntu 26[.]04 security/updates snapshot: ([0-9]{8}T[0-9]{6}Z)$', lock, re.M)
+    dates = re.findall(r"^UBUNTU_APT_SNAPSHOT='([0-9]{8}T[0-9]{6}Z)'$", versions, re.M)
+    if len(dates) != 1 or len(security_dates) != 1 or dates != ['20261023T000000Z']:
         raise ValueError('one canonical snapshot required')
+    if 'bootstrap_snapshot=${UBUNTU_APT_SNAPSHOT};' not in docker:
+        raise ValueError('bootstrap must use its own immutable base lock')
     before, phase = docker.split('RUN set -eux;', 1)
     if 'COPY ubuntu-security-packages.lock /licenses/ubuntu-security-packages.lock' not in before:
         raise ValueError('lock must precede bootstrap')
@@ -43,6 +46,32 @@ def check_bootstrap(docker, lock, versions, gate):
         raise ValueError('all original compiler and compatibility tools must remain exactly pinned')
     if any(flag in phase for flag in ('--allow-downgrades', '--allow-unauthenticated', '--force-')):
         raise ValueError('solver and authentication must not be bypassed')
+
+
+def check_overlay(installer, lock):
+    dates = re.findall(r'^# Official Ubuntu 26[.]04 security/updates snapshot: ([0-9]{8}T[0-9]{6}Z)$', lock, re.M)
+    if dates != ['20261105T000000Z'] or 'test "$security_snapshot" = 20261105T000000Z' not in installer:
+        raise ValueError('only the reviewed overlay snapshot is permitted')
+    parser = next(line for line in installer.splitlines() if line.startswith('security_snapshot='))
+    if not parser.startswith("security_snapshot=$(sed -n 's/^# Official Ubuntu") or not parser.endswith(' "$lock")'):
+        raise ValueError('snapshot must derive only from the supplied canonical lock')
+    source = next(line for line in installer.splitlines() if "printf 'Types: deb" in line)
+    if ('URIs: https://snapshot.ubuntu.com/ubuntu/%s\\n' not in source
+            or 'Suites: resolute-updates resolute-security\\n' not in source
+            or '"$security_snapshot"' not in source
+            or 'Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg' not in source):
+        raise ValueError('only the canonical signed overlay source is permitted')
+    for required in ('apt_security update --error-on=any',
+                     'apt_security install -y --only-upgrade --no-install-recommends --no-remove "$@"',
+                     'cmp "$tmp/before" "$tmp/after"',
+                     'dpkg --compare-versions "$installed" ge "$version" && continue',
+                     'test "$status" = installed || continue',
+                     '-o Acquire::https::Verify-Peer=true -o Acquire::https::Verify-Host=true',
+                     '-o Acquire::AllowInsecureRepositories=false -o APT::Get::AllowUnauthenticated=false'):
+        if required not in installer:
+            raise ValueError('overlay package-set/authentication contract changed')
+    if 'apt_security upgrade' in installer or '--allow-downgrades' in installer or '--force-' in installer:
+        raise ValueError('blanket overlay promotion or solver bypass')
 
 
 class DapperSnapshotTest(unittest.TestCase):
@@ -88,6 +117,20 @@ class DapperSnapshotTest(unittest.TestCase):
         for index, changed in enumerate(cases):
             with self.subTest(drift=index), self.assertRaises(AssertionError):
                 self.assert_pair(changed, pair, lock)
+
+    def test_security_overlay_is_exact_only_upgrade_and_separate_from_bootstrap(self):
+        installer = (ROOT / 'scripts/install-ubuntu-security-updates.sh').read_text()
+        lock = (ROOT / 'ubuntu-security-packages.lock').read_text()
+        check_overlay(installer, lock)
+        cases = [installer.replace('apt_security update --error-on=any', 'apt_security update'),
+                 installer.replace('--only-upgrade ', ''), installer.replace('--no-remove ', ''),
+                 installer.replace('cmp "$tmp/before" "$tmp/after"', 'true'),
+                 installer.replace('apt_security install -y', 'apt_security upgrade -y'),
+                 installer.replace('"$security_snapshot" >', '"20261106T000000Z" >'),
+                 installer.replace('"$lock")', '"/tmp/other.lock")')]
+        for index, changed in enumerate(cases):
+            with self.subTest(drift=index), self.assertRaises(ValueError):
+                check_overlay(changed, lock)
 
     def test_existing_snapshot_preserves_exact_tools_and_fails_closed_on_drift(self):
         docker = (ROOT / 'Dockerfile.dapper').read_text()

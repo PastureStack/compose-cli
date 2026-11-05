@@ -20,3 +20,7 @@ official security snapshot and stops if any required index is unavailable.
 The disposable builder installs the official USN-8996-1 APT fix before using
 APT. Raw findings stay available; native Trivy fixed VEX is restricted to the
 exact Ubuntu 26.04 amd64 pair. All other severity gates remain unchanged.
+
+The security overlay also updates the existing Brotli, PCRE2 and Linux API
+header packages from one fixed official snapshot. Header-only exceptions are
+restricted to exact reviewed findings and never cover an available fix.

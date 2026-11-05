@@ -3829,6 +3829,34 @@
       "scanRunId": 41327670634,
       "scanArtifactId": 13091519384,
       "scanArtifactSha256": "cb34b687d30a498064e8144fcc293944ce964e4c605da21cbe8ba34570706847"
+    },
+    {
+      "id": "CVE-2026-120208",
+      "package": "libheif1",
+      "version": "1.21.2-3ubuntu0.6",
+      "purl": "pkg:deb/ubuntu/libheif1@1.21.2-3ubuntu0.6?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-120208",
+      "officialRawSha256": "348ecd6212deeb033109409c9faf52201a32d52c7cc2d07a82bc5dd5f6c1becd",
+      "officialUbuntuStatus": "needed",
+      "officialSourcePackage": "libheif",
+      "reason": "Official Ubuntu CVE tracker resolute_libheif: needed; no official fixed version. Exact existing disposable-builder package only; no general severity exemption.",
+      "checkedAt": "2026-11-05"
+    },
+    {
+      "id": "CVE-2026-120208",
+      "package": "libheif-plugin-aomdec",
+      "version": "1.21.2-3ubuntu0.6",
+      "purl": "pkg:deb/ubuntu/libheif-plugin-aomdec@1.21.2-3ubuntu0.6?arch=amd64&distro=ubuntu-26.04",
+      "severity": "MEDIUM",
+      "status": "no_official_fix",
+      "officialEvidence": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-120208",
+      "officialRawSha256": "348ecd6212deeb033109409c9faf52201a32d52c7cc2d07a82bc5dd5f6c1becd",
+      "officialUbuntuStatus": "needed",
+      "officialSourcePackage": "libheif",
+      "reason": "Official Ubuntu CVE tracker resolute_libheif: needed; no official fixed version. Exact existing disposable-builder package only; no general severity exemption.",
+      "checkedAt": "2026-11-05"
     }
   ]
 }
