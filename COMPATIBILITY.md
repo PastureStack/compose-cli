@@ -1,12 +1,13 @@
 # Compatibility Contract
 
-## 0.14.42 candidate: identical approved and delegated mutation DTOs
+## 0.14.42 published: identical approved and delegated mutation DTOs
 
 Private preview and proof-bearing HTTP mutations now share the typed SDK
 request projection, including nested launch configurations and explicit empty
 service links. Business maps keep their keys and values; ordinary and legacy
 SDK bytes remain unchanged. Engine exact-body authorization is not relaxed.
-Source and focused-test results do not establish matching Server runtime.
+Original official CI, two reproducible packages, all 20 anonymous assets and
+native GitHub release attestation passed. Matching Server runtime remains pending.
 The builder retains the original 22 tools and Go1.27.3; its selected official
 security overlay preserves installed package names and the Python ABI.
 
