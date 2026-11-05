@@ -46,6 +46,10 @@ def violations(report, ledger, boundary, headers):
                 or not entry.get("rawSha256") or not entry.get("target")):
             raise ValueError("Invalid exact medium header refresh")
         refreshed[identifier] = entry
+    medium_only = headers.get("mediumSeverityOnlyIds", [])
+    if (not isinstance(medium_only, list) or len(medium_only) != len(set(medium_only))
+            or not set(medium_only).issubset(headers.get("ids", []))):
+        raise ValueError("Invalid exact medium-only header ceiling")
     reviewed = {}
     for entry in ledger.get("unfixed", []):
         key = (entry["id"], entry["package"], entry["version"], entry["purl"])
@@ -77,7 +81,8 @@ def violations(report, ledger, boundary, headers):
                     raise ValueError("Missing exact installed header-only proof")
                 if (not fixed and key[0] in headers.get("ids", [])
                         and key[2] == HEADER_VERSION and key[3] == HEADER_PURL
-                        and (key[0] not in refreshed or finding.get("Severity") == "MEDIUM")):
+                        and (key[0] not in refreshed and key[0] not in medium_only
+                             or finding.get("Severity") == "MEDIUM")):
                     continue
             severity = finding.get("Severity", "UNKNOWN")
             entry = reviewed.get(key)
