@@ -1,6 +1,6 @@
-# Typed Catalog launch owner（0.14.41 已發行）
+# Typed Catalog launch owner（0.14.42 已發行）
 
-Compose 0.14.41 已通過正式 Go 1.27.3 CI、原始成品資格及 20 項公開資產匿名位元驗證；精確 producer／tag／tree 與測試範圍見[發行說明](releases/compose-executor-0.14.41.md)。匹配 Engine 0.183.366、Web205／Bridge 0.2.7 的 Server565 runtime 驗收仍待完成。一般 CLI／executor 行為沿原路。
+Compose 0.14.42 已通過正式 Go 1.27.3 CI、兩次可重現打包、原始成品資格、20 項公開資產匿名位元驗證與 GitHub 原生 release attestation。精確 producer／tag／tree 與範圍見[發行說明](releases/compose-executor-0.14.42.md)。匹配 Server 的 Catalog runtime 驗收仍待完成；一般 CLI／executor 行為沿原路。
 
 Engine 固定呼叫 `/usr/bin/compose-executor.real --catalog-launch-preview`，只透過 stdin/stdout 傳 server-private JSON，不接 URL、檔案路徑、服務憑證或任意命令。caller 必須限制執行期限、清除繼承憑證／debug 環境、限制 stdout 並丟棄 stderr。
 
@@ -10,7 +10,7 @@ Engine 固定呼叫 `/usr/bin/compose-executor.real --catalog-launch-preview`，
 
 不在 Auth 重寫 YAML 或建立規則：使用既有 `project.Parse/config.Merge/convert.Convert`。Go template 採 bounded、無 host environment／DNS／random／檔案功能的子集，執行錯誤不吞掉；render 後加 `# notemplating` 固定核准內容。context name/version 取原 owner 的 normalization／Catalog config。finalize 與普通 `NormalFactory` 共用 service/volume skeleton、launch config 補值、secret resolver、sidekick、ports 與 service hash。
 
-finalize 的 `serviceRequests[].createBody` 沿正常 POST owner 的 business fields；`volumeRequests[].createSkeleton` 沿正常 VolumeTemplate owner。0.14.42 候選讓 private preview 與持 delegation proof 的實際 mutation 共用 typed SDK `Resource` envelope 投影，涵蓋 Service／Volume skeleton、巢狀 launch config 與明確空 service links；Engine exact-body 判斷不變。`metadata`／`labels`／`environment`／log-driver options 等 business map 不遍歷、不刪鍵；一般 SDK／legacy API 序列化維持原樣。
+finalize 的 `serviceRequests[].createBody` 沿正常 POST owner 的 business fields；`volumeRequests[].createSkeleton` 沿正常 VolumeTemplate owner。0.14.42 讓 private preview 與持 delegation proof 的實際 mutation 共用 typed SDK `Resource` envelope 投影，涵蓋 Service／Volume skeleton、巢狀 launch config 與明確空 service links；Engine exact-body 判斷不變。`metadata`／`labels`／`environment`／log-driver options 等 business map 不遍歷、不刪鍵；一般 SDK／legacy API 序列化維持原樣。
 
 `$createdStack`／`$service:<name>` 只容許 Engine 綁本計畫實際建立的 ID，不能接受模型 ID。`setServiceLinks` 沿同一 native parser／排序，使用專用 `{serviceLinks:[{name,serviceId}]}` wire DTO；空集合明確送 `[]`，保留 target 與 alias，不夾帶通用 API `links/actions`。此階段只支援 graph 內部服務；順序視為集合。正常 owner 會跑兩次 Create 以完成循環 links，因此可先送已存在 targets 的 subset，再送完整 intended links；完成判定仍需完整關聯收斂。
 
