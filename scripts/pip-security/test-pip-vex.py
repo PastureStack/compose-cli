@@ -182,10 +182,13 @@ class VexBoundary(unittest.TestCase):
     def test_pip_8643_requires_exact_native_tuple_and_complete_patched_core(self):
         purl = "pkg:deb/ubuntu/python3-pip-whl@25.1.1%2Bdfsg-1ubuntu2?arch=all&distro=ubuntu-26.04"
         finding = {"VulnerabilityID": "CVE-2026-8643", "PkgName": "python3-pip-whl",
+                   "PkgID": "python3-pip-whl@25.1.1+dfsg-1ubuntu2",
                    "InstalledVersion": "25.1.1+dfsg-1ubuntu2", "Severity": "MEDIUM",
                    "FixedVersion": "", "PkgIdentifier": {"PURL": purl}}
         raw = {"Results": [{"Type": "ubuntu", "Class": "os-pkgs",
-                "Packages": [{"Name": "python3-pip-whl", "Version": "25.1.1+dfsg-1ubuntu2"}],
+                "Packages": [{"ID": "python3-pip-whl@25.1.1+dfsg-1ubuntu2", "Name": "python3-pip-whl",
+                              "Version": "25.1.1+dfsg", "Release": "1ubuntu2",
+                              "Identifier": {"PURL": purl}, "AnalyzedBy": "dpkg"}],
                 "Vulnerabilities": [finding]}]}
         proof = dict(self.proof, vendorInventorySha256="6b9e911363afa748740d5a514de1ecf34974645d0fb01dac23546e66d4d0f94c",
                      pipCoreFilesByteCompared=157, pipCoreFileSetMatched=True,
@@ -205,7 +208,7 @@ class VexBoundary(unittest.TestCase):
                 self.assertEqual(result, original)
                 self.assertEqual(statements["statements"], [])
         for key, value in [("Severity", "HIGH"), ("FixedVersion", "26.1.3"),
-                           ("VulnerabilityID", "CVE-UNKNOWN"), ("InstalledVersion", "25.1.2"),
+                           ("VulnerabilityID", "CVE-UNKNOWN"), ("InstalledVersion", "25.1.2"), ("PkgID", "foreign"),
                            ("PkgIdentifier", {"PURL": purl + "&changed=1"})]:
             changed = deepcopy(original); changed["Results"][0]["Vulnerabilities"][0][key] = value
             result, statements = vex.apply(changed, proof, "urn:test:fixture-image")
@@ -213,6 +216,13 @@ class VexBoundary(unittest.TestCase):
             self.assertEqual(statements["statements"], [])
         for key, value in [("Type", "python-pkg"), ("Class", "lang-pkgs"), ("Packages", [])]:
             changed = deepcopy(original); changed["Results"][0][key] = value
+            result, statements = vex.apply(changed, proof, "urn:test:fixture-image")
+            self.assertEqual(result, changed)
+            self.assertEqual(statements["statements"], [])
+        for key, value in [("Version", "25.1.1+dfsg-1ubuntu2"), ("Release", "1ubuntu3"),
+                           ("ID", "foreign"), ("Identifier", {"PURL": purl + "&changed=1"}),
+                           ("AnalyzedBy", "sbom")]:
+            changed = deepcopy(original); changed["Results"][0]["Packages"][0][key] = value
             result, statements = vex.apply(changed, proof, "urn:test:fixture-image")
             self.assertEqual(result, changed)
             self.assertEqual(statements["statements"], [])

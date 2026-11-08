@@ -64,9 +64,17 @@ def apply(raw, proof, subject):
                 # PYSEC-2026-196 is fixed in pip 26.1.2. Distro seed metadata
                 # needs the complete installed core, not just a vendor proof.
                 purl = "pkg:deb/ubuntu/python3-pip-whl@25.1.1%2Bdfsg-1ubuntu2?arch=all&distro=ubuntu-26.04"
+                package_id = "python3-pip-whl@25.1.1+dfsg-1ubuntu2"
+                native_packages = [pkg for pkg in section.get("Packages", []) if pkg.get("Name") == "python3-pip-whl"]
+                native_match = (len(native_packages) == 1
+                                and native_packages[0].get("ID") == package_id
+                                and native_packages[0].get("Version") == "25.1.1+dfsg"
+                                and native_packages[0].get("Release") == "1ubuntu2"
+                                and native_packages[0].get("AnalyzedBy") == "dpkg"
+                                and (native_packages[0].get("Identifier") or {}).get("PURL") == purl)
                 eligible = (actual == ("python3-pip-whl", "25.1.1+dfsg-1ubuntu2")
                             and section.get("Type") == "ubuntu" and section.get("Class") == "os-pkgs"
-                            and packages and item.get("Severity") == "MEDIUM"
+                            and native_match and item.get("PkgID") == package_id and item.get("Severity") == "MEDIUM"
                             and item.get("FixedVersion") in (None, "", "26.1.2")
                             and (item.get("PkgIdentifier") or {}).get("PURL") == purl
                             and proof.get("vendorInventorySha256") == "6b9e911363afa748740d5a514de1ecf34974645d0fb01dac23546e66d4d0f94c"
