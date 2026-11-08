@@ -1,6 +1,6 @@
 # Compatibility Contract
 
-## 0.14.44 candidate: cancelled Stack service rollback
+## 0.14.44: cancelled Stack service rollback
 
 The native Compose Stack rollback handler recognizes `canceled-upgrade` instead
 of the nonexistent `cancel` state. Existing upgraded-service rollback, native
@@ -9,7 +9,9 @@ regression covers these states. Original CI, immutable artifact qualification
 and matching Server acceptance are separate checks. The matching Engine owns
 the approved Stack snapshot and current authorization; native per-service
 validation restores eligible previous configurations. The AI layer does not
-send extra service actions or repair configurations itself.
+send extra service actions or repair configurations itself. The immutable
+v0.14.44 release passed original CI, all 20 anonymous asset checks and native
+GitHub release attestation. Matching Server runtime acceptance remains separate.
 
 
 ## 0.14.43 published: stable approved Catalog service hashes
@@ -25,8 +27,8 @@ Ordinary and legacy Compose hashing and SDK serialization are unchanged. An
 explicit ordinary Compose `up` or `upgrade` taking over a Catalog-created service
 may detect one initial hash difference; this does not trigger an automatic update.
 Original official CI, two reproducible Linux/amd64 packages, all 20 anonymous
-assets and native GitHub release attestation passed. Server573 deployment and
-matching Catalog runtime acceptance remain pending. A Stack reply alone is not
+assets and native GitHub release attestation passed. Matching Server deployment
+and Catalog runtime acceptance remain separate. A Stack reply alone is not
 workload completion. The builder retains the original 22 tools and Go1.27.3;
 its selected official security overlay preserves package names and the Python ABI.
 
