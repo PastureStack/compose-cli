@@ -1,5 +1,15 @@
 # Compatibility Contract
 
+## 0.14.44 candidate: cancelled Stack service rollback
+
+The native Compose Stack rollback handler recognizes `canceled-upgrade` instead
+of the nonexistent `cancel` state. Existing upgraded-service rollback, native
+waiting and active-service behavior remain unchanged. A real HTTP-client
+regression covers these states; original CI and publication are still pending.
+Stack-level child-generation consistency is enforced by the matching Engine
+owner, not by extra requests or configuration repairs in the AI layer.
+
+
 ## 0.14.43 published: stable approved Catalog service hashes
 
 Private preview and delegated service creation share one typed request and

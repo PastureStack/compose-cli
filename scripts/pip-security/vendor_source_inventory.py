@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 import zipfile
 
 
-WHEEL_NAME = "pip-26.2.2+pasturestack.1-py3-none-any.whl"
+WHEEL_NAME = "pip-26.2.2+pasturestack.2-py3-none-any.whl"
 WHEEL_PATHS = {"/usr/share/python-wheels/" + WHEEL_NAME,
                "/opt/python-security/" + WHEEL_NAME}
 SBOM_PATHS = {"/usr/local/lib/python3.14/dist-packages/pip/_vendor/bom.cdx.json",

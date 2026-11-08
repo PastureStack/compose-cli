@@ -20,7 +20,7 @@ spec.loader.exec_module(vex)
 class VexBoundary(unittest.TestCase):
     def setUp(self):
         self.proof = {"verifiedWheelSha256": vex.WHEEL_SHA, "verifiedWheelPath": "/usr/share/python-wheels/" + vex.WHEEL_NAME,
-                      "pip": "26.2.2+pasturestack.1",
+                      "pip": "26.2.2+pasturestack.2",
                       "urllib3": "2.8.0", "msgpackImplementation": "pip._vendor.msgpack.fallback",
                       "setuptoolsPackageAbsent": True, "vendorFilesByteCompared": 299,
                       "vulnerableModulesAbsent": ["msgpack._cmsgpack", "setuptools.wheel"],
@@ -156,6 +156,81 @@ class VexBoundary(unittest.TestCase):
         self.assertFalse(matching_sbom(json.dumps(versionless).encode()))
         primary = {"bomFormat": "CycloneDX", "metadata": {"component": {"name": "msgpack", "version": "1.1.2"}}}
         self.assertTrue(matching_sbom(json.dumps(primary).encode()))
+
+    def test_pip_core_proof_compares_complete_set_and_every_file(self):
+        spec = importlib.util.spec_from_file_location("core_proof", Path(__file__).with_name("check-pip-vendor-slice.py"))
+        checker = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(checker)
+        with tempfile.TemporaryDirectory() as directory:
+            live = Path(directory) / "pip"
+            live.mkdir()
+            (live / "__init__.py").write_bytes(b"core fixture\n")
+            selected = Path(directory) / "selected.whl"
+            with zipfile.ZipFile(selected, "w") as archive:
+                archive.writestr("pip/__init__.py", b"core fixture\n")
+            with zipfile.ZipFile(selected) as archive:
+                self.assertEqual(checker.require_pip_core_exact(archive, live)["pipCoreFilesByteCompared"], 1)
+                (live / "__init__.py").write_bytes(b"changed\n")
+                with self.assertRaises(AssertionError): checker.require_pip_core_exact(archive, live)
+                (live / "__init__.py").write_bytes(b"core fixture\n")
+                (live / "extra.py").write_bytes(b"unexpected\n")
+                with self.assertRaises(AssertionError): checker.require_pip_core_exact(archive, live)
+                (live / "extra.py").unlink()
+                (live / "__init__.py").unlink()
+                with self.assertRaises(AssertionError): checker.require_pip_core_exact(archive, live)
+
+    def test_pip_8643_requires_exact_native_tuple_and_complete_patched_core(self):
+        purl = "pkg:deb/ubuntu/python3-pip-whl@25.1.1%2Bdfsg-1ubuntu2?arch=all&distro=ubuntu-26.04"
+        finding = {"VulnerabilityID": "CVE-2026-8643", "PkgName": "python3-pip-whl",
+                   "PkgID": "python3-pip-whl@25.1.1+dfsg-1ubuntu2",
+                   "InstalledVersion": "25.1.1+dfsg-1ubuntu2", "Severity": "MEDIUM",
+                   "FixedVersion": "", "PkgIdentifier": {"PURL": purl}}
+        raw = {"Results": [{"Type": "ubuntu", "Class": "os-pkgs",
+                "Packages": [{"ID": "python3-pip-whl@25.1.1+dfsg-1ubuntu2", "Name": "python3-pip-whl",
+                              "Version": "25.1.1+dfsg", "Release": "1ubuntu2",
+                              "Identifier": {"PURL": purl}, "AnalyzedBy": "dpkg"}],
+                "Vulnerabilities": [finding]}]}
+        proof = dict(self.proof, vendorInventorySha256="6b9e911363afa748740d5a514de1ecf34974645d0fb01dac23546e66d4d0f94c",
+                     pipCoreFilesByteCompared=157, pipCoreFileSetMatched=True,
+                     pipCoreInventorySha256="51be05e205130ecb1655f762f5933177269a9e665d1f4075a8921557998ddce5")
+        original = deepcopy(raw)
+        for fixed in (None, "", "26.1.2"):
+            raw["Results"][0]["Vulnerabilities"][0]["FixedVersion"] = fixed
+            result, statements = vex.apply(raw, proof, "urn:test:fixture-image")
+            self.assertEqual(result["Results"][0]["Vulnerabilities"], [])
+            self.assertEqual(len(statements["statements"]), 1)
+        self.assertEqual(original["Results"][0]["Vulnerabilities"][0]["Severity"], "MEDIUM")
+        for key, value in [("pipCoreFilesByteCompared", 156), ("pipCoreFileSetMatched", False),
+                           ("pipCoreInventorySha256", "0" * 64), ("vendorInventorySha256", "0" * 64),
+                           ("pipCoreFilesByteCompared", None)]:
+            with self.subTest(proof=key):
+                result, statements = vex.apply(original, dict(proof, **{key: value}), "urn:test:fixture-image")
+                self.assertEqual(result, original)
+                self.assertEqual(statements["statements"], [])
+        for key, value in [("Severity", "HIGH"), ("FixedVersion", "26.1.3"),
+                           ("VulnerabilityID", "CVE-UNKNOWN"), ("InstalledVersion", "25.1.2"), ("PkgID", "foreign"),
+                           ("PkgIdentifier", {"PURL": purl + "&changed=1"})]:
+            changed = deepcopy(original); changed["Results"][0]["Vulnerabilities"][0][key] = value
+            result, statements = vex.apply(changed, proof, "urn:test:fixture-image")
+            self.assertEqual(result, changed)
+            self.assertEqual(statements["statements"], [])
+        for key, value in [("Type", "python-pkg"), ("Class", "lang-pkgs"), ("Packages", [])]:
+            changed = deepcopy(original); changed["Results"][0][key] = value
+            result, statements = vex.apply(changed, proof, "urn:test:fixture-image")
+            self.assertEqual(result, changed)
+            self.assertEqual(statements["statements"], [])
+        for key, value in [("Version", "25.1.1+dfsg-1ubuntu2"), ("Release", "1ubuntu3"),
+                           ("ID", "foreign"), ("Identifier", {"PURL": purl + "&changed=1"}),
+                           ("AnalyzedBy", "sbom")]:
+            changed = deepcopy(original); changed["Results"][0]["Packages"][0][key] = value
+            result, statements = vex.apply(changed, proof, "urn:test:fixture-image")
+            self.assertEqual(result, changed)
+            self.assertEqual(statements["statements"], [])
+        for key in ("pipCoreFilesByteCompared", "pipCoreFileSetMatched", "pipCoreInventorySha256"):
+            proof.pop(key)
+        result, statements = vex.apply(original, proof, "urn:test:old-vendor-only-proof")
+        self.assertEqual(result, original)
+        self.assertEqual(statements["statements"], [])
 
     def test_source_walk_error_cannot_produce_complete_inventory(self):
         def unreadable(*args, **kwargs):

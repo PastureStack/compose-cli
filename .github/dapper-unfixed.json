@@ -3901,6 +3901,50 @@
       "officialEvidence": "https://ubuntu.com/security/CVE-2026-82560",
       "reason": "Ubuntu26.04 remains vulnerable without a released fix. Exact Dapper build-only package; Trivy Ubuntu severity MEDIUM. Upstream CVSS7.5 remains disclosed.",
       "checkedAt": "2026-11-05"
+    },
+    {
+      "package": "libpython3.14-minimal",
+      "purl": "pkg:deb/ubuntu/libpython3.14-minimal@3.14.4-1ubuntu0.2?arch=amd64&distro=ubuntu-26.04",
+      "checkedAt": "2026-11-08",
+      "status": "no_official_fix",
+      "id": "CVE-2026-7210",
+      "severity": "MEDIUM",
+      "reason": "Canonical Ubuntu 26.04 Python 3.14 status is Vulnerable with no official fixed resolute package (official page updated 2026-11-06, verified by the release owner on 2026-11-08). Upstream repair depends on libexpat; no unpublished cherry-pick or not-affected claim is used. Retain this exact Medium raw finding; any FixedVersion, severity increase or changed package identity remains rejected.",
+      "version": "3.14.4-1ubuntu0.2",
+      "officialEvidence": "https://ubuntu.com/security/CVE-2026-7210"
+    },
+    {
+      "package": "libpython3.14-stdlib",
+      "purl": "pkg:deb/ubuntu/libpython3.14-stdlib@3.14.4-1ubuntu0.2?arch=amd64&distro=ubuntu-26.04",
+      "checkedAt": "2026-11-08",
+      "status": "no_official_fix",
+      "id": "CVE-2026-7210",
+      "severity": "MEDIUM",
+      "reason": "Canonical Ubuntu 26.04 Python 3.14 status is Vulnerable with no official fixed resolute package (official page updated 2026-11-06, verified by the release owner on 2026-11-08). Upstream repair depends on libexpat; no unpublished cherry-pick or not-affected claim is used. Retain this exact Medium raw finding; any FixedVersion, severity increase or changed package identity remains rejected.",
+      "version": "3.14.4-1ubuntu0.2",
+      "officialEvidence": "https://ubuntu.com/security/CVE-2026-7210"
+    },
+    {
+      "package": "python3.14",
+      "purl": "pkg:deb/ubuntu/python3.14@3.14.4-1ubuntu0.2?arch=amd64&distro=ubuntu-26.04",
+      "checkedAt": "2026-11-08",
+      "status": "no_official_fix",
+      "id": "CVE-2026-7210",
+      "severity": "MEDIUM",
+      "reason": "Canonical Ubuntu 26.04 Python 3.14 status is Vulnerable with no official fixed resolute package (official page updated 2026-11-06, verified by the release owner on 2026-11-08). Upstream repair depends on libexpat; no unpublished cherry-pick or not-affected claim is used. Retain this exact Medium raw finding; any FixedVersion, severity increase or changed package identity remains rejected.",
+      "version": "3.14.4-1ubuntu0.2",
+      "officialEvidence": "https://ubuntu.com/security/CVE-2026-7210"
+    },
+    {
+      "package": "python3.14-minimal",
+      "purl": "pkg:deb/ubuntu/python3.14-minimal@3.14.4-1ubuntu0.2?arch=amd64&distro=ubuntu-26.04",
+      "checkedAt": "2026-11-08",
+      "status": "no_official_fix",
+      "id": "CVE-2026-7210",
+      "severity": "MEDIUM",
+      "reason": "Canonical Ubuntu 26.04 Python 3.14 status is Vulnerable with no official fixed resolute package (official page updated 2026-11-06, verified by the release owner on 2026-11-08). Upstream repair depends on libexpat; no unpublished cherry-pick or not-affected claim is used. Retain this exact Medium raw finding; any FixedVersion, severity increase or changed package identity remains rejected.",
+      "version": "3.14.4-1ubuntu0.2",
+      "officialEvidence": "https://ubuntu.com/security/CVE-2026-7210"
     }
   ]
 }

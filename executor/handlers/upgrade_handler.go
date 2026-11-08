@@ -103,7 +103,7 @@ func RollbackStack(event *events.Event, apiClient *client.RancherClient) error {
 		if err := wait(apiClient, &service); err != nil {
 			return err
 		}
-		if service.State == "upgraded" || service.State == "cancel" {
+		if service.State == "upgraded" || service.State == "canceled-upgrade" {
 			service, err := apiClient.Service.ActionRollback(&service)
 			if err != nil {
 				return err
