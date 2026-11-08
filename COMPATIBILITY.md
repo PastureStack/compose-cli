@@ -5,9 +5,11 @@
 The native Compose Stack rollback handler recognizes `canceled-upgrade` instead
 of the nonexistent `cancel` state. Existing upgraded-service rollback, native
 waiting and active-service behavior remain unchanged. A real HTTP-client
-regression covers these states; original CI and publication are still pending.
-Stack-level child-generation consistency is enforced by the matching Engine
-owner, not by extra requests or configuration repairs in the AI layer.
+regression covers these states. Original CI, immutable artifact qualification
+and matching Server acceptance are separate checks. The matching Engine owns
+the approved Stack snapshot and current authorization; native per-service
+validation restores eligible previous configurations. The AI layer does not
+send extra service actions or repair configurations itself.
 
 
 ## 0.14.43 published: stable approved Catalog service hashes

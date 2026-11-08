@@ -28,8 +28,9 @@ The original Go 1.27.3 CI passed two reproducible Linux/amd64 builds, race tests
 native compatibility, full security gates and CodeQL. All twenty immutable
 public assets passed anonymous byte verification and native GitHub release
 attestation. See the [published release note](https://github.com/PastureStack/compose-cli/releases/tag/v0.14.43).
-Server573 deployment and matching Catalog runtime acceptance remain pending; a Stack reply alone
-does not prove workload completion. See [the owner contract](docs/catalog-launch-owner.md).
+Matching Server deployment and Catalog runtime acceptance are separate from
+component qualification; a Stack reply alone does not prove workload completion.
+See [the owner contract](docs/catalog-launch-owner.md).
 
 ## Configuration
 
@@ -70,12 +71,12 @@ The compatibility-server test requires an explicitly reviewed artifact URL throu
 
 The inherited project remains licensed under [Apache License 2.0](LICENSE). Copyright and attribution for inherited work and vendored dependencies remain with their respective authors and contributors. PastureStack contributors claim authorship only for their own changes.
 
-## October 2026 security maintenance
+## Toolchain security
 
 Maintained Go builds select the patched Go 1.27.3 compiler without raising the existing Go language requirement. Ubuntu build/runtime stages apply the checksum-pinned `ca-certificates 20260816ubuntu0.26.04.1` security package after their frozen APT baseline; the final trust store and installed version are verified. Python tooling uses the patched pip/CA path; CI interpreter pins remain on the Python 3.14 series. Release artifacts must pass the repository's existing checks before publication.
 # Python installer security rebuild
 
-The disposable Dapper image rebuilds pip `26.2.2+pasturestack.1` from checksum-pinned official inputs using upstream vendoring and the original urllib3 patches. Only urllib3 changes to released `2.8.0`; this is a local security rebuild, not a new official PyPA release. The expected wheel SHA-256 is `be5f63d537bbe611dc422fabb6740a44b5997888b592888df5091727f023802a`. Ubuntu's Python ABI is retained. The image tests live pip, available ensurepip/new-venv seeds, virtualenv, streaming limits, and trusted/untrusted TLS. See `scripts/pip-security/README.md` for source and license evidence.
+The disposable Dapper image rebuilds pip `26.2.2+pasturestack.2` from checksum-pinned official inputs using upstream vendoring and the original urllib3 patches. The reviewed changes use released urllib3 `2.8.0` and msgpack `1.2.3`; this is a local security rebuild, not a new official PyPA release. The expected wheel SHA-256 is `2aef7c341eef310645ab56455f5789de2819463b25fa70151954e1d208d2db36`. Ubuntu's Python ABI is retained. The image tests live pip, available ensurepip/new-venv seeds, virtualenv, streaming limits, and trusted/untrusted TLS. See `scripts/pip-security/README.md` for source and license evidence.
 
 
 ## Disposable builder security
