@@ -7,9 +7,9 @@ import json
 from pathlib import Path
 from vendor_source_inventory import SBOM_PATHS, WHEEL_PATHS
 
-WHEEL_SHA = "be5f63d537bbe611dc422fabb6740a44b5997888b592888df5091727f023802a"
-WHEEL_NAME = "pip-26.2.2+pasturestack.1-py3-none-any.whl"
-BOM_SHA = "3581cb8f0a6128c19ccec4e9aeab0d3ac8212fd19bd19d485b2e24fd4dc10f2a"
+WHEEL_SHA = "2aef7c341eef310645ab56455f5789de2819463b25fa70151954e1d208d2db36"
+WHEEL_NAME = "pip-26.2.2+pasturestack.2-py3-none-any.whl"
+BOM_SHA = "59163489fd72f0732db7ef5d532b4ea83565d2113c9179fdfbdf67e6fddd5f6b"
 RULES = {
     "GHSA-6v7p-g79w-8964": ("msgpack", "1.1.2"),
     "CVE-2026-57585": ("msgpack", "1.1.2"),
@@ -32,7 +32,7 @@ def apply(raw, proof, subject):
                          for item in sources))
     valid = (proof["verifiedWheelSha256"] == WHEEL_SHA and
              proof.get("verifiedWheelPath") in WHEEL_PATHS and
-             proof["pip"] == "26.2.2+pasturestack.1" and proof["urllib3"] == "2.8.0" and
+             proof["pip"] == "26.2.2+pasturestack.2" and proof["urllib3"] == "2.8.0" and
              proof["msgpackImplementation"] == "pip._vendor.msgpack.fallback" and
              proof["setuptoolsPackageAbsent"] is True and proof["vendorFilesByteCompared"] == 299 and
              proof.get("vulnerableModulesAbsent") == ["msgpack._cmsgpack", "setuptools.wheel"] and
@@ -60,14 +60,31 @@ def apply(raw, proof, subject):
                         (item.get("PkgIdentifier") or {}).get("PURL") == purl and
                         all(not pkg.get("FilePath") and not pkg.get("PkgPath") for pkg in packages) and
                         not item.get("PkgPath"))
+            if key == "CVE-2026-8643":
+                # PYSEC-2026-196 is fixed in pip 26.1.2. Distro seed metadata
+                # needs the complete installed core, not just a vendor proof.
+                purl = "pkg:deb/ubuntu/python3-pip-whl@25.1.1%2Bdfsg-1ubuntu2?arch=all&distro=ubuntu-26.04"
+                eligible = (actual == ("python3-pip-whl", "25.1.1+dfsg-1ubuntu2")
+                            and section.get("Type") == "ubuntu" and section.get("Class") == "os-pkgs"
+                            and packages and item.get("Severity") == "MEDIUM"
+                            and item.get("FixedVersion") in (None, "", "26.1.2")
+                            and (item.get("PkgIdentifier") or {}).get("PURL") == purl
+                            and proof.get("vendorInventorySha256") == "6b9e911363afa748740d5a514de1ecf34974645d0fb01dac23546e66d4d0f94c"
+                            and type(proof.get("pipCoreFilesByteCompared")) is int
+                            and proof.get("pipCoreFilesByteCompared") == 157
+                            and proof.get("pipCoreFileSetMatched") is True
+                            and proof.get("pipCoreInventorySha256") == "51be05e205130ecb1655f762f5933177269a9e665d1f4075a8921557998ddce5")
             if not eligible:
                 retained.append(item)
                 continue
+            detail = ("The distro seed has been replaced by the exact pip 26.2.2+pasturestack.2 wheel; "
+                      "all 157 live core files and their full set match the patched wheel"
+                      if key == "CVE-2026-8643" else reasons[key]["detail"])
             statements.append({
                 "vulnerability": {"name": key},
                 "products": [{"@id": subject, "subcomponents": [{"@id": purl}]}],
                 "status": "not_affected", "justification": "vulnerable_code_not_present",
-                "impact_statement": reasons[key]["detail"] + "; exact pip wheel SHA-256 " + WHEEL_SHA,
+                "impact_statement": detail + "; exact pip wheel SHA-256 " + WHEEL_SHA,
             })
         section["Vulnerabilities"] = retained
     vex = {"@context": "https://openvex.dev/ns/v0.2.0", "@id": subject + "/pip-vendor-vex",

@@ -115,7 +115,7 @@ RUN python3 /opt/python-security/scripts/build-pip-overlay.py --work /tmp/pip-ov
     rm -rf /tmp/pip-overlay-build
 ADD --checksum=sha256:42d35340cc5b9ba78e818ddbff0c5b1c2b779de448a340fd1b989f5fa8670e1b https://files.pythonhosted.org/packages/c4/51/29046e48f693c54e5b7412216d447a1d8362c9653148d98c02cdf65fa733/certifi-2026.10.19-py3-none-any.whl /opt/python-security/certifi-2026.10.19-py3-none-any.whl
 COPY scripts/install-python-security-tools /usr/local/bin/install-python-security-tools
-ENV VIRTUALENV_PIP=26.2.2+pasturestack.1 VIRTUALENV_EXTRA_SEARCH_DIR=/usr/share/python-wheels VIRTUALENV_NO_PERIODIC_UPDATE=1
+ENV VIRTUALENV_PIP=26.2.2+pasturestack.2 VIRTUALENV_EXTRA_SEARCH_DIR=/usr/share/python-wheels VIRTUALENV_NO_PERIODIC_UPDATE=1
 RUN PYTHON_SECURITY_VIRTUALENV_PYTHON=python3 bash /usr/local/bin/install-python-security-tools
 
 RUN case "${DAPPER_HOST_ARCH}" in \
