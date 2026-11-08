@@ -17,7 +17,7 @@ if [ ! -s cattle.jar ]; then
         echo "PLATFORM_COMPAT_JAR_SHA256 is required for a downloaded compatibility server artifact" >&2
         exit 1
     fi
-    curl -fsSL --retry 3 --retry-delay 2 --retry-max-time 90 \
+    curl -fsSL -H 'Accept: application/octet-stream' --retry 3 --retry-delay 2 --retry-max-time 90 \
         --connect-timeout 10 --max-time 30 "$URL" -o cattle.jar
 fi
 

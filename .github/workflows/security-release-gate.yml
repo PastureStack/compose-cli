@@ -22,7 +22,7 @@ jobs:
       DAPPER_IMAGE: pasturestack/compose-cli-dapper:${{ github.sha }}
       TRIVY_IMAGE: aquasec/trivy:0.74.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969
       VERSION_OVERRIDE: 0.14.44
-      PLATFORM_COMPAT_JAR_URL: https://github.com/PastureStack/orchestration-engine/releases/download/v0.183.281/orchestration-engine-0.183.281.jar
+      PLATFORM_COMPAT_JAR_URL: https://api.github.com/repos/PastureStack/orchestration-engine/releases/assets/503322721
       PLATFORM_COMPAT_JAR_SHA256: da2a8a51562ed16e296f7e29e99482bb44042ff0834cca679bbe01d951ba1682
 
     steps:
