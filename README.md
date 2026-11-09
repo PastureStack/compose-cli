@@ -8,17 +8,13 @@ PastureStack is an independent community effort to preserve, audit, and moderniz
 
 ## Project status
 
-The next source candidate, 0.14.45, replaces the three-second child-service
-wait with bounded observation and progress replies for Stack rollback and
-finish-upgrade. The event worker owns terminal errors; handler failures are
-no longer swallowed. Each child action is dispatched once. Current published
-artifacts remain 0.14.44 until the normal release checks complete.
-
 The maintained source uses Ubuntu 26.04, Go 1.27.3, and Python 3.14.9 for integration-source verification. Ubuntu build packages, the base image, and Go archives are fixed by snapshot, exact version, and SHA-256. Go dependencies are managed by `go.mod` and a reproducible module vendor tree. AWS access uses AWS SDK for Go v2; container structures use the maintained Moby API module; the command parser uses urfave/cli v3. The abandoned AWS SDK v1, Rancher generated-client modules, event-subscriber module, `docker/libcompose`, and other GOPATH-era dependencies have been removed. The small Rancher 1.6 protocol boundary retained by this compatibility CLI is maintained and tested locally. The Dapper builder does not embed a Docker CLI or mount a Docker socket; Docker is required only on the host to create and run the isolated builder. The maintained binaries are `pasturestack-compose` and `compose-executor`; `platform-compose.yml` is the preferred companion file. Releases are built and verified from the preserved source history; this repository does not enable automated deployment.
 
-The current published [v0.14.44](https://github.com/PastureStack/compose-cli/releases/tag/v0.14.44)
-supports native rollback of a Stack service in `canceled-upgrade`, preserving
-the existing wait and per-service action contract. Private Catalog preview and
+The current published [v0.14.45](https://github.com/PastureStack/compose-cli/releases/tag/v0.14.45)
+supports native rollback of a Stack service in `canceled-upgrade`. Rollback and
+finish-upgrade observe transitioning children with bounded waits and progress
+keepalive; each child action is dispatched once and terminal errors are no longer
+swallowed. Private Catalog preview and
 delegated service creation retain their shared typed request and configuration
 hash. Business maps, ordinary and legacy Compose hashing, SDK serialization,
 and Engine authorization retain their existing behavior.
@@ -26,7 +22,7 @@ and Engine authorization retain their existing behavior.
 The original Go 1.27.3 CI passed two reproducible Linux/amd64 builds, race tests,
 native compatibility, full security gates and CodeQL. All twenty immutable
 public assets passed anonymous byte verification and native GitHub release
-attestation. See the [published release note](https://github.com/PastureStack/compose-cli/releases/tag/v0.14.44).
+attestation. See the [published release note](https://github.com/PastureStack/compose-cli/releases/tag/v0.14.45).
 Matching Server deployment and Stack/Catalog runtime acceptance are separate from
 component qualification; a Stack reply alone does not prove workload completion.
 See [the owner contract](docs/catalog-launch-owner.md).
@@ -47,13 +43,13 @@ make test
 make package
 ```
 
-Release [v0.14.44](https://github.com/PastureStack/compose-cli/releases/tag/v0.14.44)
-publishes `compose-executor-0.14.44-linux-amd64.gz`. Published tags and assets
+Release [v0.14.45](https://github.com/PastureStack/compose-cli/releases/tag/v0.14.45)
+publishes `compose-executor-0.14.45-linux-amd64.gz`. Published tags and assets
 remain immutable; a later recipe or documentation commit does not replace
 their bytes or change their producer identity.
 
-To rebuild the published source, check out `v0.14.44` and set
-`VERSION_OVERRIDE=0.14.44` with its original recipe. Source changes alone are not
+To rebuild the published source, check out `v0.14.45` and set
+`VERSION_OVERRIDE=0.14.45` with its original recipe. Source changes alone are not
 publication proof: verify the official release assets and their SHA-256.
 Component publication and matching Server acceptance are separate evidence
 boundaries. The Python integration suite must run against an

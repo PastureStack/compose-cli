@@ -1,6 +1,6 @@
 # Compatibility Contract
 
-## 0.14.45 source: bounded Stack transition observation
+## 0.14.45 published: bounded Stack transition observation
 
 Stack rollback and finish-upgrade observe each transitioning child for at most
 five minutes, polling every 500 ms and publishing original-event progress at
@@ -13,8 +13,9 @@ The event worker is the single terminal-error owner. Timeouts, child errors,
 reload failures and progress-publish failures propagate instead of disappearing
 inside the old WithTimeout wrapper. Deterministic-clock and real HTTP-client
 tests cover delayed settling, exactly-once dispatch, keepalive, deadline and
-error propagation. Current source tests and normal release qualification do
-not establish matching Server native acceptance.
+error propagation. All eight required checks, original reproducible/race/native
+compatibility/security checks, twenty anonymous assets and 21 release-attestation
+subjects passed. These results do not establish matching Server native acceptance.
 
 ## 0.14.44: cancelled Stack service rollback
 
