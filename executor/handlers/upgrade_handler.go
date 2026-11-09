@@ -2,8 +2,6 @@ package handlers
 
 import (
 	"errors"
-	"fmt"
-	"time"
 
 	"context"
 
@@ -25,7 +23,6 @@ func UpgradeStack(event *events.Event, apiClient *client.RancherClient) error {
 
 	if err := upgradeEnvironment(logger, event, apiClient); err != nil {
 		logger.Errorf("Stack Upgrade Event Failed: %s", logging.SafeLogValue(err))
-		publishTransitioningReply(err.Error(), event, apiClient, false)
 		return err
 	}
 
@@ -34,6 +31,10 @@ func UpgradeStack(event *events.Event, apiClient *client.RancherClient) error {
 }
 
 func FinishUpgradeStack(event *events.Event, apiClient *client.RancherClient) error {
+	return finishUpgradeStack(event, apiClient, newServiceWaiter(event, apiClient).wait)
+}
+
+func finishUpgradeStack(event *events.Event, apiClient *client.RancherClient, wait func(*client.Service) error) error {
 	logger := logrus.WithFields(logrus.Fields{
 		"resourceId": logging.SafeLogValue(event.ResourceID),
 		"eventId":    logging.SafeLogValue(event.ID),
@@ -56,7 +57,7 @@ func FinishUpgradeStack(event *events.Event, apiClient *client.RancherClient) er
 	}
 
 	for _, service := range services.Data {
-		if err := wait(apiClient, &service); err != nil {
+		if err := wait(&service); err != nil {
 			return err
 		}
 		if service.State == "upgraded" {
@@ -64,7 +65,7 @@ func FinishUpgradeStack(event *events.Event, apiClient *client.RancherClient) er
 			if err != nil {
 				return err
 			}
-			if err := wait(apiClient, service); err != nil {
+			if err := wait(service); err != nil {
 				return err
 			}
 		}
@@ -78,6 +79,10 @@ func FinishUpgradeStack(event *events.Event, apiClient *client.RancherClient) er
 }
 
 func RollbackStack(event *events.Event, apiClient *client.RancherClient) error {
+	return rollbackStack(event, apiClient, newServiceWaiter(event, apiClient).wait)
+}
+
+func rollbackStack(event *events.Event, apiClient *client.RancherClient, wait func(*client.Service) error) error {
 	logger := logrus.WithFields(logrus.Fields{
 		"resourceId": logging.SafeLogValue(event.ResourceID),
 		"eventId":    logging.SafeLogValue(event.ID),
@@ -100,7 +105,7 @@ func RollbackStack(event *events.Event, apiClient *client.RancherClient) error {
 	}
 
 	for _, service := range services.Data {
-		if err := wait(apiClient, &service); err != nil {
+		if err := wait(&service); err != nil {
 			return err
 		}
 		if service.State == "upgraded" || service.State == "canceled-upgrade" {
@@ -108,7 +113,7 @@ func RollbackStack(event *events.Event, apiClient *client.RancherClient) error {
 			if err != nil {
 				return err
 			}
-			if err := wait(apiClient, service); err != nil {
+			if err := wait(service); err != nil {
 				return err
 			}
 		}
@@ -130,28 +135,6 @@ func RollbackStack(event *events.Event, apiClient *client.RancherClient) error {
 		"externalId":          newId,
 		"environment":         newEnv,
 	})
-}
-
-func wait(apiClient *client.RancherClient, service *client.Service) error {
-	for i := 0; i < 6; i++ {
-		if err := apiClient.Reload(&service.Resource, service); err != nil {
-			return err
-		}
-		if service.Transitioning != "yes" {
-			break
-		}
-		time.Sleep(500 * time.Millisecond)
-	}
-
-	switch service.Transitioning {
-	case "yes":
-		logrus.Infof("Timeout waiting for %s to finish", logging.SafeLogValue(service.Name))
-		return ErrTimeout
-	case "no":
-		return nil
-	default:
-		return fmt.Errorf("Waiting for %s failed: %s", service.Name, service.TransitioningMessage)
-	}
 }
 
 func upgradeEnvironment(logger *logrus.Entry, event *events.Event, apiClient *client.RancherClient) error {

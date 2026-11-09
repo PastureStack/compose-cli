@@ -1,5 +1,21 @@
 # Compatibility Contract
 
+## 0.14.45 source: bounded Stack transition observation
+
+Stack rollback and finish-upgrade observe each transitioning child for at most
+five minutes, polling every 500 ms and publishing original-event progress at
+most every ten seconds while pending. These replies use the existing Engine
+keepalive protocol; they do not complete the Stack or repeat a child action.
+Active children are untouched. Canceled/upgraded rollback and upgraded finish
+retain their native owners, configuration and reply contract.
+
+The event worker is the single terminal-error owner. Timeouts, child errors,
+reload failures and progress-publish failures propagate instead of disappearing
+inside the old WithTimeout wrapper. Deterministic-clock and real HTTP-client
+tests cover delayed settling, exactly-once dispatch, keepalive, deadline and
+error propagation. Current source tests and normal release qualification do
+not establish matching Server native acceptance.
+
 ## 0.14.44: cancelled Stack service rollback
 
 The native Compose Stack rollback handler recognizes `canceled-upgrade` instead

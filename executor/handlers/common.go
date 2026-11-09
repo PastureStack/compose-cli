@@ -2,11 +2,9 @@ package handlers
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/PastureStack/compose-cli/internal/events"
 	"github.com/PastureStack/compose-cli/internal/rancherclient/v2"
-	"github.com/sirupsen/logrus"
 )
 
 var (
@@ -47,15 +45,4 @@ func reply(event *events.Event, apiClient *client.RancherClient, data map[string
 	reply := newReply(event)
 	reply.Data = data
 	return publishReply(reply, apiClient)
-}
-
-func WithTimeout(f func(event *events.Event, apiClient *client.RancherClient) error) func(event *events.Event, apiClient *client.RancherClient) error {
-	return func(event *events.Event, apiClient *client.RancherClient) error {
-		err := f(event, apiClient)
-		if err == ErrTimeout {
-			logrus.Infof("Timeout processing %s", fmt.Sprintf("%s:%s", event.ResourceType, event.ResourceID))
-			return nil
-		}
-		return nil
-	}
 }
