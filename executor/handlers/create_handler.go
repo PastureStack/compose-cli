@@ -25,7 +25,6 @@ func CreateStack(event *events.Event, apiClient *client.RancherClient) error {
 			err = errors.New("CatalogLaunchDispatchFailed")
 		}
 		logger.Errorf("Stack Create Event Failed: %s", logging.SafeLogValue(err))
-		publishTransitioningReply(err.Error(), event, apiClient, true)
 		return err
 	}
 

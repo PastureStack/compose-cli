@@ -26,10 +26,10 @@ func Main() {
 	logger.Info(executorMessage(locale, "start"))
 
 	eventHandlers := map[string]events.EventHandler{
-		"stack.create":        handlers.WithTimeout(handlers.CreateStack),
-		"stack.upgrade":       handlers.WithTimeout(handlers.UpgradeStack),
-		"stack.finishupgrade": handlers.WithTimeout(handlers.FinishUpgradeStack),
-		"stack.rollback":      handlers.WithTimeout(handlers.RollbackStack),
+		"stack.create":        handlers.CreateStack,
+		"stack.upgrade":       handlers.UpgradeStack,
+		"stack.finishupgrade": handlers.FinishUpgradeStack,
+		"stack.rollback":      handlers.RollbackStack,
 		"ping": func(event *events.Event, apiClient *client.RancherClient) error {
 			return nil
 		},

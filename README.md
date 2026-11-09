@@ -8,6 +8,12 @@ PastureStack is an independent community effort to preserve, audit, and moderniz
 
 ## Project status
 
+The next source candidate, 0.14.45, replaces the three-second child-service
+wait with bounded observation and progress replies for Stack rollback and
+finish-upgrade. The event worker owns terminal errors; handler failures are
+no longer swallowed. Each child action is dispatched once. Current published
+artifacts remain 0.14.44 until the normal release checks complete.
+
 The maintained source uses Ubuntu 26.04, Go 1.27.3, and Python 3.14.9 for integration-source verification. Ubuntu build packages, the base image, and Go archives are fixed by snapshot, exact version, and SHA-256. Go dependencies are managed by `go.mod` and a reproducible module vendor tree. AWS access uses AWS SDK for Go v2; container structures use the maintained Moby API module; the command parser uses urfave/cli v3. The abandoned AWS SDK v1, Rancher generated-client modules, event-subscriber module, `docker/libcompose`, and other GOPATH-era dependencies have been removed. The small Rancher 1.6 protocol boundary retained by this compatibility CLI is maintained and tested locally. The Dapper builder does not embed a Docker CLI or mount a Docker socket; Docker is required only on the host to create and run the isolated builder. The maintained binaries are `pasturestack-compose` and `compose-executor`; `platform-compose.yml` is the preferred companion file. Releases are built and verified from the preserved source history; this repository does not enable automated deployment.
 
 The current published [v0.14.44](https://github.com/PastureStack/compose-cli/releases/tag/v0.14.44)
