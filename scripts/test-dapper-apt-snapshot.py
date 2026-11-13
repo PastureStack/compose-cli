@@ -15,9 +15,9 @@ TOOLS = {
 
 
 def check_bootstrap(docker, lock, versions, gate):
-    security_dates = re.findall(r'^# Official Ubuntu 26[.]04 security/updates snapshot: ([0-9]{8}T[0-9]{6}Z)$', lock, re.M)
+    security_lock = '# Official Ubuntu 26.04 signed security/updates package versions.'
     dates = re.findall(r"^UBUNTU_APT_SNAPSHOT='([0-9]{8}T[0-9]{6}Z)'$", versions, re.M)
-    if len(dates) != 1 or len(security_dates) != 1 or dates != ['20261023T000000Z']:
+    if len(dates) != 1 or lock.splitlines().count(security_lock) != 1 or dates != ['20261023T000000Z']:
         raise ValueError('one canonical snapshot required')
     if 'bootstrap_snapshot=${UBUNTU_APT_SNAPSHOT};' not in docker:
         raise ValueError('bootstrap must use its own immutable base lock')
@@ -49,21 +49,16 @@ def check_bootstrap(docker, lock, versions, gate):
 
 
 def check_overlay(installer, lock):
-    dates = re.findall(r'^# Official Ubuntu 26[.]04 security/updates snapshot: ([0-9]{8}T[0-9]{6}Z)$', lock, re.M)
-    if dates != ['20261105T000000Z'] or 'test "$security_snapshot" = 20261105T000000Z' not in installer:
-        raise ValueError('only the reviewed overlay snapshot is permitted')
-    parser = next(line for line in installer.splitlines() if line.startswith('security_snapshot='))
-    if not parser.startswith("security_snapshot=$(sed -n 's/^# Official Ubuntu") or not parser.endswith(' "$lock")'):
-        raise ValueError('snapshot must derive only from the supplied canonical lock')
+    if not lock.startswith('# Official Ubuntu 26.04 signed security/updates package versions.\\n'.replace('\\n', chr(10))):
+        raise ValueError('official security lock required')
     source = next(line for line in installer.splitlines() if "printf 'Types: deb" in line)
-    if ('URIs: https://snapshot.ubuntu.com/ubuntu/%s\\n' not in source
+    if ('URIs: https://archive.ubuntu.com/ubuntu\\n' not in source
             or 'Suites: resolute-updates resolute-security\\n' not in source
-            or '"$security_snapshot"' not in source
             or 'Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg' not in source):
-        raise ValueError('only the canonical signed overlay source is permitted')
+        raise ValueError('only the official signed overlay source is permitted')
     for required in ('apt_security update --error-on=any',
                      'apt_security install -y --only-upgrade --no-install-recommends --no-remove "$@"',
-                     'cmp "$tmp/before" "$tmp/after"',
+                     'cmp "$tmp/before" "$tmp/after"', 'done < "$lock"', 'Acquire::ForceHash=sha256',
                      'dpkg --compare-versions "$installed" ge "$version" && continue',
                      'test "$status" = installed || continue',
                      '-o Acquire::https::Verify-Peer=true -o Acquire::https::Verify-Host=true',
@@ -126,8 +121,8 @@ class DapperSnapshotTest(unittest.TestCase):
                  installer.replace('--only-upgrade ', ''), installer.replace('--no-remove ', ''),
                  installer.replace('cmp "$tmp/before" "$tmp/after"', 'true'),
                  installer.replace('apt_security install -y', 'apt_security upgrade -y'),
-                 installer.replace('"$security_snapshot" >', '"20261106T000000Z" >'),
-                 installer.replace('"$lock")', '"/tmp/other.lock")')]
+                 installer.replace('https://archive.ubuntu.com/ubuntu', 'https://example.invalid/ubuntu'),
+                 installer.replace('done < "$lock"', 'done < /tmp/other.lock')]
         for index, changed in enumerate(cases):
             with self.subTest(drift=index), self.assertRaises(ValueError):
                 check_overlay(changed, lock)
@@ -143,7 +138,7 @@ class DapperSnapshotTest(unittest.TestCase):
             (docker.replace('apt-get update --error-on=any;', 'apt-get update;'), lock),
             (re.sub(r'^\s+gcc="[^\n]+\n', '', docker, flags=re.M), lock),
             (docker.replace('"${bootstrap_snapshot}" \\', '"20261105T000000Z" \\'), lock),
-            (docker, lock + '# Official Ubuntu 26.04 security/updates snapshot: 20261023T000000Z\n'),
+            (docker, lock + '# Official Ubuntu 26.04 signed security/updates package versions.\n'),
         ]
         for changed, changed_lock in cases:
             with self.subTest(drift=cases.index((changed, changed_lock))):
