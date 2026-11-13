@@ -7,8 +7,6 @@ trusted_ca=$2
 . /etc/os-release
 test "$ID:$VERSION_ID" = ubuntu:26.04
 test -s "$lock"
-security_snapshot=$(sed -n 's/^# Official Ubuntu 26.04 security\/updates snapshot: \([0-9]\{8\}T[0-9]\{6\}Z\)$/\1/p' "$lock")
-test "$security_snapshot" = 20261105T000000Z
 test -s "$trusted_ca"
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT HUP INT TERM
@@ -29,7 +27,7 @@ while IFS= read -r entry || test -n "$entry"; do
 done < "$lock"
 if test "$#" -gt 0; then
     mkdir -p "$tmp/lists/partial"
-    printf 'Types: deb\nURIs: https://snapshot.ubuntu.com/ubuntu/%s\nSuites: resolute-updates resolute-security\nComponents: main\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\nSnapshot: no\n' "$security_snapshot" > "$tmp/security.sources"
+    printf 'Types: deb\nURIs: https://archive.ubuntu.com/ubuntu\nSuites: resolute-updates resolute-security\nComponents: main\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n' > "$tmp/security.sources"
     apt_security() {
         apt-get -o Dir::Etc::sourcelist="$tmp/security.sources" \
             -o Dir::State::lists="$tmp/lists" \
@@ -37,7 +35,7 @@ if test "$#" -gt 0; then
             -o Dir::Etc::sourceparts=- -o Acquire::https::CaInfo="$trusted_ca" \
             -o Acquire::https::Verify-Peer=true -o Acquire::https::Verify-Host=true \
             -o Acquire::AllowInsecureRepositories=false -o APT::Get::AllowUnauthenticated=false \
-            -o Acquire::Retries=5 "$@"
+            -o Acquire::ForceHash=sha256 -o Acquire::Retries=5 "$@"
     }
     apt_security update --error-on=any
     DEBIAN_FRONTEND=noninteractive apt_security install -y --only-upgrade --no-install-recommends --no-remove "$@"

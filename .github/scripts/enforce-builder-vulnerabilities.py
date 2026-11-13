@@ -4,8 +4,8 @@ import sys
 from pathlib import Path
 
 REPOSITORY = "PastureStack/compose-cli"
-HEADER_VERSION = "7.0.0-42.42"
-HEADER_PURL = "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
+HEADER_VERSION = "7.0.0-43.43"
+HEADER_PURL = "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04"
 
 
 def violations(report, ledger, boundary, headers):
@@ -73,7 +73,7 @@ def violations(report, ledger, boundary, headers):
             fixed = str(finding.get("FixedVersion") or "").strip()
             if key[1] == "linux-libc-dev":
                 if key[2] != HEADER_VERSION or key[3] != HEADER_PURL:
-                    errors.append("Header finding does not match current exact installed42 proof")
+                    errors.append("Header finding does not match current exact installed header proof")
                     continue
                 expected = {"package": "linux-libc-dev", "version": HEADER_VERSION,
                             "kernel_images": False, "kernel_modules": False}

@@ -1,11 +1,11 @@
 {
   "repository": "PastureStack/compose-cli",
   "package": "linux-libc-dev",
-  "version": "7.0.0-42.42",
-  "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+  "version": "7.0.0-43.43",
+  "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
   "justification": "vulnerable_code_not_present",
-  "reason": "Exact user-space kernel API headers only. Official42 payloads contain only headers/documentation; the native image check requires42 and no kernel images/modules. CGO-disabled product ships no headers. Any available fix or unreviewed finding fails closed.",
-  "checkedAt": "2026-11-05",
+  "reason": "The updated package must contain only user-space kernel headers and package documentation. The installed path and kernel-runtime checks remain mandatory. The existing advisory IDs and severity ceilings are unchanged. Fixed and new findings fail closed.",
+  "checkedAt": "2026-11-13",
   "ids": [
     "CVE-2013-7445",
     "CVE-2015-7837",
@@ -619,114 +619,6 @@
     "CVE-2026-99270",
     "CVE-2026-99999"
   ],
-  "currentScopeReview": {
-    "status": "SOURCE_REVIEW_NATIVE_IMAGE_REQUIRED",
-    "previousInstalledVersion": "7.0.0-38.38",
-    "expectedInstalledVersion": "7.0.0-42.42",
-    "previousProducer": "96cd1f53887fa8880d89a5a2f62d273e44e92ada",
-    "previousHeaderDocumentSha256": "97bb096fb37fe0ff79589fcd563f33f8e978bc84ed7607cb1797e8c998103c70",
-    "originalRawSha256": "5d3a943539bfa19d43a22b756ada567680ceaf24d87c469cd2149544921b4a2e",
-    "fixedIdsExcluded": 2890,
-    "knownExactIdsReboundWith42HeaderOnlyPayload": 573,
-    "newExactMediumIds": 38,
-    "newHighExceptions": 0,
-    "remainingIdsSha256": "cd8d4c42ce1a1becdf7ce12173dd68733dd005235d63453b1006242ac168da69",
-    "official42Payloads": [
-      {
-        "arch": "amd64",
-        "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "sha256": "f775d4438862c9eba5453eacf5134baeceee26b2a94827082758052a649ae968",
-        "bytes": 1866834,
-        "payloadRegularOrSymlinkFiles": 1041,
-        "allPayloadPathsHeaderOrPackageDocumentation": true,
-        "noExecutableRegularFiles": true,
-        "payloadListingSha256": "f8d17f4005b0ec3d9d698dce79fd4989002d57880e42cafae1bd195669789b41",
-        "url": "https://security.ubuntu.com/ubuntu/pool/main/l/linux/linux-libc-dev_7.0.0-42.42_amd64.deb"
-      },
-      {
-        "arch": "arm64",
-        "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "sha256": "0222f76abe79c353d75fbc6d56bc811234e3281152c21d904221e729792e1625",
-        "bytes": 1840490,
-        "payloadRegularOrSymlinkFiles": 1012,
-        "allPayloadPathsHeaderOrPackageDocumentation": true,
-        "noExecutableRegularFiles": true,
-        "payloadListingSha256": "3c66c935e5a6fdaf1946e7538074bb180c5582dd4a7d6dacad02d857833019b5",
-        "url": "https://ports.ubuntu.com/ubuntu-ports/pool/main/l/linux/linux-libc-dev_7.0.0-42.42_arm64.deb"
-      }
-    ],
-    "mediumOnlyCeilingCounts": {
-      "previousRefresh": 222,
-      "previousRefreshStillInScope": 165,
-      "previousLedger": 99,
-      "fresh": 38,
-      "originalUnion": 359,
-      "currentEligible": 302,
-      "excludedNowFixed": 57
-    },
-    "mediumOnlyIdsSha256": "5f40a26a650199ea764f11c4dc5f1110be4567a66fc58d5e323a73613f037562",
-    "priorMediumIdsExcludedAsFixed": [
-      "CVE-2026-98871",
-      "CVE-2026-98872",
-      "CVE-2026-98873",
-      "CVE-2026-98874",
-      "CVE-2026-98875",
-      "CVE-2026-98876",
-      "CVE-2026-98877",
-      "CVE-2026-98878",
-      "CVE-2026-98879",
-      "CVE-2026-98880",
-      "CVE-2026-98881",
-      "CVE-2026-98882",
-      "CVE-2026-98883",
-      "CVE-2026-98884",
-      "CVE-2026-98885",
-      "CVE-2026-98886",
-      "CVE-2026-98887",
-      "CVE-2026-98888",
-      "CVE-2026-98889",
-      "CVE-2026-98891",
-      "CVE-2026-98892",
-      "CVE-2026-98893",
-      "CVE-2026-98894",
-      "CVE-2026-98895",
-      "CVE-2026-98896",
-      "CVE-2026-98897",
-      "CVE-2026-98898",
-      "CVE-2026-98899",
-      "CVE-2026-98900",
-      "CVE-2026-98901",
-      "CVE-2026-98902",
-      "CVE-2026-98903",
-      "CVE-2026-98904",
-      "CVE-2026-98905",
-      "CVE-2026-98906",
-      "CVE-2026-98907",
-      "CVE-2026-98908",
-      "CVE-2026-98909",
-      "CVE-2026-98910",
-      "CVE-2026-98911",
-      "CVE-2026-98912",
-      "CVE-2026-98913",
-      "CVE-2026-98914",
-      "CVE-2026-98915",
-      "CVE-2026-98916",
-      "CVE-2026-98917",
-      "CVE-2026-98918",
-      "CVE-2026-98919",
-      "CVE-2026-98921",
-      "CVE-2026-98923",
-      "CVE-2026-98924",
-      "CVE-2026-98925",
-      "CVE-2026-98926",
-      "CVE-2026-98927",
-      "CVE-2026-98928",
-      "CVE-2026-98929",
-      "CVE-2026-98930"
-    ]
-  },
   "mediumRefresh": {
     "sourceKind": "UBUNTU_CVE_TRACKER_ACTIVE",
     "officialRefObserved": "7d550dfac11215746b5f315f51fd48371447c231",
@@ -744,11 +636,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99219",
@@ -762,11 +656,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99220",
@@ -780,11 +676,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99221",
@@ -798,11 +696,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99222",
@@ -816,11 +716,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99223",
@@ -834,11 +736,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99224",
@@ -852,11 +756,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99225",
@@ -870,11 +776,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99226",
@@ -888,11 +796,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99227",
@@ -906,11 +816,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99228",
@@ -924,11 +836,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99229",
@@ -942,11 +856,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99230",
@@ -960,11 +876,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99231",
@@ -978,11 +896,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99232",
@@ -996,11 +916,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99233",
@@ -1014,11 +936,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99234",
@@ -1032,11 +956,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99235",
@@ -1050,11 +976,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99236",
@@ -1068,11 +996,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99237",
@@ -1086,11 +1016,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99238",
@@ -1104,11 +1036,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99239",
@@ -1122,11 +1056,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99240",
@@ -1140,11 +1076,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99244",
@@ -1158,11 +1096,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99245",
@@ -1176,11 +1116,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99246",
@@ -1194,11 +1136,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99247",
@@ -1212,11 +1156,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99249",
@@ -1230,11 +1176,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99250",
@@ -1248,11 +1196,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99251",
@@ -1266,11 +1216,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99254",
@@ -1284,11 +1236,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99255",
@@ -1302,11 +1256,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99256",
@@ -1320,11 +1276,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99257",
@@ -1338,11 +1296,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99258",
@@ -1356,11 +1316,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99260",
@@ -1374,11 +1336,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99261",
@@ -1392,11 +1356,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       },
       {
         "id": "CVE-2026-99270",
@@ -1410,11 +1376,13 @@
         ],
         "officialFixedVersions": [],
         "package": "linux-libc-dev",
-        "version": "7.0.0-42.42",
-        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04",
+        "version": "7.0.0-43.43",
+        "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
         "severity": "MEDIUM",
         "decision": "UNFIXED_MEDIUM_HEADER_ONLY",
-        "target": "current final builder; exact42 native payload proof required"
+        "target": "current final builder; exact42 native payload proof required",
+        "reviewedInstalledVersion": "7.0.0-42.42",
+        "reviewedInstalledPurl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-42.42?arch=amd64&distro=ubuntu-26.04"
       }
     ]
   },
@@ -1721,5 +1689,119 @@
     "CVE-2026-99260",
     "CVE-2026-99261",
     "CVE-2026-99270"
-  ]
+  ],
+  "officialCurrentPackage": {
+    "version": "7.0.0-43.43",
+    "architecture": "amd64",
+    "sha256": "3a3adc14e3332fc017b1d0e4e39655298a2a977d51db6e80de533ac60137b07f",
+    "uri": "https://security.ubuntu.com/ubuntu/pool/main/l/linux/linux-libc-dev_7.0.0-43.43_amd64.deb"
+  },
+  "previousHeaderScopeReview": {
+    "status": "SOURCE_REVIEW_NATIVE_IMAGE_REQUIRED",
+    "previousInstalledVersion": "7.0.0-38.38",
+    "expectedInstalledVersion": "7.0.0-42.42",
+    "previousProducer": "96cd1f53887fa8880d89a5a2f62d273e44e92ada",
+    "previousHeaderDocumentSha256": "97bb096fb37fe0ff79589fcd563f33f8e978bc84ed7607cb1797e8c998103c70",
+    "originalRawSha256": "5d3a943539bfa19d43a22b756ada567680ceaf24d87c469cd2149544921b4a2e",
+    "fixedIdsExcluded": 2890,
+    "knownExactIdsReboundWith42HeaderOnlyPayload": 573,
+    "newExactMediumIds": 38,
+    "newHighExceptions": 0,
+    "remainingIdsSha256": "cd8d4c42ce1a1becdf7ce12173dd68733dd005235d63453b1006242ac168da69",
+    "official42Payloads": [
+      {
+        "arch": "amd64",
+        "package": "linux-libc-dev",
+        "version": "7.0.0-42.42",
+        "sha256": "f775d4438862c9eba5453eacf5134baeceee26b2a94827082758052a649ae968",
+        "bytes": 1866834,
+        "payloadRegularOrSymlinkFiles": 1041,
+        "allPayloadPathsHeaderOrPackageDocumentation": true,
+        "noExecutableRegularFiles": true,
+        "payloadListingSha256": "f8d17f4005b0ec3d9d698dce79fd4989002d57880e42cafae1bd195669789b41",
+        "url": "https://security.ubuntu.com/ubuntu/pool/main/l/linux/linux-libc-dev_7.0.0-42.42_amd64.deb"
+      },
+      {
+        "arch": "arm64",
+        "package": "linux-libc-dev",
+        "version": "7.0.0-42.42",
+        "sha256": "0222f76abe79c353d75fbc6d56bc811234e3281152c21d904221e729792e1625",
+        "bytes": 1840490,
+        "payloadRegularOrSymlinkFiles": 1012,
+        "allPayloadPathsHeaderOrPackageDocumentation": true,
+        "noExecutableRegularFiles": true,
+        "payloadListingSha256": "3c66c935e5a6fdaf1946e7538074bb180c5582dd4a7d6dacad02d857833019b5",
+        "url": "https://ports.ubuntu.com/ubuntu-ports/pool/main/l/linux/linux-libc-dev_7.0.0-42.42_arm64.deb"
+      }
+    ],
+    "mediumOnlyCeilingCounts": {
+      "previousRefresh": 222,
+      "previousRefreshStillInScope": 165,
+      "previousLedger": 99,
+      "fresh": 38,
+      "originalUnion": 359,
+      "currentEligible": 302,
+      "excludedNowFixed": 57
+    },
+    "mediumOnlyIdsSha256": "5f40a26a650199ea764f11c4dc5f1110be4567a66fc58d5e323a73613f037562",
+    "priorMediumIdsExcludedAsFixed": [
+      "CVE-2026-98871",
+      "CVE-2026-98872",
+      "CVE-2026-98873",
+      "CVE-2026-98874",
+      "CVE-2026-98875",
+      "CVE-2026-98876",
+      "CVE-2026-98877",
+      "CVE-2026-98878",
+      "CVE-2026-98879",
+      "CVE-2026-98880",
+      "CVE-2026-98881",
+      "CVE-2026-98882",
+      "CVE-2026-98883",
+      "CVE-2026-98884",
+      "CVE-2026-98885",
+      "CVE-2026-98886",
+      "CVE-2026-98887",
+      "CVE-2026-98888",
+      "CVE-2026-98889",
+      "CVE-2026-98891",
+      "CVE-2026-98892",
+      "CVE-2026-98893",
+      "CVE-2026-98894",
+      "CVE-2026-98895",
+      "CVE-2026-98896",
+      "CVE-2026-98897",
+      "CVE-2026-98898",
+      "CVE-2026-98899",
+      "CVE-2026-98900",
+      "CVE-2026-98901",
+      "CVE-2026-98902",
+      "CVE-2026-98903",
+      "CVE-2026-98904",
+      "CVE-2026-98905",
+      "CVE-2026-98906",
+      "CVE-2026-98907",
+      "CVE-2026-98908",
+      "CVE-2026-98909",
+      "CVE-2026-98910",
+      "CVE-2026-98911",
+      "CVE-2026-98912",
+      "CVE-2026-98913",
+      "CVE-2026-98914",
+      "CVE-2026-98915",
+      "CVE-2026-98916",
+      "CVE-2026-98917",
+      "CVE-2026-98918",
+      "CVE-2026-98919",
+      "CVE-2026-98921",
+      "CVE-2026-98923",
+      "CVE-2026-98924",
+      "CVE-2026-98925",
+      "CVE-2026-98926",
+      "CVE-2026-98927",
+      "CVE-2026-98928",
+      "CVE-2026-98929",
+      "CVE-2026-98930"
+    ]
+  }
 }
